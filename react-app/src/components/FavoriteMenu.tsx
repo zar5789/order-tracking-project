@@ -1,7 +1,7 @@
 function FavoriteMenu() {
     return (
       <>
-        <h1>Favorite Menu</h1>
+        <h5>Favorite Menu</h5>
         <div style={{ display: 'flex',width: "100%"}}>
           <div className="card" style={{ width: "auto", marginRight: '1rem' }}>
             <img

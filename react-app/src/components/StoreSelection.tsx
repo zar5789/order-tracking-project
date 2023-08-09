@@ -8,7 +8,7 @@
 const RestaurantCard: React.FC = () => {
   return (
     <>
-    <h1>Select Store</h1>
+    <h5>Select Store</h5>
     <br></br>
     <div className="restaurant-card-container">
       <div className="restaurant-card-wrapper">

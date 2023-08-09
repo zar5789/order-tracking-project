@@ -1,0 +1,141 @@
+.app-bar {
+    background-color: lightgrey;
+    color: black;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .app-bar h1 {
+    margin: 0;
+  }
+  
+  .customer-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    background-image: url('./assets/customer.jpg');
+    background-size: cover;
+    background-position: center;
+    
+  }
+
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%; /* Adjust this value as needed */
+  }
+  
+  .rounded-button, .big-rounded-button {
+    border-radius: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px 40px;
+    margin: 0 30px;
+    cursor: pointer;
+  }
+
+  .big-rounded-button {
+    padding: 30px 60px;
+  }
+  
+  .rounded-button:hover, .big-rounded-button:hover {
+    background-color: #0056b3;
+  }
+
+  .button-group {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .container {
+    margin-bottom: 2px;
+  }
+
+  .store-setting-container {
+    margin: 20px;
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .store-setting-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.menu-table th,
+.menu-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.menu-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  float: right;
+  margin-bottom: 10px;
+  cursor: pointer;
+}

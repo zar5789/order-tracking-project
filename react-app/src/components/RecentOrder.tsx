@@ -5,10 +5,10 @@
   MenuStatus: string
 }*/
 
-const RecentOrder = () => {
+export const RecentOrder = () => {
   return (
     <>
-    <h1>Recent</h1>
+    <h5>Recent</h5>
     <div className="order-detail-box">
       <div className="order-shop">ร้านพี่ช้าง</div>
       <div className="order-price">Price: 50 บาท</div>
@@ -31,4 +31,3 @@ const RecentOrder = () => {
   );
 };
 
-export default RecentOrder;

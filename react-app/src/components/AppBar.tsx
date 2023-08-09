@@ -1,7 +1,7 @@
 const MyAppBar = () => {
     return (
       <div className="app-bar">
-        <h1>IT Cafeteria</h1>
+        <h5>IT Cafeteria</h5>
         <div className="customer-picture"></div>
       </div>
 

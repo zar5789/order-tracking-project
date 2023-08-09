@@ -6,7 +6,7 @@ export const SelectMenu = () => {
           <div className="menu-card">
             <img
               src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="menu-img"
+              className="menu-img1"
               alt="Menu 1"
             />
             <div className="menu-details">
@@ -19,7 +19,7 @@ export const SelectMenu = () => {
           <div className="menu-card">
             <img
               src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="menu-img"
+              className="menu-img1"
               alt="Menu 2"
             />
             <div className="menu-details">
@@ -32,11 +32,11 @@ export const SelectMenu = () => {
           <div className="menu-card">
             <img
               src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="menu-img"
+              className="menu-img1"
               alt="Menu 2"
             />
             <div className="menu-details">
-              <h5><b>กระเพราหมูหรอบ</b></h5>
+              <p><b>กระเพราหมูหรอบ</b></p>
               <p></p>
               <br></br>
               <h5>500 บาท</h5>
@@ -45,7 +45,7 @@ export const SelectMenu = () => {
           <div className="menu-card">
             <img
               src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="menu-img"
+              className="menu-img1"
               alt="Menu 2"
             />
             <div className="menu-details">
