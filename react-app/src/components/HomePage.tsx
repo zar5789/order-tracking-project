@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
 
   const initLine = () => {
     liff.init(
-      { liffId: "" },
+      { liffId: "2000210581-wLmA5Enp" },
       () => {
         if (liff.isLoggedIn()) {
           runApp();

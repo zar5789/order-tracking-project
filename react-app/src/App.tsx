@@ -13,6 +13,7 @@ import { RecentOrder } from "./components/RecentOrder";
 import { SelectMenu } from "./components/SelectMenu";
 import { SelectMenuFeature } from "./components/SelectMenuFeature";
 import { SelectMenuFeature2 } from "./components/SelectMenuFeature2";
+import UserProfilePage from "./components/UserProfile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/menufea2" element={<SelectMenuFeature2 />} />
       </Routes>
       <TabBar></TabBar>
+
     </div>
       
   );
