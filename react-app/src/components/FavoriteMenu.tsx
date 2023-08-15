@@ -1,44 +1,39 @@
-function FavoriteMenu() {
-    return (
-      <>
-        <h5>Favorite Menu</h5>
-        <div style={{ display: 'flex',width: "100%"}}>
-          <div className="card" style={{ width: "auto", marginRight: '1rem' }}>
-            <img
-              src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="card-img-top"
-              alt="..."
-              style={{ maxWidth: '70%', height: "auto", margin: "auto" }}
-            />
-            <div className="card-body">
-              <h5 className="card-title">กระเพราหมูหรอบ ไข่ดาว 3 พอง</h5>
-              <p className="card-text">50 บาท</p>
-              <h5>ร้านพี่ช้าง</h5>
+import React from 'react';
+
+interface Menu {
+  title: string;
+  price: number;
+  store: string;
+  imageUrl: string;
+}
+
+interface FavoriteMenuProps {
+  menus: Menu[];
+}
+
+function FavoriteMenu(props: FavoriteMenuProps) {
+  const { menus } = props;
+
+  return (
+    <div className="favorite-menu-container">
+      <h5>Favorite Menu</h5>
+      <div className="menu-row">
+        {menus.map((menu, index) => (
+          <div key={index} className="menu-card">
+            <img src={menu.imageUrl} className="menu-img1" alt={menu.title} />
+            <div className="menu-details">
+              <h5 className="menu-title">{menu.title}</h5>
+              <p className="menu-price">{menu.price} บาท</p>
+              <h5>{menu.store}</h5>
               <a href="#" className="btn btn-primary">
                 Order
               </a>
             </div>
           </div>
-          <div className="card" style={{ width: "auto", marginRight: '1rem' }}>
-            <img
-              src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
-              className="card-img-top"
-              alt="..."
-              style={{ maxWidth: '70%', height: "auto", margin: "auto"}}
-            />
-            <div className="card-body">
-              <h5 className="card-title">กระเพราหมูหรอบ ไข่ดาว 3 พอง</h5>
-              <p className="card-text">50 บาท</p>
-              <h5>ร้านพี่ช้าง</h5>
-              <a href="#" className="btn btn-primary">
-                Order
-              </a>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-  
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default FavoriteMenu;

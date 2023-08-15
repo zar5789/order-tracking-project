@@ -102,10 +102,6 @@ body {
   font-family: 'Prompt', sans-serif;
 }
 
-.select-menu-container {
-  /* Your styles for the container */
-}
-
 .menu-row {
   display: flex;
   flex-wrap: wrap;
@@ -125,11 +121,6 @@ body {
   max-height: 100px; /* Set a maximum height for the images */
   object-fit: cover; /* Maintain aspect ratio and cover the entire area */
 }
-
-.menu-details {
-  /* Adjust font sizes and spacing */
-}
-
 
 /* SelectMenuFeature.css */
 .menu-container {
@@ -207,4 +198,16 @@ body {
 
 .menu-radio-row {
   font-weight: bold;
+}
+
+.menu-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.menu-card {
+  width: 48%; /* Display two items per row with a small gap between */
+  margin-bottom: 1rem;
+  /* Add any other styles for the menu card */
 }
