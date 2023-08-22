@@ -179,29 +179,233 @@
 
 /**/
 
-.back-store-page {
-  margin: 20px;
+.food-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.food-order-list {
-  display: grid;
-  gap: 10px;
-}
-
-.food-order-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.food-order-table th,
+.food-order-table td {
+  border: 1px solid #ddd;
   padding: 10px;
-  background-color: #f5f5f5;
+  text-align: center;
+  font-size: larger;
+}
+
+.food-order-table th {
+  background-color: #D9D9D9;
+}
+
+.finish-button {
+  background-color: #0ACA3F;
+  color: #1E1E1E;
+  border: none;
+  padding: 5px 10px;
   border-radius: 5px;
+  cursor: pointer;
+  width: 15%;
+  margin-left: 50%;
+
+}
+
+.food-order-table tbody tr:first-child {
+  background-color: #F4F4F4; /* Change to the desired background color */
+}
+
+/**/
+
+.incoming-order-container {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.food-name {
+.incoming-order-title {
+  margin: 0 0 20px 0;
+}
+
+.incoming-order-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.incoming-order-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px; /* Add spacing between items */
+}
+
+.incoming-order-item.first-order {
+  background-color: #D9D9D9;
+}
+
+.incoming-menu-details {
+  flex: 1;
+}
+
+.incoming-order-name {
+  font-size: 16px;
   font-weight: bold;
 }
 
-.quantity {
+.incoming-order-price {
+  font-size: 14px;
+  color: #777;
+}
+
+.incoming-payment-status {
+  font-size: 16px;
   color: #007bff;
+}
+
+/**/
+
+.current-order-container {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.current-order-title {
+  margin: 0 0 20px 0;
+}
+
+.current-order-list {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.current-order-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 8px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px; /* Add spacing between items */
+}
+
+/* Green border for "ชำระเงินแล้ว" status */
+.current-order-item.green-border {
+  border-color: green;
+}
+
+/* Red border for "จ่ายหน้าร้าน" status */
+.current-order-item.yellow-border {
+  border-color:red;
+  ;
+}
+
+.current-order-item.first-order {
+  background-color:#D9D9D9;
+}
+
+
+.current-menu-details {
+  flex: 1;
+  margin-left: 30%;
+  position: relative;
+}
+
+.current-menu-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.current-menu-price {
+  font-size: 14px;
+  color: #777;
+}
+
+.current-payment-status {
+  font-size: 16px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.current-order-queue {
+  margin-left: 2%;
+  font-weight: bold;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+/**/
+
+.front-order-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  overflow-x: hidden;
+  /* Adjust this height as needed based on your layout */
+  height: 75vh;
+}
+
+.front-order-column {
+  flex: 1;
+  padding: 5px;
+}
+
+.separator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px; /* Adjust the width as needed */
+  background-color: #000000; /* Choose your separator color */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.front2-order-container {
+  max-height: 100%;
+  overflow-y: auto;
+  /* Add a bit of padding to keep content from touching the edges */
+  padding-right: 10px;
+}
+
+.front-tab-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D9D9D9;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 82%;
+  border-top: 1px solid #ddd;
+  box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.front-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.front-tab.active {
+  border-bottom: 2px solid #007bff;
+}
+
+.front-finish-button {
+  background-color: #0ACA3F;
+  width: 20%;
+  border-radius: 6px;
 }

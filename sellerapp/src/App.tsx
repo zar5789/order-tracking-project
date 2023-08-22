@@ -7,11 +7,13 @@ import { Menulist } from "./components/Menulist";
 import { EditMenu } from "./components/EditMenu";
 import { FrontStore } from "./components/FrontStore";
 import { BackStore } from "./components/BackStore";
+import { IncomingOrder } from "./components/IncomingOrder";
+import { CurrentOrder } from "./components/CurrentOrder";
 
 function App() {
   return (
     <div className="container">
-      <BackStore></BackStore>
+      <FrontStore></FrontStore>
     </div>
   );
 }

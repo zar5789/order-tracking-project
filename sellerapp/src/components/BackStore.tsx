@@ -25,15 +25,28 @@ export const BackStore = () => {
         </div>
       </div>
       <div className="back-store-page">
-        <h2>Food Orders</h2>
-        <div className="food-order-list">
-          {foodOrders.map((order, index) => (
-            <div className="food-order-item" key={index}>
-              <p className="food-name">{order.foodName}</p>
-              <p className="quantity">{order.quantity}</p>
-            </div>
-          ))}
-        </div>
+        <br></br>
+        <h2>รายการอาหาร</h2>
+        <table className="food-order-table">
+          <thead>
+            <tr>
+              <th>รายการอาหาร</th>
+              <th>จำนวน</th>
+            </tr>
+          </thead>
+          <tbody>
+            {foodOrders.map((order, index) => (
+              <tr key={index}>
+                <td>{order.foodName}</td>
+                <td>{order.quantity} จาน</td>
+              </tr>
+            ))}
+          </tbody>
+          <tr>
+            <th><button className="finish-button">เสร็จสิ้น</button></th>
+            <th></th>
+          </tr>
+        </table>
       </div>
     </>
   );
