@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 
 export const HomePage = () => {
     return (
@@ -8,12 +8,12 @@ export const HomePage = () => {
           <div className="customer-picture"></div>
         </div>
         <div className="button-container">
-          <button className="rounded-button">See Report</button>
-          <button className="rounded-button">Edit Store</button>
-          <button className="rounded-button">Edit Menu</button>
+          <Link to="/report" className='rounded-button'>See Report</Link>
+          <Link to="/editstore" className='rounded-button'>Edit Store</Link>
+          <Link to="/menulist" className='rounded-button'>Edit Menu</Link>
         </div>
         <div className="button-group">
-          <button className="big-rounded-button">Open Store</button>
+          <Link to="/front" className='big-rounded-button'>Open Store</Link>
         </div>
       </>
     );

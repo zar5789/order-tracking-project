@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 interface FoodOrder {
   foodName: string;
   quantity: number;
@@ -14,12 +16,12 @@ export const BackStore = () => {
       <div className="app-bar">
         <div className="title">
           <h5>
-            <b>IT Cafeteria</b> | ครัว
+            <b>IT Cafeteria</b> | <Link to='/front'>หน้าร้าน</Link> | <Link to='/back'>ครัว</Link>
           </h5>
         </div>
         <div className="right-elements">
           <div className="buttons">
-            <button className="back-button">ย้อนกลับ</button>
+            <Link to='/' className="back-button">ย้อนกลับ</Link>
           </div>
           <div className="customer-picture"></div>
         </div>

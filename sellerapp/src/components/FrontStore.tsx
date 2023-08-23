@@ -1,5 +1,6 @@
 import { CurrentOrder } from "./CurrentOrder";
 import { IncomingOrder } from "./IncomingOrder";
+import { Link } from 'react-router-dom';
 
 export const FrontStore = () => {
   return (
@@ -7,12 +8,12 @@ export const FrontStore = () => {
       <div className="app-bar">
         <div className="title">
           <h5>
-            <b>IT Cafeteria</b> | หน้าร้าน
+            <b>IT Cafeteria</b> | <Link to='/front'>หน้าร้าน</Link> | <Link to='/back'>ครัว</Link>
           </h5>
         </div>
         <div className="right-elements">
           <div className="buttons">
-            <button className="back-button">ย้อนกลับ</button>
+            <Link to='/' className="back-button">ย้อนกลับ</Link>
             <button className="close-store-button">ปิดร้าน</button>
           </div>
           <div className="customer-picture"></div>

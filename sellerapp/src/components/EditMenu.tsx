@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const EditMenu = () => {
   const [menuImage, setMenuImage] = useState<File | null>(null); // State for menu image URL
@@ -33,7 +34,14 @@ export const EditMenu = () => {
     <>
       <div className="app-bar">
         <h5>IT Cafeteria</h5>
-        <div className="customer-picture"></div>
+        <div className="right-elements">
+          <div className="buttons">
+            <Link to="/menulist" className="back-button">
+              ย้อนกลับ
+            </Link>
+          </div>
+          <div className="customer-picture"></div>
+        </div>
       </div>
       <div className="store-setting-container">
         <h2>Edit Menu Detail</h2>

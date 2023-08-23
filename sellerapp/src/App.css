@@ -43,8 +43,9 @@
     padding: 30px 60px;
   }
   
-  .rounded-button:hover, .big-rounded-button:hover {
+  .rounded-button:hover, .big-rounded-button, .edit-button:hover {
     background-color: #0056b3;
+    color: #fff;
   }
 
   .button-group {
@@ -157,6 +158,7 @@
 .back-button:hover,
 .close-store-button:hover {
   background-color: #cc0000;
+  color: #fff;
 }
 
 .back-button {
