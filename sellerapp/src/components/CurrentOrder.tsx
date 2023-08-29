@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+interface CurrentOrderProps {
+  selectedOrder: number | null;
+  onOrderClick: (index: number | null) => void;
+}
+
 interface CurrentOrderItem {
   orderQueue: number;
   menuName: string;
@@ -8,7 +13,11 @@ interface CurrentOrderItem {
   paymentStatus: string;
 }
 
-export const CurrentOrder: React.FC = () => {
+export const CurrentOrder: React.FC<CurrentOrderProps> = ({
+  selectedOrder,
+  onOrderClick,
+}) => {
+  
   const [currentOrders, setCurrentOrders] = useState<CurrentOrderItem[]>([
     {
       orderQueue: 1,
@@ -44,17 +53,24 @@ export const CurrentOrder: React.FC = () => {
       menuQuantity: 1,
       menuPrice: 70,
       paymentStatus: "จ่ายหน้าร้าน",
-    }
+    },
   ]);
+
 
   return (
     <div className="current-order-container">
       <h2 className="current-order-title">ออเดอร์ที่กำลังทำ</h2>
       <div className="current-order-list">
         {currentOrders.map((order, index) => (
-          <div className={`current-order-item ${
-            order.paymentStatus === "ชำระเงินแล้ว" ? "green-border" : "yellow-border"
-          } ${index === 0 ? "first-order" : ""}`} key={index}>
+          <div
+            className={`current-order-item ${
+              order.paymentStatus === "ชำระเงินแล้ว"
+                ? "green-border"
+                : "yellow-border"
+            } ${index === selectedOrder ? "selected" : ""}`}
+            key={index}
+            onClick={() => onOrderClick(index === selectedOrder ? null : index)}
+          >
             <h2 className="current-order-queue">{order.orderQueue}</h2>
             <div className="current-menu-details">
               <p className="current-menu-name">{order.menuName}</p>
@@ -63,7 +79,7 @@ export const CurrentOrder: React.FC = () => {
             <div className="current-payment">
               <p
                 className={`current-payment-status ${
-                  order.paymentStatus === "ชำระเงินแล้ว" ? "green"  : "red"
+                  order.paymentStatus === "ชำระเงินแล้ว" ? "green" : "red"
                 }`}
               >
                 {order.paymentStatus === "ชำระเงินแล้ว"
