@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { AppBar } from "./AppBar";
 
 export const EditMenu = () => {
   const [menuImage, setMenuImage] = useState<File | null>(null); // State for menu image URL
@@ -32,17 +33,7 @@ export const EditMenu = () => {
 
   return (
     <>
-      <div className="app-bar">
-        <h5>IT Cafeteria</h5>
-        <div className="right-elements">
-          <div className="buttons">
-            <Link to="/menulist" className="back-button">
-              ย้อนกลับ
-            </Link>
-          </div>
-          <div className="customer-picture"></div>
-        </div>
-      </div>
+      <AppBar></AppBar>
       <div className="store-setting-container">
         <h2>Edit Menu Detail</h2>
         <form onSubmit={handleSubmit} className="store-setting-form">

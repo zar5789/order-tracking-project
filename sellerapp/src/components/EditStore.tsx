@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { AppBar } from "./AppBar";
 
 export const EditStore = () => {
   const [storeName, setStoreName] = useState("");
@@ -14,17 +15,7 @@ export const EditStore = () => {
   };
   return (
     <>
-      <div className="app-bar">
-        <h5>IT Cafeteria</h5>
-        <div className="right-elements">
-          <div className="buttons">
-            <Link to="/" className="back-button">
-              ย้อนกลับ
-            </Link>
-          </div>
-          <div className="customer-picture"></div>
-        </div>
-      </div>
+      <AppBar></AppBar>
       <br></br>
       <div className="store-setting-container">
       <h1>Store Settings</h1>

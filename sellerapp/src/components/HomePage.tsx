@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
+import { AppBar } from './AppBar';
 
 export const HomePage = () => {
     return (
       <>
-        <div className="app-bar">
-          <h5>IT Cafeteria</h5>
-          <div className="customer-picture"></div>
-        </div>
+        <AppBar></AppBar>
         <div className="button-container">
           <Link to="/report" className='rounded-button'>See Report</Link>
           <Link to="/editstore" className='rounded-button'>Edit Store</Link>

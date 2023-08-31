@@ -9,6 +9,7 @@ import { BackStore } from "./components/BackStore";
 import { IncomingOrder } from "./components/IncomingOrder";
 import { CurrentOrder } from "./components/CurrentOrder";
 import { Routes, Route } from 'react-router-dom';
+import { AppBar } from "./components/AppBar";
 
 function App() {
   return (
