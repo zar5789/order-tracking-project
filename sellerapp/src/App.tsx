@@ -19,7 +19,7 @@ function App() {
         <Route path="/editstore" element={<EditStore></EditStore>}></Route>
         <Route path="/report" element={<ReportPage></ReportPage>}></Route>
         <Route path="/menulist" element={<Menulist></Menulist>}></Route>
-        <Route path="/editmenu" element={<EditMenu></EditMenu>}></Route>
+        <Route path="/editmenu/:_id" element={<EditMenu />} />
         <Route path="/front" element={<FrontStore></FrontStore>}></Route>
         <Route path="/back" element={<BackStore></BackStore>}></Route>
       </Routes>

@@ -1,34 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AppBar } from "./AppBar";
+import { useParams } from "react-router-dom";
 
 export const EditMenu = () => {
-  const [menuImage, setMenuImage] = useState<File | null>(null); // State for menu image URL
+  const { _id } = useParams();
+
+  //const [menuImage, setMenuImage] = useState(""); // State for menu image URL
   const [menuName, setMenuName] = useState(""); // State for menu name
-  const [menuPrice, setMenuPrice] = useState(""); // State for menu price
-  const [menuStatus, setMenuStatus] = useState("");
+  const [menuPrice, setMenuPrice] = useState(''); // State for menu price
+  const [menuStatus, setMenuStatus] = useState(""); // State for menu status
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setMenuImage(event.target.files[0]);
-    }
-  };
+  // Use useEffect to fetch and set the menu details when the component loads
+  useEffect(() => {
+    fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Response:", data); // Add this line to log the data
+        setMenuName(data.name);
+        setMenuPrice(data.price);
+        setMenuStatus(data.status);
+      })
+      .catch((error) => {
+        console.error("Error fetching menu details:", error);
+      });
+  }, [_id]);
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMenuName(event.target.value);
-  };
-
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMenuPrice(event.target.value);
-  };
-
-  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMenuStatus(event.target.value);
-  };
-
+  // Handle form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Implement your logic here to update the menu details
+
+    // Construct the updated menu item object
+    const updatedMenuItem = {
+      //menuImage,
+      menuName,
+      menuPrice,
+      menuStatus,
+    };
+
+    // Send a PUT request to update the menu item
+    fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedMenuItem),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update menu item");
+        }
+        // Handle success (e.g., redirect to the menu list page)
+      })
+      .catch((error) => {
+        console.error("Error updating menu item:", error);
+        // Handle the error appropriately (e.g., show an error message to the user)
+      });
   };
 
   return (
@@ -37,14 +64,18 @@ export const EditMenu = () => {
       <div className="store-setting-container">
         <h2>Edit Menu Detail</h2>
         <form onSubmit={handleSubmit} className="store-setting-form">
-          <div className="form-group">
-            <label>Menu Image</label>
-            <input
-              type="file"
-              onChange={(e) => setMenuImage(e.target.files?.[0] || null)}
-              className="form-control"
-            />
-          </div>
+          {/* 
+<div className="form-group">
+  <label>Menu Image (URL)</label>
+  <input
+    type="text"
+    value={menuImage}
+    onChange={(e) => setMenuImage(e.target.value)}
+    className="form-control"
+    required // This field is required
+  />
+</div>
+*/}
           <div className="form-group">
             <label>Menu Name</label>
             <input
@@ -52,6 +83,7 @@ export const EditMenu = () => {
               value={menuName}
               onChange={(e) => setMenuName(e.target.value)}
               className="form-control"
+              required
             />
           </div>
           <div className="form-group">
@@ -61,6 +93,7 @@ export const EditMenu = () => {
               value={menuPrice}
               onChange={(e) => setMenuPrice(e.target.value)}
               className="form-control"
+              required
             />
           </div>
           <div className="form-group">
@@ -70,8 +103,8 @@ export const EditMenu = () => {
               onChange={(e) => setMenuStatus(e.target.value)}
               className="form-control"
             >
-              <option value="available">Available</option>
-              <option value="unavailable">Unavailable</option>
+              <option value="available">Open</option>
+              <option value="unavailable">Closed</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary submit-button">

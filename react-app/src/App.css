@@ -71,7 +71,6 @@
 
 .container {
   padding-bottom: 64px; /* Same height as tab bar */
-  max-width: 768px;
   border: solid 1px;
 }
 
@@ -97,9 +96,10 @@
 }
 
 body {
+  font-family: 'Prompt', sans-serif;
   max-width: 375px;
   max-height: 812px;
-  font-family: 'Prompt', sans-serif;
+  background-color: #333;
 }
 
 .menu-row {
