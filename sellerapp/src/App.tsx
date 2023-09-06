@@ -10,6 +10,7 @@ import { IncomingOrder } from "./components/IncomingOrder";
 import { CurrentOrder } from "./components/CurrentOrder";
 import { Routes, Route } from 'react-router-dom';
 import { AppBar } from "./components/AppBar";
+import { CreateMenu } from "./components/CreateMenu";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/editmenu/:_id" element={<EditMenu />} />
         <Route path="/front" element={<FrontStore></FrontStore>}></Route>
         <Route path="/back" element={<BackStore></BackStore>}></Route>
+        <Route path="/createmenu" element={<CreateMenu></CreateMenu>}></Route>
       </Routes>
     </div>
   );
