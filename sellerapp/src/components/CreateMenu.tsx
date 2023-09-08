@@ -7,7 +7,7 @@ export const CreateMenu = () => {
   //const [menuImage, setMenuImage] = useState(""); // State for menu image URL
   const [menuName, setMenuName] = useState(""); // State for menu name
   const [menuPrice, setMenuPrice] = useState(""); // State for menu price
-  const [menuStatus, setMenuStatus] = useState("available"); // State for menu status
+  const [menuStatus, setMenuStatus] = useState("Open"); // State for menu status
 
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -17,9 +17,9 @@ export const CreateMenu = () => {
 
     // Construct the new menu item object
     const newMenuItem = {
-      menuName,
-      menuPrice,
-      menuStatus,
+      name: menuName,
+      price: parseFloat(menuPrice),
+      status: menuStatus,
     };
 
     // Send a POST request to create the new menu item
@@ -39,7 +39,7 @@ export const CreateMenu = () => {
         // Clear form fields
         setMenuName("");
         setMenuPrice("");
-        setMenuStatus("available"); // Reset status to "Open"
+        setMenuStatus("Open"); // Reset status to "Open"
         navigate("/menulist");
       })
       .catch((error) => {
@@ -95,8 +95,8 @@ export const CreateMenu = () => {
               onChange={(e) => setMenuStatus(e.target.value)}
               className="form-control"
             >
-              <option value="available">Open</option>
-              <option value="unavailable">Closed</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary submit-button">

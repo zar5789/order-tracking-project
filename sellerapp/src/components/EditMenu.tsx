@@ -34,9 +34,9 @@ export const EditMenu = () => {
     // Construct the updated menu item object
     const updatedMenuItem = {
       //menuImage,
-      menuName,
-      menuPrice,
-      menuStatus,
+      name: menuName,
+      price: parseFloat(menuPrice),
+      status: menuStatus,
     };
 
     // Send a PUT request to update the menu item
@@ -90,7 +90,7 @@ export const EditMenu = () => {
           <div className="form-group">
             <label>Menu Name</label>
             <input
-              type="text"
+              type="string"
               value={menuName}
               onChange={(e) => setMenuName(e.target.value)}
               className="form-control"
@@ -114,8 +114,8 @@ export const EditMenu = () => {
               onChange={(e) => setMenuStatus(e.target.value)}
               className="form-control"
             >
-              <option value="available">Open</option>
-              <option value="unavailable">Closed</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary submit-button">

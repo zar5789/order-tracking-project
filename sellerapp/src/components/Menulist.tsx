@@ -38,13 +38,41 @@ export const Menulist = () => {
     fetchMenuItems();
   }, []);
 
+  // Function to handle menu item deletion
+  const handleDeleteMenuItem = (itemId: string) => {
+    // Display a confirmation dialog
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this menu item?"
+    );
+
+    if (confirmDelete) {
+      fetch(`https://order-api-patiparnpa.vercel.app/products/${itemId}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete menu item");
+          }
+          // Update the state to remove the deleted item
+          setMenuItems((prevMenuItems) =>
+            prevMenuItems.filter((item) => item._id !== itemId)
+          );
+        })
+        .catch((error) => {
+          console.error("Error deleting menu item:", error);
+        });
+    }
+  };
+
   return (
     <>
       <AppBar></AppBar>
       <br></br>
       <div className="menu-list-container">
         <h1>Menu List</h1>
-        <Link to={'/createmenu'} className="add-button">Add New Menu</Link>
+        <Link to={"/createmenu"} className="add-button">
+          Add New Menu
+        </Link>
 
         {/* Display loading indicator if data is still loading */}
         {loading ? (
@@ -79,6 +107,14 @@ export const Menulist = () => {
                     <Link to={`/editmenu/${menu._id}`} className="edit-button">
                       Edit
                     </Link>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleDeleteMenuItem(menu._id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
