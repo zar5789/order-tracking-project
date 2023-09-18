@@ -6,10 +6,7 @@ import { Menulist } from "./components/Menulist";
 import { EditMenu } from "./components/EditMenu";
 import { FrontStore } from "./components/FrontStore";
 import { BackStore } from "./components/BackStore";
-import { IncomingOrder } from "./components/IncomingOrder";
-import { CurrentOrder } from "./components/CurrentOrder";
 import { Routes, Route } from 'react-router-dom';
-import { AppBar } from "./components/AppBar";
 import { CreateMenu } from "./components/CreateMenu";
 
 function App() {

@@ -6,7 +6,7 @@ import MyAppBar from "./components/AppBar";
 import RestaurantCard from './components/StoreSelection';
 import FavoriteMenu from "./components/FavoriteMenu";
 import TabBar from "./components/Tabbar";
-import HomePage from "./components/HomePage";
+import {HomePage} from "./components/HomePage";
 import OrderPage from "./components/OrderPage";
 import { Routes, Route } from 'react-router-dom';
 import { RecentOrder } from "./components/RecentOrder";
@@ -17,7 +17,7 @@ import UserProfilePage from "./components/UserProfile";
 
 function App() {
   return (
-    <div className="container">
+    <div>
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="/order" element={<OrderPage />} />

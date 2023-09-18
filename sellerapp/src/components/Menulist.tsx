@@ -40,6 +40,8 @@ export const Menulist = () => {
 
   // Function to handle menu item deletion
   const handleDeleteMenuItem = (itemId: string) => {
+
+    console.log("Deleting item with ID:", itemId);
     // Display a confirmation dialog
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this menu item?"

@@ -1,4 +1,4 @@
-/**/
+/*AppBar*/
 .app-bar {
     background-color: lightgrey;
     color: black;
@@ -22,7 +22,7 @@
     
   }
 
-
+/*HomePage*/
   .button-container {
     display: flex;
     justify-content: center;
@@ -59,7 +59,7 @@
     margin-bottom: 2px;
   }
 
-  /**/
+  /*Edit Store*/
 
   .store-setting-container {
     margin: 20px;
@@ -104,7 +104,7 @@
     background-color: #0056b3;
   }
 
-  /**/
+  /*Menulist*/
 .menu-table {
   width: 100%;
   border-collapse: collapse;
@@ -179,7 +179,7 @@
   gap: 25px;
 }
 
-/**/
+/*BlackStore*/
 
 .food-order-table {
   width: 100%;
@@ -215,7 +215,7 @@
   background-color: #F4F4F4; /* Change to the desired background color */
 }
 
-/**/
+/*IncomingOrder*/
 
 .incoming-order-container {
   background-color: #f5f5f5;
@@ -267,7 +267,7 @@
   color: #007bff;
 }
 
-/**/
+/*CurrentOrder*/
 
 .current-order-container {
   background-color: #f5f5f5;
@@ -348,7 +348,7 @@
   color: red;
 }
 
-/**/
+/*FrontStore*/
 
 .front-order-container {
   display: flex;

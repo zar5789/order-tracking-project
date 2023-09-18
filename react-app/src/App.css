@@ -1,11 +1,11 @@
 .app-bar {
   background-color: lightgrey;
   color: black;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .app-bar h1 {
   margin: 0;
@@ -21,6 +21,10 @@
   
 }
 
+.custom-heading {
+  padding-left: 8px;
+}
+
 /* RestaurantCard.css */
 .restaurant-card-container {
   display: flex;
@@ -31,7 +35,7 @@
   display: flex;
   flex-direction: row; /* Display cards in a row */
   flex-wrap: nowrap; /* Prevent cards from wrapping to the next line */
-  gap: 0px; /* Adjust the gap between cards */
+  gap: 0%; /* Adjust the gap between cards */
 }
 
 .restaurant-card {
@@ -39,11 +43,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px; /* Adjust the margin between cards */
+  margin-right: -15%; /* Adjust the margin between cards */
 }
 
 .restaurant-image {
-  max-width: 70%; /* Adjust the image size */
+  max-width: 60%; /* Adjust the image size */
   max-height: 100px; /* Set a maximum height for the image */
 }
 
@@ -72,6 +76,7 @@
 .container {
   padding-bottom: 64px; /* Same height as tab bar */
   border: solid 1px;
+  width: 100%;
 }
 
 /* OrderDetailBox.css */
@@ -97,7 +102,7 @@
 
 body {
   font-family: 'Prompt', sans-serif;
-  max-width: 375px;
+  width: 100%;
   max-height: 812px;
   background-color: #333;
 }

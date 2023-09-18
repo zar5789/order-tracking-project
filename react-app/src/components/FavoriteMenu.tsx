@@ -16,7 +16,7 @@ function FavoriteMenu(props: FavoriteMenuProps) {
 
   return (
     <div className="favorite-menu-container">
-      <h5>Favorite Menu</h5>
+      <h5 className='custom-heading'>Favorite Menu</h5>
       <div className="menu-row">
         {menus.map((menu, index) => (
           <div key={index} className="menu-card">
