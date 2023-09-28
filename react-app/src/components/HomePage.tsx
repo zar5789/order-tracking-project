@@ -3,14 +3,16 @@ import MenuPage from "./MenuPage";
 import RestaurantCard from "./StoreSelection";
 import liff from "@line/liff";
 import { useEffect, useState } from "react";
+import TabBar from "./Tabbar";
 
 export const HomePage = () => {
   return (
     <>
-      <h1 className="custom-heading">Home Page</h1>
       <MyAppBar></MyAppBar>
       <RestaurantCard></RestaurantCard>
       <MenuPage></MenuPage>
+      <br></br>
+      <TabBar></TabBar>
     </>
   );
   //const [pictureUrl, setPictureUrl] = useState("");

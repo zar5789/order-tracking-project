@@ -1,12 +1,14 @@
 import MyAppBar from "./AppBar";
 import { RecentOrder } from "./RecentOrder";
+import TabBar from "./Tabbar";
 
 const OrderPage: React.FC = () => {
     return (
       <div>
-        <h1>Order Page</h1>
         <MyAppBar></MyAppBar>
         <RecentOrder></RecentOrder>
+        <br></br>
+        <TabBar></TabBar>
       </div>
     );
   };

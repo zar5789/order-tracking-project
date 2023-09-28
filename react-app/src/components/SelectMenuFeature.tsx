@@ -1,3 +1,5 @@
+import TabBar from "./Tabbar";
+
 export const SelectMenuFeature = () => {
     return (
       <>
@@ -30,12 +32,8 @@ export const SelectMenuFeature = () => {
             </div>
           </div>
         </div>
-        <div className="container">
-          {/* Content for other containers */}
-        </div>
-        <div className="container">
-          {/* Content for other containers */}
-        </div>
+        <br></br>
+        <TabBar></TabBar>
       </>
     );
   };

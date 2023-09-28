@@ -43,7 +43,7 @@
     padding: 30px 60px;
   }
   
-  .rounded-button:hover, .big-rounded-button, .edit-button:hover {
+  .rounded-button:hover, .big-rounded-button:hover, .edit-button:hover {
     background-color: #0056b3;
     color: #fff;
   }
@@ -207,7 +207,7 @@
   border-radius: 5px;
   cursor: pointer;
   width: 15%;
-  margin-left: 50%;
+  margin-left: 94%;
 
 }
 

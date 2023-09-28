@@ -27,6 +27,8 @@
 
 /* RestaurantCard.css */
 .restaurant-card-container {
+  
+  padding-top: 3%;
   display: flex;
   overflow-x: auto; /* Enable horizontal scrolling */
 }
@@ -36,6 +38,7 @@
   flex-direction: row; /* Display cards in a row */
   flex-wrap: nowrap; /* Prevent cards from wrapping to the next line */
   gap: 0%; /* Adjust the gap between cards */
+
 }
 
 .restaurant-card {
@@ -44,6 +47,7 @@
   flex-direction: column;
   align-items: center;
   margin-right: -15%; /* Adjust the margin between cards */
+  margin-left: -5%;
 }
 
 .restaurant-image {
@@ -63,9 +67,10 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 64px; /* Adjust the height as needed */
+  height: 45px; /* Adjust the height as needed */
   background-color: #f0f0f0;
 }
+
 
 .tab-item {
   text-decoration: none;
@@ -163,6 +168,7 @@ body {
 }
 .menu-price {
   margin-left: auto; /* Push the price to the right */
+  font-size: 16px;
 }
 
 .menu-form-detail {
@@ -215,6 +221,10 @@ body {
   width: 48%; /* Display two items per row with a small gap between */
   margin-bottom: 1rem;
   /* Add any other styles for the menu card */
+}
+
+.menu-title {
+  font-size: 18px;
 }
 
 .user-profile {

@@ -1,3 +1,5 @@
+import TabBar from "./Tabbar";
+
 export const SelectMenu = () => {
     return (
       <div className="select-menu-container">
@@ -57,6 +59,8 @@ export const SelectMenu = () => {
           </div>
           
         </div>
+        <br></br>
+        <TabBar></TabBar>
         
       </div>
     );

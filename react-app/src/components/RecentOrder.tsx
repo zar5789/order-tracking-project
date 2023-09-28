@@ -8,7 +8,7 @@
 export const RecentOrder = () => {
   return (
     <>
-    <h5>Recent</h5>
+    <h5 className="custom-heading">Recent</h5>
     <div className="order-detail-box">
       <div className="order-shop">ร้านพี่ช้าง</div>
       <div className="order-price">Price: 50 บาท</div>

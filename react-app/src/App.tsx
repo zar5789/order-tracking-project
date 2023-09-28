@@ -26,7 +26,6 @@ function App() {
         <Route path='/menufea1' element={<SelectMenuFeature />}/>
         <Route path="/menufea2" element={<SelectMenuFeature2 />} />
       </Routes>
-      <TabBar></TabBar>
 
     </div>
       

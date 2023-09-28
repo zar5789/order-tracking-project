@@ -10,9 +10,9 @@ const TabBar: React.FC = () => {
           Order
         </Link>
         <Link to="/menu" className='tab-item'>Menu</Link>
-        <Link to='/menufea1' className='tab-item'>MenuFea</Link>
-        <Link to='/menufea2' className='tab-item'>MenuFea2</Link>
-        <Link to='/login' className='tab-item'>Log In</Link>
+        <Link to="/menufea1" className='tab-item'>Menu_fea</Link>
+        <Link to="/menufea2" className='tab-item'>Menu_fea2</Link>
+        
       </div>
     );
   };

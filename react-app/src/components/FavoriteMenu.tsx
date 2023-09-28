@@ -22,9 +22,9 @@ function FavoriteMenu(props: FavoriteMenuProps) {
           <div key={index} className="menu-card">
             <img src={menu.imageUrl} className="menu-img1" alt={menu.title} />
             <div className="menu-details">
-              <h5 className="menu-title">{menu.title}</h5>
+              <h6 className="menu-title">{menu.title}</h6>
               <p className="menu-price">{menu.price} บาท</p>
-              <h5>{menu.store}</h5>
+              <h6>{menu.store}</h6>
               <a href="#" className="btn btn-primary">
                 Order
               </a>
