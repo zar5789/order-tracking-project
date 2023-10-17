@@ -11,6 +11,9 @@ export const AppBar = () => {
               ย้อนกลับ
             </Link>
           </div>
+          <div className="buttons">
+            <Link to="/testlogin" className="back-button">Test User login</Link>
+          </div>
           <div className="customer-picture"></div>
         </div>
       </div>

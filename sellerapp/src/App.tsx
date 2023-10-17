@@ -9,6 +9,7 @@ import { BackStore } from "./components/BackStore";
 import { Routes, Route } from 'react-router-dom';
 import { CreateMenu } from "./components/CreateMenu";
 import { TestOrder } from "./components/TestOrder";
+import { TestLogin } from "./components/TestLineLogin";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/back" element={<BackStore></BackStore>}></Route>
         <Route path="/createmenu" element={<CreateMenu></CreateMenu>}></Route>
         <Route path="/testorder" element={<TestOrder></TestOrder>}></Route>
+        <Route path="/testlogin" element={<TestLogin></TestLogin>}></Route>
       </Routes>
     </div>
   );
