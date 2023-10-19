@@ -12,41 +12,45 @@ export const TestLogin = () => {
   const [userProfile, setUserProfile] = useState<Profile | null>(null);
   const [idToken, setIdToken] = useState<string | null>(null);
 
-  const handleLoginClick = async () => {
-    try {
-      // Log in using LIFF
-      await liff.login();
-
-      // Fetch user profile
-      const profile = await liff.getProfile();
-
-      // Handle potential undefined values from LIFF
-      if (profile) {
-        setUserProfile({
-          userId: profile.userId || '',
-          displayName: profile.displayName || '',
-          pictureUrl: profile.pictureUrl || '', // Provide an initial value
-        });
-      }
-
-      // Fetch and set the ID token
-      const token = await liff.getIDToken();
-      setIdToken(token);
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
+  const logout = () => {
+  liff.logout();
+   window.location.reload();
   };
 
   useEffect(() => {
-    // Initialize LIFF
-    liff.init({ liffId: 'YOUR_LIFF_ID' })
+    // Initialize LIFF after the component is mounted
+    liff.init({ liffId: '2000210581-wLmA5Enp' })
       .then(() => {
-        // LIFF is initialized; you can now use the liff object.
+        console.log("LIFF is initialized.");
+        const IdToken = liff.getIDToken();
+        setIdToken(IdToken);
+        // Fetch user profile after LIFF is initialized
+        liff.getProfile()
+          .then((profile) => {
+            console.log("User Profile:", profile);
+            setUserProfile({
+              userId: profile.userId,
+              displayName: profile.displayName,
+              pictureUrl: profile.pictureUrl || '',
+            });
+          })
+          .catch((error) => {
+            console.error('Error fetching user profile:', error);
+          });
       })
       .catch((error) => {
         console.error('LIFF initialization failed', error);
       });
   }, []);
+
+  const handleLoginClick = async () => {
+    try {
+      // Log in using LIFF
+      await liff.login();
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
 
   return (
     <>
@@ -60,7 +64,8 @@ export const TestLogin = () => {
             )}
             <p>User ID: {userProfile.userId}</p>
             <p>Display Name: {userProfile.displayName}</p>
-            {idToken && <p>ID Token: {idToken}</p>}
+            <p>Id Token: {idToken}</p>
+            <button onClick={() => logout()}>Log out</button>
           </div>
         ) : (
           <button onClick={handleLoginClick}>Login with LINE</button>
@@ -69,3 +74,4 @@ export const TestLogin = () => {
     </>
   );
 };
+
