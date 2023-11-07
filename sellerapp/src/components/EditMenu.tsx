@@ -11,6 +11,7 @@ export const EditMenu = () => {
   const [menuName, setMenuName] = useState(""); // State for menu name
   const [menuPrice, setMenuPrice] = useState(""); // State for menu price
   const [menuStatus, setMenuStatus] = useState(""); // State for menu status
+  const [menuImage, setMenuImage] = useState("");
 
   // Use useEffect to fetch and set the menu details when the component loads
   useEffect(() => {
@@ -61,34 +62,25 @@ export const EditMenu = () => {
 
   return (
     <>
-      <div className="app-bar">
-        <h5>IT Cafeteria</h5>
-        <div className="right-elements">
-          <div className="buttons">
-            <Link to="/menulist" className="back-button">
-              ย้อนกลับ
-            </Link>
-          </div>
-          <div className="customer-picture"></div>
-        </div>
-      </div>
+      <AppBar></AppBar>
       <div className="store-setting-container">
-        <h2>Edit Menu Detail</h2>
+        <h5 style={{ color: "#002336" }}>ตั้งค่าเมนูอาหาร</h5>
+        <br />
         <form onSubmit={handleSubmit} className="store-setting-form">
-          {/* 
-<div className="form-group">
-  <label>Menu Image (URL)</label>
-  <input
-    type="text"
-    value={menuImage}
-    onChange={(e) => setMenuImage(e.target.value)}
-    className="form-control"
-    required // This field is required
-  />
-</div>
-*/}
           <div className="form-group">
-            <label>Menu Name</label>
+            <label>รูปร้านค้า</label>
+            <div className="image-container">
+              {menuImage ? (
+                <img
+                  src={menuImage}
+                  alt="Store Image"
+                  className="store-image"
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className="form-group">
+            <label>ชื่ออาหาร</label>
             <input
               type="string"
               value={menuName}
@@ -98,7 +90,7 @@ export const EditMenu = () => {
             />
           </div>
           <div className="form-group">
-            <label>Menu Price</label>
+            <label>ราคา</label>
             <input
               type="number"
               value={menuPrice}
@@ -108,7 +100,7 @@ export const EditMenu = () => {
             />
           </div>
           <div className="form-group">
-            <label>Menu Status</label>
+            <label>สถานะ</label>
             <select
               value={menuStatus}
               onChange={(e) => setMenuStatus(e.target.value)}
@@ -118,9 +110,14 @@ export const EditMenu = () => {
               <option value="Closed">Closed</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary submit-button">
-            Save Changes
-          </button>
+          <br />
+          <br />
+          <div className="button-group2">
+            <button type="submit" className="submit-button">
+              บันทึก
+            </button>
+            <button className="delete-button">ลบ</button>
+          </div>
         </form>
       </div>
     </>

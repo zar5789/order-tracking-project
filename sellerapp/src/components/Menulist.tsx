@@ -71,7 +71,6 @@ export const Menulist = () => {
       <AppBar></AppBar>
       <br></br>
       <div className="menu-list-container">
-        <h1>Menu List</h1>
         <Link to={"/createmenu"} className="add-button">
           Add New Menu
         </Link>
@@ -83,19 +82,17 @@ export const Menulist = () => {
           <table className="menu-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th></th>
+                <th>ชื่อเมนู</th>
+                <th>ราคา(บาท)</th>
+                <th>สถานะ</th>
+                <th>แอคชั่น</th>
+              
               </tr>
             </thead>
             <tbody>
               {menuItems.map((menu) => (
                 <tr key={menu._id}>
-                  <td>{menu._id}</td>
                   <td>
                     <img
                       src="https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEKlkIouH7Ikr7Q5kyHCSMNE65otAuk9Wh6Wmo3yxZpIMRDET1g.jpg"
@@ -108,16 +105,8 @@ export const Menulist = () => {
                   <td>{menu.status}</td>
                   <td>
                     <Link to={`/editmenu/${menu._id}`} className="edit-button">
-                      Edit
+                      แก้ไข
                     </Link>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleDeleteMenuItem(menu._id)}
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
                   </td>
                 </tr>
               ))}

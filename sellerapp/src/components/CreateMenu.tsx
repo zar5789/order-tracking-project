@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { AppBar } from "./AppBar";
 
 export const CreateMenu = () => {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export const CreateMenu = () => {
   const [menuName, setMenuName] = useState(""); // State for menu name
   const [menuPrice, setMenuPrice] = useState(""); // State for menu price
   const [menuStatus, setMenuStatus] = useState("Open"); // State for menu status
+  const [menuImage, setMenuImage] = useState("")
 
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -50,26 +52,29 @@ export const CreateMenu = () => {
   };
   return (
     <>
-      <div className="app-bar">
-        <h5>IT Cafeteria</h5>
-        <div className="right-elements">
-          <div className="buttons">
-            <Link to="/menulist" className="back-button">
-              ย้อนกลับ
-            </Link>
-          </div>
-          <div className="customer-picture"></div>
-        </div>
-      </div>
+      <AppBar></AppBar>
       {/* Display success message */}
       {successMessage && <p className="success-message">{successMessage}</p>}
       {/* Display error message */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="store-setting-container">
-        <h2>Add New Menu</h2>
+        <h5>เพิ่มเมนูอาหาร</h5>
+        <br />
         <form onSubmit={handleSubmit} className="store-setting-form">
+        <div className="form-group">
+            <label>รูปร้านค้า</label>
+            <div className="image-container">
+              {menuImage ? (
+                <img
+                  src={menuImage}
+                  alt="Store Image"
+                  className="store-image"
+                />
+              ) : null}
+            </div>
+          </div>
           <div className="form-group">
-            <label>Menu Name</label>
+            <label>ชื่ออาหาร</label>
             <input
               type="text"
               value={menuName}
@@ -79,7 +84,7 @@ export const CreateMenu = () => {
             />
           </div>
           <div className="form-group">
-            <label>Menu Price</label>
+            <label>ราคา</label>
             <input
               type="number"
               value={menuPrice}
@@ -89,7 +94,7 @@ export const CreateMenu = () => {
             />
           </div>
           <div className="form-group">
-            <label>Menu Status</label>
+            <label>สถานะ</label>
             <select
               value={menuStatus}
               onChange={(e) => setMenuStatus(e.target.value)}
@@ -99,8 +104,10 @@ export const CreateMenu = () => {
               <option value="Closed">Closed</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary submit-button">
-            Add new menu
+          <br />
+          <br />
+          <button type="submit" className="submit-button">
+            สร้าง
           </button>
         </form>
       </div>

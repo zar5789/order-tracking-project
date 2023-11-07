@@ -34,8 +34,9 @@ export const CurrentOrder: React.FC<CurrentOrderProps> = ({
   const [orderDetails, setOrderDetails] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Fetch order data from the first API
+  // Function to fetch order details
+  const fetchOrderDetails = () => {
+    // Fetch order data from the API
     fetch("https://order-api-patiparnpa.vercel.app/orders")
       .then((response) => {
         if (!response.ok) {
@@ -45,7 +46,7 @@ export const CurrentOrder: React.FC<CurrentOrderProps> = ({
       })
       .then(async (orderData: OrderData[]) => {
         const orderDetailsPromises = orderData.map(async (order) => {
-          // For each order, fetch the corresponding menu data from the second API
+          // For each order, fetch the corresponding menu data from the API
           const menuResponse = await fetch(
             `https://order-api-patiparnpa.vercel.app/products/${order.productID}`
           );
@@ -59,7 +60,7 @@ export const CurrentOrder: React.FC<CurrentOrderProps> = ({
             orderQueue: orderData.indexOf(order) + 1,
             menuName: menuData.name,
             menuQuantity: order.amount,
-            menuPrice: (menuData.price * order.amount),
+            menuPrice: menuData.price * order.amount,
             paymentStatus: order.status,
           };
         });
@@ -74,6 +75,22 @@ export const CurrentOrder: React.FC<CurrentOrderProps> = ({
         console.error("Error fetching order data:", error);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    // Fetch order details initially
+    fetchOrderDetails();
+
+    // Fetch order details every 30 seconds
+    const intervalId = setInterval(() => {
+      fetchOrderDetails();
+      console.log("API Call: Fetching order details...");
+    }, 30000);
+
+    return () => {
+      // Cleanup: Clear the interval when the component unmounts
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (

@@ -66,6 +66,7 @@ export const TestLogin = () => {
             <p>Display Name: {userProfile.displayName}</p>
             <p>Id Token: {idToken}</p>
             <button onClick={() => logout()}>Log out</button>
+            <button onClick={handleLoginClick}>Login with LINE</button>
           </div>
         ) : (
           <button onClick={handleLoginClick}>Login with LINE</button>

@@ -64,30 +64,20 @@ export const BackStore = () => {
     <>
       <div className="app-bar">
         <div className="title">
-          <h5>
-            <b>IT Cafeteria</b> | <Link to="/front">หน้าร้าน</Link> |{" "}
-            <Link to="/back">ครัว</Link>
+          <h5 style={{color:'#FFFFFF'}}>
+            <b>IT Cafeteria</b> | <Link to="/front" style={{color:'#FFFFFF', textDecoration:'none'}}>หน้าร้าน</Link> |{" "}
+            <Link to="/back" style={{color:'#FFFFFF', textDecoration:'none'}}>ครัว</Link>
           </h5>
-        </div>
-        <div className="right-elements">
-          <div className="buttons">
-            <Link to="/" className="back-button">
-              ย้อนกลับ
-            </Link>
-          </div>
-          <div className="customer-picture"></div>
         </div>
       </div>
       <div className="back-store-page">
-        <br></br>
-        <h2>รายการอาหาร</h2>
         {loading ? (
           <p>Loading...</p>
         ) : (
           <table className="food-order-table">
             <thead>
               <tr>
-                <th>รายการอาหาร</th>
+                <th>ชื่อเมนู</th>
                 <th>จำนวน</th>
               </tr>
             </thead>
@@ -101,9 +91,11 @@ export const BackStore = () => {
             </tbody>
             <tr>
               <th>
+              </th>
+              <th style={{textAlign:'right'}}>
+                <Link to='/' className="back-button">&#x21B6; ย้อนกลับ</Link>
                 <button className="finish-button">เสร็จสิ้น</button>
               </th>
-              <th></th>
             </tr>
           </table>
         )}

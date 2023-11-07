@@ -4,17 +4,27 @@ export const AppBar = () => {
   return (
     <>
       <div className="app-bar">
-        <h5>IT Cafeteria</h5>
+        <Link to='/' style={{textDecoration:'none', color:'#FFFFFF'}}><h5>IT Cafeteria</h5></Link>
         <div className="right-elements">
-          <div className="buttons">
-            <Link to="/" className="back-button">
-              ย้อนกลับ
-            </Link>
+          <div className="elements-container">
+            <div className="customer-picture">
+              <img
+                src="https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg"
+                alt="Customer"
+              />
+            </div>
+            <h5 style={{color:'#FFFFFF'}}>ร้านพี่ช้างงงงงงงงงงงงง</h5>
+            <div className="dropdown">
+              <button className="dropdown-button"> &#9660;</button>
+              <div className="dropdown-content">
+                <Link to="/editstore">แก้ไขข้อมูลร้านค้า</Link>
+                <Link to="/menulist">จัดการเมนู</Link>
+                <Link to="/report">ดูรายงานการขาย</Link>
+                <hr className="divider" />
+                <button className="dropdown-link-button">ออกจากระบบ</button>
+              </div>
+            </div>
           </div>
-          <div className="buttons">
-            <Link to="/testlogin" className="back-button">Test User login</Link>
-          </div>
-          <div className="customer-picture"></div>
         </div>
       </div>
     </>
