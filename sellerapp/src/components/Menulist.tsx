@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { AppBar } from "./AppBar";
 import { useState, useEffect } from "react";
+import StatusSwitch from "./StatusSwitch";
 
 interface MenuItem {
   _id: string;
@@ -15,6 +16,15 @@ interface MenuItem {
 export const Menulist = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true); // State to track loading status
+
+  async function updateStatusOnServer(menuId: string, newStatus: string) {
+    try {
+      // Your API call code goes here
+      // ...
+    } catch (error) {
+      console.error("Error updating status on the server:", error);
+    }
+  }
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -38,34 +48,6 @@ export const Menulist = () => {
     fetchMenuItems();
   }, []);
 
-  // Function to handle menu item deletion
-  const handleDeleteMenuItem = (itemId: string) => {
-
-    console.log("Deleting item with ID:", itemId);
-    // Display a confirmation dialog
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this menu item?"
-    );
-
-    if (confirmDelete) {
-      fetch(`https://order-api-patiparnpa.vercel.app/products/${itemId}`, {
-        method: "DELETE",
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to delete menu item");
-          }
-          // Update the state to remove the deleted item
-          setMenuItems((prevMenuItems) =>
-            prevMenuItems.filter((item) => item._id !== itemId)
-          );
-        })
-        .catch((error) => {
-          console.error("Error deleting menu item:", error);
-        });
-    }
-  };
-
   return (
     <>
       <AppBar></AppBar>
@@ -87,7 +69,6 @@ export const Menulist = () => {
                 <th>ราคา(บาท)</th>
                 <th>สถานะ</th>
                 <th>แอคชั่น</th>
-              
               </tr>
             </thead>
             <tbody>
@@ -107,6 +88,22 @@ export const Menulist = () => {
                     <Link to={`/editmenu/${menu._id}`} className="edit-button">
                       แก้ไข
                     </Link>
+                    <StatusSwitch
+                      initialStatus={menu.status}
+                      onStatusChange={(newStatus) => {
+                        updateStatusOnServer(menu._id, newStatus);
+
+                        // Update the status in your component's state
+                        setMenuItems((prevMenuItems) => {
+                          return prevMenuItems.map((item) => {
+                            if (item._id === menu._id) {
+                              return { ...item, status: newStatus };
+                            }
+                            return item;
+                          });
+                        });
+                      }}
+                    />
                   </td>
                 </tr>
               ))}

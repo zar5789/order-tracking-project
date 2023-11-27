@@ -8,8 +8,10 @@ import { FrontStore } from "./components/FrontStore";
 import { BackStore } from "./components/BackStore";
 import { Routes, Route } from 'react-router-dom';
 import { CreateMenu } from "./components/CreateMenu";
-import { TestOrder } from "./components/TestOrder";
-import { TestLogin } from "./components/TestLineLogin";
+import { LoginPage } from "./components/LoginPage";
+import { AdminOverview } from "./components/AdminOverview";
+import { AdminManageStore } from "./components/AdminManageStore";
+import { AdminOption } from "./components/AdminOption";
 
 function App() {
   return (
@@ -23,8 +25,10 @@ function App() {
         <Route path="/front" element={<FrontStore></FrontStore>}></Route>
         <Route path="/back" element={<BackStore></BackStore>}></Route>
         <Route path="/createmenu" element={<CreateMenu></CreateMenu>}></Route>
-        <Route path="/testorder" element={<TestOrder></TestOrder>}></Route>
-        <Route path="/testlogin" element={<TestLogin></TestLogin>}></Route>
+        <Route path="/login" element={<LoginPage></LoginPage>}></Route>
+        <Route path='/admin' element={<AdminOverview></AdminOverview>}></Route>
+        <Route path='/adminstore' element={<AdminManageStore></AdminManageStore>}></Route>
+        <Route path='/adminoption' element={<AdminOption></AdminOption>}></Route>
       </Routes>
     </div>
   );

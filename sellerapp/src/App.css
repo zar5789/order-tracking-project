@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 5px;
-
+    height: 70px;
 
   }
   .app-bar h1 {
@@ -201,7 +201,7 @@
     margin: 20px;
     max-width: 500px;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -273,11 +273,23 @@
   margin-top: 20px;
 }
 
+.menu-table th {
+  background-color: #D9D9D9;
+}
+
+.menu-table td {
+  background-color: #FFFFFF;
+}
+
 .menu-table th,
 .menu-table td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
+}
+
+.menu-table tr:nth-child(even) {
+  background-color: #F4F4F4; /* Background color for even rows */
 }
 
 .menu-image {
@@ -291,7 +303,7 @@
   background-color: #B1B1B1;
   color: #1E1E1E;
   border: none;
-  padding: 5px 20px;
+  padding: 8px 25px;
   border-radius: 5px;
   cursor: pointer;
   text-decoration: none;
@@ -348,16 +360,45 @@
   margin-top: 20px;
 }
 
-.food-order-table th,
-.food-order-table td {
+.food-order-table th {
   border: 1px solid #ddd;
+  border-right: none; /* Remove right border for th elements */
+  border-left: none;
   padding: 10px;
   text-align: center;
   font-size: larger;
 }
 
+.food-order-table td {
+  border: 1px solid #ddd;
+  border-left: none; /* Remove left border for td elements */
+  border-right: none;
+  padding: 10px;
+  text-align: center;
+  font-size: larger;
+}
+
+.food-order-table td:first-child {
+  border-left: 1px solid #ddd; /* Remove the left border for the first td element */
+}
+
+.food-order-table td:last-child {
+  border-right: 1px solid #ddd; /* Remove the left border for the first td element */
+}
+
+
 .food-order-table th {
   background-color: #D9D9D9;
+}
+
+.back-food-details {
+  max-height: 50px; /* Adjust the max-height as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Add an ellipsis (...) if the text overflows */
+  color: #9FA5AF;
+  font-size: smaller;
+  margin-bottom: 5px;
 }
 
 .finish-button {
@@ -599,6 +640,7 @@ h1, h2, h3, h4, h5, h6, div, p {
 
 .container {
   font-family: 'Prompt', sans-serif;
+  font-weight: 100;
 }
 
 .delete-button {
@@ -629,4 +671,92 @@ h1, h2, h3, h4, h5, h6, div, p {
 .submit-button,
 .delete-button {
   flex: 1;
+}
+
+/* StatusSwitch.css */
+
+.status-switch {
+  display: inline-block;
+  position: relative;
+  width: 70px; /* Increase the width for a larger switch */
+  height: 34px; /* Increase the height for a larger switch */
+  background-color: #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.status-slider {
+  position: absolute;
+  width: 40px; /* Increase the width for a larger slider */
+  height: 35px; /* Increase the height for a larger slider */
+  border-radius: 10px;
+  background-color: #2357A5;
+
+  transition: 0.4s;
+  transform: translateX(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-slider.Open {
+  background-color: #2357A5; /* Adjust the color for open status */
+  transform: translateX(0%);
+}
+
+.status-slider.Closed {
+  background-color: #A52323;
+  transform: translateX(35px); /* Adjust for the larger switch */
+}
+
+.status-text {
+  position: absolute;
+  top: 50%; /* Vertically center the text within the slider */
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%; /* Expand the text to cover the slider */
+  text-align: center; /* Center the text horizontally */
+  font-size: 14px; /* Increase the font size for the status text */
+  color: #FFFFFF;
+}
+
+.switch-label {
+  font-weight: bold;
+  font-size: 14px; /* Increase the font size for the label */
+}
+
+.selected-row {
+  background-color: #F4F4F4;
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh; /* This ensures the container takes the full height of the viewport */
+}
+
+.login-button {
+  background-color: #2357A5;
+  border-radius: 5px;
+  padding: 8px 13px;
+  flex: 1;
+  font-size: larger;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: #FFFFFF;
+  padding-top: 20px;
+  position: fixed;
+  border: 2px solid #ddd;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 10px;
+  color: #000000;
+  text-decoration: none;
+  font-size: 18px;
 }

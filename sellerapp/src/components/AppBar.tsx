@@ -13,13 +13,15 @@ export const AppBar = () => {
                 alt="Customer"
               />
             </div>
-            <h5 style={{color:'#FFFFFF'}}>ร้านพี่ช้างงงงงงงงงงงงง</h5>
+            <h5 style={{color:'#FFFFFF'}}>ร้านพี่ช้าง</h5>
             <div className="dropdown">
               <button className="dropdown-button"> &#9660;</button>
               <div className="dropdown-content">
                 <Link to="/editstore">แก้ไขข้อมูลร้านค้า</Link>
                 <Link to="/menulist">จัดการเมนู</Link>
                 <Link to="/report">ดูรายงานการขาย</Link>
+                <Link to='/login'>หน้า login</Link>
+                <Link to='/admin'>หน้า admin</Link>
                 <hr className="divider" />
                 <button className="dropdown-link-button">ออกจากระบบ</button>
               </div>
