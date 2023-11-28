@@ -12,6 +12,7 @@ import { LoginPage } from "./components/LoginPage";
 import { AdminOverview } from "./components/AdminOverview";
 import { AdminManageStore } from "./components/AdminManageStore";
 import { AdminOption } from "./components/AdminOption";
+import { CreateStore } from "./components/CreateStore";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path='/admin' element={<AdminOverview></AdminOverview>}></Route>
         <Route path='/adminstore' element={<AdminManageStore></AdminManageStore>}></Route>
         <Route path='/adminoption' element={<AdminOption></AdminOption>}></Route>
+        <Route path='/createstore' element={<CreateStore></CreateStore>}></Route>
       </Routes>
     </div>
   );

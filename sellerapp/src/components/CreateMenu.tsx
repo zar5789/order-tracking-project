@@ -62,7 +62,7 @@ export const CreateMenu = () => {
         <br />
         <form onSubmit={handleSubmit} className="store-setting-form">
         <div className="form-group">
-            <label>รูปร้านค้า</label>
+            <label>รูปภาพอาหาร</label>
             <div className="image-container">
               {menuImage ? (
                 <img

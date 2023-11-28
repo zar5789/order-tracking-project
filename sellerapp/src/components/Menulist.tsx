@@ -54,7 +54,7 @@ export const Menulist = () => {
       <br></br>
       <div className="menu-list-container">
         <Link to={"/createmenu"} className="add-button">
-          Add New Menu
+          เพื่มเมนูใหม่
         </Link>
 
         {/* Display loading indicator if data is still loading */}

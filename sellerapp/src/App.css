@@ -193,6 +193,7 @@
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    padding-bottom: 12%;
   }
 
   /*Edit Store*/
@@ -251,6 +252,11 @@
   .form-group select {
     margin-left: 20%;
   }
+
+  .form-control {
+    border: 2px solid #ddd;
+  }
+
 
   
   button {
@@ -336,6 +342,7 @@
   text-decoration: none;
   font-size: 16px;
   margin-right: 10px;
+  color: #007bff;
 }
 
 .back-button:hover {
@@ -708,6 +715,7 @@ h1, h2, h3, h4, h5, h6, div, p {
   background-color: #A52323;
   transform: translateX(35px); /* Adjust for the larger switch */
 }
+
 
 .status-text {
   position: absolute;

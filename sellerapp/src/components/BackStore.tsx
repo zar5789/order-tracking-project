@@ -97,7 +97,7 @@ export const BackStore = () => {
                 <th>จำนวน</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               {foodOrders.map((order, index) => (
                 <tr key={index}>
                   <td style={{ width: "100px"}}>
@@ -121,9 +121,9 @@ export const BackStore = () => {
               <th></th>
               <th></th>
               <th style={{ textAlign: "right" }}>
-                <Link to="/" className="back-button">
+                <button className="back-button">
                   &#x21B6; ย้อนกลับ
-                </Link>
+                </button>
                 <button className="finish-button">เสร็จสิ้น</button>
               </th>
             </tr>

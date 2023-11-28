@@ -104,7 +104,7 @@ export const FrontStore = () => {
                 <th style={{ width: "120px" }}>การชำระเงิน</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               {foodOrders.map((order, index) => (
                 <tr key={index}>
                   <td style={{ width: "70px"}}>
@@ -136,7 +136,7 @@ export const FrontStore = () => {
               <th></th>
               <th></th>
               <th style={{ textAlign: "right" }}>
-                <button className="finish-button">เสร็จสิ้น</button>
+              <button style={{backgroundColor: '#FF3A3A', borderRadius: '7px', paddingTop: '3px', paddingRight: '60px', paddingBottom: '3px', paddingLeft: '60px', marginRight:'5%'}}>ปฎิเสธ</button>
               </th>
             </tr>
           </table>
