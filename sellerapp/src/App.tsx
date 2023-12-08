@@ -16,7 +16,7 @@ import { CreateStore } from "./components/CreateStore";
 
 function App() {
   return (
-    <div className="container">
+    <div>
       <Routes>
         <Route path='/' element={<HomePage></HomePage>}></Route>
         <Route path="/editstore" element={<EditStore></EditStore>}></Route>

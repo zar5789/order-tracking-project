@@ -1,29 +1,138 @@
-import React from 'react';
-import FavoriteMenu from './FavoriteMenu'; // Import the FavoriteMenu component
+import { Link } from "react-router-dom";
+import Arrow from "../assets/arrow.jpg";
+import Cart from "../assets/cart.jpg";
+import Logo from "../assets/logo.jpg";
 
-function MenuPage() {
-  const favoriteMenus = [
+export const MenuPage = () => {
+  const Menus = [
     {
-      title: 'กระเพราหมูหรอบ ไข่ดาว 3 พอง',
+      id: 1,
+      name: "กระเพราหมูกรอบไข่ดาว",
       price: 50,
-      store: 'ร้านพี่ช้าง',
-      imageUrl: 'https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg',
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      title: 'อาหารตามสั่ง กุ้งกระเบื้องน้ำปลา',
-      price: 70,
-      store: 'ร้านพี่หมาย',
-      imageUrl: 'https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg',
+      id: 2,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
-    // Add more menu items here
+    {
+      id: 3,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 4,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 4,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 4,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 4,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 4,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอว",
+      price: 50,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    // Add more items as needed
   ];
 
   return (
-    <div>
-      <br></br>
-      <FavoriteMenu menus={favoriteMenus} />
-    </div>
-  );
-}
+    <>
+      <div
+        className="app-bar"
+        style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}
+      >
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            marginLeft: "5%",
+            marginRight: "-60%",
+          }}
+        >
+          <img src={Arrow} alt="Go back" style={{ marginRight: "10px" }} />
+        </Link>
+        <h5 style={{ marginTop: "3%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
+        <div className="right-elements">
+          <div className="elements-container">
+            {/* Add other elements as needed */}
+          </div>
+        </div>
+      </div>
+      <div className="store-container">
+        <div
+          className="menus-card"
+          style={{ marginLeft: "5px", marginRight: "5px" }}
+        >
+          <img src={Logo} alt="custom menu"></img>
+          <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p>Custom price</p>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                marginLeft: "5px",
+              }}
+            >
+              <img
+                src={Cart}
+                alt="Cart"
+                style={{ width: "30px", height: "30px" }}
+              />
+            </button>
+          </div>
+        </div>
 
-export default MenuPage;
+        {Menus.map((menu) => (
+          <div
+            key={menu.id}
+            className="menus-card"
+            style={{ marginLeft: "5px", marginRight: "5px" }}
+          >
+            <img src={menu.image} alt={menu.name} />
+            <p>{menu.name}</p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <p>{menu.price}</p>
+              <button
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  marginLeft: "5px",
+                }}
+              >
+                <img
+                  src={Cart}
+                  alt="Cart"
+                  style={{ width: "30px", height: "30px" }}
+                />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};

@@ -1,9 +1,3 @@
-/**interface RestaurantCardProps {
-  name: string;
-  description: string;
-  imageUrl: string;
-  onClick: () => void;
-}**/
 
 const RestaurantCard: React.FC = () => {
   return (
