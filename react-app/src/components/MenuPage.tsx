@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Arrow from "../assets/arrow.jpg";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
+import Goback from "../assets/goback.png"
 
 export const MenuPage = () => {
   const Menus = [
@@ -66,13 +67,15 @@ export const MenuPage = () => {
           to="/"
           style={{
             textDecoration: "none",
-            marginLeft: "5%",
+            marginLeft: "3%",
             marginRight: "-60%",
+            marginBottom:'-1%',
+            color:'white',
           }}
         >
-          <img src={Arrow} alt="Go back" style={{ marginRight: "10px" }} />
+          <img src={Goback} alt="Go back" style={{ marginRight: "8px", width:'28px', height:'28px' }} />
         </Link>
-        <h5 style={{ marginTop: "3%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
+        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
         <div className="right-elements">
           <div className="elements-container">
             {/* Add other elements as needed */}

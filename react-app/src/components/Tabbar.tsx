@@ -12,10 +12,9 @@ const TabBar: React.FC = () => {
       <Link to="/order" className={`tab-item ${location.pathname === '/order' ? 'active' : ''}`}>
         My Order
       </Link>
-      <Link to="/menu" className={`tab-item ${location.pathname === '/menu' ? 'active' : ''}`}>
+      <Link to="/profile" className={`tab-item ${location.pathname === '/profile' ? 'active' : ''}`}>
         My Profile
       </Link>
-      <Link to='/menupage'>Menu</Link>
     </div>
   );
 };
