@@ -9,10 +9,13 @@ import { SelectMenuFeature2 } from "./components/SelectMenuFeature2";
 import { UserLogin } from "./components/UserLogin";
 import { MenuPage } from "./components/MenuPage";
 import { FavoriteMenus } from "./components/FavoriteMenu";
+import GlobalStyles from "./components/GlobalStyle";
+import { UserName } from "./components/UserName";
 
 function App() {
   return (
     <div>
+      <GlobalStyles></GlobalStyles>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/order" element={<OrderPage />} />
@@ -25,6 +28,7 @@ function App() {
           path="/favmenu"
           element={<FavoriteMenus></FavoriteMenus>}
         ></Route>
+        <Route path="/name" element={<UserName></UserName>}></Route>
       </Routes>
     </div>
   );

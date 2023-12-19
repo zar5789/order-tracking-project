@@ -117,7 +117,7 @@ export const MenuPage = () => {
             <img src={menu.image} alt={menu.name} />
             <p>{menu.name}</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p>{menu.price}</p>
+              <p>{menu.price} บาท</p>
               <button
                 style={{
                   background: "none",

@@ -74,10 +74,10 @@ export const FavoriteMenus = () => {
         >
           <img src={Goback} alt="Go back" style={{ marginRight: "8px", width:'28px', height:'28px' }} />
         </Link>
-        <h5 style={{ marginTop: "2%", marginLeft: "10%" }}>Favorite Food</h5>
+        <h5 style={{ marginTop: "2%", marginLeft: "40%" }}>My Favorite Menu</h5>
         <div className="right-elements">
           <div className="elements-container">
-            {/* Add other elements as needed */}
+            <button style={{background:'none', border:'none', fontSize:'18px', color:'#FF3A3A', fontWeight:'bold'}}>Manage</button>
           </div>
         </div>
       </div>
@@ -116,7 +116,7 @@ export const FavoriteMenus = () => {
             <img src={menu.image} alt={menu.name} />
             <p>{menu.name}</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p>{menu.price}</p>
+              <p>{menu.price} บาท</p>
               <button
                 style={{
                   background: "none",

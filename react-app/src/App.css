@@ -450,3 +450,54 @@ body {
   font-size: 24px;
   font-weight: bold;
 }
+
+
+.user-profile-container {
+  margin-top: -5%;
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 24px 20px 24px 20px;
+  align-items: center;
+}
+
+.label {
+  font-size: 18px;
+  font-family: prompt;
+  font-weight: 500;
+}
+
+body {
+  font-family: prompt;
+}
+
+.user-input-container {
+  padding: 20px;
+}
+
+.user-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  padding: 10px;
+  font-size: 18px;
+  /* Add other input styles as needed */
+}
+
+.save-button {
+  background-color: #2357A5;
+  width: 100%;
+  height: 56px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 125%;
+}
+
