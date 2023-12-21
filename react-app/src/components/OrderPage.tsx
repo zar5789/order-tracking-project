@@ -2,8 +2,14 @@ import MyAppBar from "./AppBar";
 import TabBar from "./Tabbar";
 import Cart2 from "../assets/cart2.png";
 import { RecentOrder } from "./RecentOrder";
+import { useNavigate } from "react-router-dom";
 
 const OrderPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleCartClick = () => {
+    navigate('/mycart');
+  };
   return (
     <div>
       <div
@@ -14,6 +20,7 @@ const OrderPage: React.FC = () => {
         <div className="right-elements">
           <div className="elements-container">
             <button
+              onClick={handleCartClick}
               style={{
                 background: "none",
                 border: "none",

@@ -5,10 +5,16 @@ import Goback from "../assets/goback.png";
 import { useState } from "react";
 import Heart from "../assets/heart-removebg-preview.png";
 import { HeartButton } from "./Heartbutton";
+import { useNavigate } from "react-router-dom";
 
 
 export const SelectMenuFeature = () => {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+
+  const handleGoBack = () => {
+    navigate(-1); // Navigate back
+  };
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -25,14 +31,17 @@ export const SelectMenuFeature = () => {
         className="app-bar"
         style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}
       >
-        <Link
-          to="/"
+        <button
+          onClick={handleGoBack}
           style={{
             textDecoration: "none",
             marginLeft: "3%",
             marginRight: "-60%",
             marginBottom: "-1%",
             color: "white",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
           }}
         >
           <img
@@ -40,7 +49,7 @@ export const SelectMenuFeature = () => {
             alt="Go back"
             style={{ marginRight: "8px", width: "28px", height: "28px" }}
           />
-        </Link>
+        </button>
         <h5 style={{ marginTop: "2%", marginLeft: "3%" }}></h5>
         <div className="right-elements">
           <div className="elements-container">
