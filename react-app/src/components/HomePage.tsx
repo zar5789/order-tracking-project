@@ -81,6 +81,7 @@ export const HomePage = () => {
       </div>
       <div className="scroll-container">
         {favoriteFoods.map((food) => (
+          <Link to={"/menufea2"} key={food.id} style={{textDecoration:'none', color:'black'}}>
           <div key={food.id} className="food-card">
             <img src={food.image} alt={food.name} />
             <p>{food.name}</p>
@@ -102,6 +103,7 @@ export const HomePage = () => {
               </button>
             </div>
           </div>
+          </Link>
         ))}
       </div>
       <div style={{ margin: "4% 5%" }}>

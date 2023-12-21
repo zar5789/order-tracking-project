@@ -11,6 +11,7 @@ import { MenuPage } from "./components/MenuPage";
 import { FavoriteMenus } from "./components/FavoriteMenu";
 import GlobalStyles from "./components/GlobalStyle";
 import { UserName } from "./components/UserName";
+import { MyCart } from "./components/MyCart";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           element={<FavoriteMenus></FavoriteMenus>}
         ></Route>
         <Route path="/name" element={<UserName></UserName>}></Route>
+        <Route path="/mycart" element={<MyCart></MyCart>}></Route>
       </Routes>
     </div>
   );

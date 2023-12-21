@@ -10,7 +10,7 @@ const OrderPage: React.FC = () => {
         className="app-bar"
         style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}
       >
-        <h5 style={{ marginTop: "3%", marginLeft: "3%" }}>My order</h5>
+        <h5 style={{ marginTop: "3%", marginLeft: "3%" }}>My Order</h5>
         <div className="right-elements">
           <div className="elements-container">
             <button

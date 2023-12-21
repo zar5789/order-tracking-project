@@ -49,7 +49,7 @@ export const UserName = () => {
           id="newName"
           value={newName}
           onChange={handleInputChange}
-          placeholder="New"
+          placeholder="New Name"
           className="user-input"
         />
         <button onClick={handleSaveClick} className="save-button">
