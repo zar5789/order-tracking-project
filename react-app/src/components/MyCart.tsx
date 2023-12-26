@@ -36,14 +36,15 @@ export const MyCart = () => {
       storeId: "id2",
       storeName: "ร้านพี่เมพ",
       totalItems: 4,
-      totalPrice: 40,
+      totalPrice: 50,
     },
     {
       storeId: "id3",
       storeName: "ร้านพี่หมี",
       totalItems: 4,
       totalPrice: 40,
-    },
+    }
+    
   ];
 
   return (
@@ -87,6 +88,20 @@ export const MyCart = () => {
       <div className="order-container">
         {orderData.map((order, index) => (
           <div className="order-item" key={index}>
+            {isManageMode && (
+              <div>
+                {/* Render checkboxes here */}
+                <input
+                  type="checkbox"
+                  style={{
+                    marginRight: "20px",
+                    width: "20px",
+                    height: "20px",
+                    alignItems: "center",
+                  }}
+                />
+              </div>
+            )}
             <div className="left-content">
               <div style={{ fontSize: "18px", fontWeight: "bold" }}>
                 {order.storeName}
@@ -96,7 +111,13 @@ export const MyCart = () => {
               </div>
             </div>
             <div className="right-content">
-              <div style={{ fontSize: "20px", fontWeight: "bold", marginRight:'5px' }}>
+              <div
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  marginRight: "5px",
+                }}
+              >
                 {order.totalPrice} Baht
               </div>
               <Link to="/" className="link">
@@ -110,6 +131,36 @@ export const MyCart = () => {
           </div>
         ))}
       </div>
+      <br></br>
+      <br></br>
+
+      {isManageMode && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            width: "100%",
+            textAlign: "center",
+            padding: "10px",
+          }}
+        >
+          <button
+            style={{
+              background: "#FF3A3A",
+              color: "white",
+              width: "95%",
+              border: "none",
+              height: "56px",
+              borderRadius: "10px",
+              fontSize: "18px",
+              fontWeight:'bold',
+              
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </>
   );
 };

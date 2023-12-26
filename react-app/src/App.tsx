@@ -2,7 +2,6 @@ import "./App.css";
 import { HomePage } from "./components/HomePage";
 import OrderPage from "./components/OrderPage";
 import { Routes, Route } from "react-router-dom";
-import { RecentOrder } from "./components/RecentOrder";
 import { UserProfilePage } from "./components/MyProfile";
 import { SelectMenuFeature } from "./components/SelectMenuFeature";
 import { SelectMenuFeature2 } from "./components/SelectMenuFeature2";
@@ -12,6 +11,8 @@ import { FavoriteMenus } from "./components/FavoriteMenu";
 import GlobalStyles from "./components/GlobalStyle";
 import { UserName } from "./components/UserName";
 import { MyCart } from "./components/MyCart";
+import AnyComponent from "./components/AnyComponent";
+import { OrderDetail } from "./components/OrderDetail";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
         ></Route>
         <Route path="/name" element={<UserName></UserName>}></Route>
         <Route path="/mycart" element={<MyCart></MyCart>}></Route>
+        <Route path='/yee' element={<AnyComponent></AnyComponent>}></Route>
+        <Route path='/orderdetail' element={<OrderDetail></OrderDetail>}></Route>
       </Routes>
     </div>
   );

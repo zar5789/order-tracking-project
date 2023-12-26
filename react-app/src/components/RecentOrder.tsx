@@ -53,7 +53,7 @@ export const RecentOrder = () => {
           </div>
           <div className="right-content" style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}>
             <div className="my-order-price" style={{ fontSize: '18px', fontWeight: 'bold' }}>{order.OrderPrice} Bath</div>
-            <Link to="/" className="link">
+            <Link to='/orderdetail' className="link">
               <img
                 src={GoNext}
                 alt="link"
@@ -75,7 +75,7 @@ export const RecentOrder = () => {
           </div>
           <div className="right-content" style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}>
             <div className="my-order-price" style={{ fontSize: '18px', fontWeight: 'bold' }}>{order.OrderPrice} Bath</div>
-            <Link to="/" className="link">
+            <Link to='/orderdetail' className="link">
               <img
                 src={GoNext}
                 alt="link"
