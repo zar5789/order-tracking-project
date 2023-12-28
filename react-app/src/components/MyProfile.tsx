@@ -44,7 +44,7 @@ export const UserProfilePage = () => {
         </div>
         <div className="profile-item" style={{alignItems:'center'}}>
           <div className="label">History Order</div>
-          <Link to='/' className="link"><img src={GoNext} alt="link" style={{width:'30px', height:'30px'}}></img></Link>
+          <Link to='/order' className="link"><img src={GoNext} alt="link" style={{width:'30px', height:'30px'}}></img></Link>
         </div>
         <div className="profile-item">
           <button style={{border:'none', background:'none', fontSize:'18px'}}><img src={Logout}></img>  Logout</button>

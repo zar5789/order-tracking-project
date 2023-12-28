@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Arrow from "../assets/arrow.jpg";
-import Cart from "../assets/cart.jpg";
-import Logo from "../assets/logo.jpg";
 import Goback from "../assets/goback.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import Redbin from "../assets/redbin.png";
+import Cart from "../assets/cart.jpg";
+import Logo from "../assets/logo.jpg";
 
 export const FavoriteMenus = () => {
   const navigate = useNavigate();
@@ -27,6 +27,17 @@ export const FavoriteMenus = () => {
     color: isManageMode ? "white" : "#FF3A3A",
   };
 
+  const overlayStyles: React.CSSProperties = {
+    backgroundColor: "#505050",
+    opacity: 0.8,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 999,
+  };
+
   const FavMenus = [
     {
       id: 1,
@@ -36,48 +47,25 @@ export const FavoriteMenus = () => {
     },
     {
       id: 2,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง'",
+      price: 70,
+      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
+    },
+    {
+      id: 1,
+      name: "กระเพราหมูกรอบไข่ดาว 20 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 3,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
+      id: 1,
+      name: "กระเพราหมูกรอบไข่ดาวยาราไนก้า",
+      price: 100,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอว",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    // Add more items as needed
+    // ... your menu data
   ];
+
   return (
     <>
       <div
@@ -115,59 +103,103 @@ export const FavoriteMenus = () => {
         </div>
       </div>
       <div className="store-container">
-        <Link to={'/menufea1'} className="store-link">
+        <div
+          className="menus-card"
+          style={{ marginLeft: "5px", marginRight: "5px" }}
+        >
+          <Link to={"/menufea1"} className="store-link">
+          <img src={Logo} alt="custom menu"></img>
+          <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p>Custom price</p>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                marginLeft: "5px",
+              }}
+            >
+              <img
+                src={Cart}
+                alt="Cart"
+                style={{ width: "30px", height: "30px" }}
+              />
+            </button>
+          </div>
+          </Link>
+        </div>
+        {FavMenus.map((menu) => (
           <div
+            key={menu.id}
             className="menus-card"
-            style={{ marginLeft: "5px", marginRight: "5px" }}
+            style={{
+              marginLeft: "5px",
+              marginRight: "5px",
+              position: "relative",
+            }}
           >
-            <img src={Logo} alt="custom menu"></img>
-            <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p>Custom price</p>
+            {isManageMode ? (
               <button
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  marginLeft: "5px",
+                className="store-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Handle button click logic here
+                  console.log("Button clicked");
+                }}
+              >
+                {/* Your button content goes here */}
+                Click me
+              </button>
+            ) : (
+              <Link to={"/menufea2"} className="store-link">
+                {/* Your existing Link content goes here */}
+                <img src={menu.image} alt={menu.name}/>
+                <p>{menu.name}</p>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <p>{menu.price} บาท</p>
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      marginLeft: "5px",
+                    }}
+                  >
+                    <img
+                      src={Cart}
+                      alt="Cart"
+                      style={{ width: "30px", height: "30px" }}
+                    />
+                  </button>
+                </div>
+              </Link>
+            )}
+            {isManageMode && (
+              <div
+                style={overlayStyles}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log("Overlay clicked");
                 }}
               >
                 <img
-                  src={Cart}
-                  alt="Cart"
-                  style={{ width: "30px", height: "30px" }}
-                />
-              </button>
-            </div>
-          </div>
-        </Link>
-        {FavMenus.map((menu) => (
-          <Link to={"/menufea2"} key={menu.id} className="store-link">
-            <div
-              className="menus-card"
-              style={{ marginLeft: "5px", marginRight: "5px" }}
-            >
-              <img src={menu.image} alt={menu.name} />
-              <p>{menu.name}</p>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p>{menu.price} บาท</p>
-                <button
+                  src={Redbin}
+                  alt="Redbin"
                   style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    marginLeft: "5px",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "73px",
+                    height: "95px",
                   }}
-                >
-                  <img
-                    src={Cart}
-                    alt="Cart"
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                </button>
+                />
               </div>
-            </div>
-          </Link>
+            )}
+          </div>
         ))}
       </div>
     </>

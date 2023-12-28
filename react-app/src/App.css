@@ -77,7 +77,11 @@
 .store-link {
   text-decoration: none; /* Remove default Link underline */
   color: inherit; /* Inherit color from parent */
-  width: calc(50% - 10px);
+}
+
+.store-link2 {
+  text-decoration: none; /* Remove default Link underline */
+  color: inherit; /* Inherit color from parent */
 }
 
 /* Update the styles for store container */
@@ -395,13 +399,15 @@ body {
   border-radius: 8px;
   overflow: hidden;
   box-sizing: border-box; /* Include borders in calculations */
-  height: 250px;
+  height: 255px;
   justify-content: space-between;
+  width: calc(50% - 10px);
 }
+
 
 .menus-card img {
   width: 100%; /* Ensure images don't exceed the container width */
-  height: 60%;
+  height: 161px;
   border-radius: 8px;
   object-fit: cover;
 }

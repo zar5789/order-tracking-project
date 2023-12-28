@@ -32,8 +32,11 @@ function App() {
         ></Route>
         <Route path="/name" element={<UserName></UserName>}></Route>
         <Route path="/mycart" element={<MyCart></MyCart>}></Route>
-        <Route path='/yee' element={<AnyComponent></AnyComponent>}></Route>
-        <Route path='/orderdetail' element={<OrderDetail></OrderDetail>}></Route>
+        <Route path="/yee" element={<AnyComponent></AnyComponent>}></Route>
+        <Route
+          path="/orderdetail"
+          element={<OrderDetail></OrderDetail>}
+        ></Route>
       </Routes>
     </div>
   );
