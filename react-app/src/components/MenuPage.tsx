@@ -96,11 +96,11 @@ export const MenuPage = () => {
         </div>
       </div>
       <div className="store-container">
-        <Link to={"/menufea1"} className="store-link">
-          <div
-            className="menus-card"
-            style={{ marginLeft: "5px", marginRight: "5px" }}
-          >
+        <div
+          className="menus-card"
+          style={{ marginLeft: "5px", marginRight: "5px" }}
+        >
+          <Link to={"/menufea1"} className="store-link">
             <img src={Logo} alt="custom menu"></img>
             <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -120,15 +120,15 @@ export const MenuPage = () => {
                 />
               </button>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
         {Menus.map((menu) => (
-          <Link to={"/menufea2"} key={menu.id} className="store-link">
-            <div
-              key={menu.id}
-              className="menus-card"
-              style={{ marginLeft: "5px", marginRight: "5px" }}
-            >
+          <div
+            key={menu.id}
+            className="menus-card"
+            style={{ marginLeft: "5px", marginRight: "5px" }}
+          >
+            <Link to={"/menufea1"} className="store-link">
               <img src={menu.image} alt={menu.name} />
               <p>{menu.name}</p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -148,8 +148,8 @@ export const MenuPage = () => {
                   />
                 </button>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
     </>

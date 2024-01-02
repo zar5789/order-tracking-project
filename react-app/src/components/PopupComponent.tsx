@@ -1,8 +1,9 @@
 // PopupComponent.tsx
 
-import React, { useContext } from 'react';
-import './PopupComponent.css';
-import { PopupContext } from './PopupContext';
+import React, { useContext } from "react";
+import "./PopupComponent.css";
+import { PopupContext } from "./PopupContext";
+import Pot from "../assets/pot-removebg-preview.png";
 
 interface PopupProps {
   onClose: () => void;
@@ -23,7 +24,7 @@ const PopupComponent: React.FC<PopupProps> = ({ onClose }) => {
       <div className="popup-content">
         {popupContent || getDefaultContent()}
         <button className="close-button" onClick={onClose}>
-          Close
+          &#10006;
         </button>
       </div>
     </div>
@@ -32,10 +33,31 @@ const PopupComponent: React.FC<PopupProps> = ({ onClose }) => {
 
 const getDefaultContent = () => (
   <div>
-    <p>This is the default content of my popup.</p>
-    <p>My name is Peter Grill, and Luffy is my stepdad.</p>
+    <img src={Pot} style={{ width: "170px" }}></img>
+    <p style={{fontSize:'51px', fontWeight:'bolder'}}>A51</p>
+    <p style={{fontWeight:'600', fontSize:'18px'}}>Your Order is done!!</p>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'400', fontSize:'16px', color:'#000000' }}>
+      <p style={{ margin: 0 }}>ร้านพี่ช้าง</p>
+      <p>100 Bath</p>
+    </div>
+    <br></br>
+    <button
+      style={{
+        marginLeft:'-16%',
+        width: "130%",
+        height: "44px",
+        backgroundColor: "#2357A5",
+        color: "#FFFFFF",
+        fontWeight: "bold",
+        fontSize: "16px",
+        cursor:'pointer',
+        border:'none',
+        borderRadius:'10px'
+      }}
+    >
+      Go to order Page
+    </button>
   </div>
 );
 
 export default PopupComponent;
-

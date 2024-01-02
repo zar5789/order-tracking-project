@@ -13,6 +13,7 @@ import { UserName } from "./components/UserName";
 import { MyCart } from "./components/MyCart";
 import AnyComponent from "./components/AnyComponent";
 import { OrderDetail } from "./components/OrderDetail";
+import { ConfirmOrder } from "./components/ConfirmOrder";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           path="/orderdetail"
           element={<OrderDetail></OrderDetail>}
         ></Route>
+        <Route path='/confirmorder' element={<ConfirmOrder></ConfirmOrder>}></Route>
       </Routes>
     </div>
   );

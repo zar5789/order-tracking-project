@@ -81,28 +81,32 @@ export const HomePage = () => {
       </div>
       <div className="scroll-container">
         {favoriteFoods.map((food) => (
-          <Link to={"/menufea2"} key={food.id} style={{textDecoration:'none', color:'black'}}>
-          <div key={food.id} className="food-card">
-            <img src={food.image} alt={food.name} />
-            <p>{food.name}</p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p>{food.store}</p>
-              <button
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  marginLeft: "5px",
-                }}
-              >
-                <img
-                  src={Cart}
-                  alt="Cart"
-                  style={{ width: "30px", height: "30px" }}
-                />
-              </button>
+          <Link
+            to={"/menufea2"}
+            key={food.id}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <div key={food.id} className="food-card">
+              <img src={food.image} alt={food.name} />
+              <p>{food.name}</p>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p>{food.store}</p>
+                <button
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    marginLeft: "5px",
+                  }}
+                >
+                  <img
+                    src={Cart}
+                    alt="Cart"
+                    style={{ width: "30px", height: "30px" }}
+                  />
+                </button>
+              </div>
             </div>
-          </div>
           </Link>
         ))}
       </div>
@@ -110,16 +114,12 @@ export const HomePage = () => {
         <p style={{ fontWeight: "bold", fontSize: "20px" }}>เลือกร้านค้า</p>
         <div className="store-container">
           {stores.map((store) => (
-            <Link
-              to={`/menupage`}
-              key={store.id}
-              className="store-link"
-            >
-              <div className="store-card">
+            <div className="store-card">
+              <Link to={`/menupage`} key={store.id} className="store-link">
                 <img src={store.image} alt={store.name} />
                 <p>{store.name}</p>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       </div>

@@ -120,7 +120,7 @@ export const MyCart = () => {
               >
                 {order.totalPrice} Baht
               </div>
-              <Link to="/" className="link">
+              <Link to='/confirmorder' className="link">
                 <img
                   src={GoNext}
                   alt="link"

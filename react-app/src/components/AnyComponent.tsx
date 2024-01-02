@@ -16,7 +16,7 @@ const AnyComponent: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => openPopup(customContent)}>Open Popup</button>
+      <button onClick={() => openPopup()}>Open Popup</button>
       {isPopupOpen && <PopupComponent onClose={closePopup} />}
     </div>
   );
