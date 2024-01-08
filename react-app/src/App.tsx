@@ -14,6 +14,8 @@ import { MyCart } from "./components/MyCart";
 import AnyComponent from "./components/AnyComponent";
 import { OrderDetail } from "./components/OrderDetail";
 import { ConfirmOrder } from "./components/ConfirmOrder";
+import { UploadSlip } from "./components/UploadSlip";
+import { UploadSlip2 } from "./components/UploadSlip2";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           element={<OrderDetail></OrderDetail>}
         ></Route>
         <Route path='/confirmorder' element={<ConfirmOrder></ConfirmOrder>}></Route>
+        <Route path='/slip' element={<UploadSlip></UploadSlip>}></Route>
+        <Route path='/slip2' element={<UploadSlip2></UploadSlip2>}></Route>
       </Routes>
     </div>
   );

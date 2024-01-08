@@ -9,6 +9,11 @@ export const OrderDetail = () => {
     navigate(-1); // Navigate back
   };
 
+  const handleClick = () => {
+    navigate('/slip')
+  };
+
+
   const OrderDataDetail = [
     {
       orderQueue: "A24",
@@ -114,6 +119,7 @@ export const OrderDetail = () => {
         }}
       >
         <button
+          onClick={handleClick}
           style={{
             background: "#FF3A3A",
             color: "white",
@@ -121,7 +127,7 @@ export const OrderDetail = () => {
             border: "none",
             height: "56px",
             borderRadius: "10px",
-            fontSize: "20px",
+            fontSize: "18px",
             fontWeight: "bold",
           }}
         >
