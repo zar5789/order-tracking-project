@@ -10,9 +10,8 @@ export const OrderDetail = () => {
   };
 
   const handleClick = () => {
-    navigate('/slip')
+    navigate("/slip");
   };
-
 
   const OrderDataDetail = [
     {
@@ -87,7 +86,8 @@ export const OrderDetail = () => {
               fontWeight: "bold",
               marginRight: "-55%",
             }}
-          >{menu.quantity}x
+          >
+            {menu.quantity}x
           </div>
           <div className="center-content">
             <div className="my-order-shop">{menu.menuName}</div>
@@ -118,19 +118,7 @@ export const OrderDetail = () => {
           padding: "10px",
         }}
       >
-        <button
-          onClick={handleClick}
-          style={{
-            background: "#FF3A3A",
-            color: "white",
-            width: "95%",
-            border: "none",
-            height: "56px",
-            borderRadius: "10px",
-            fontSize: "18px",
-            fontWeight: "bold",
-          }}
-        >
+        <button onClick={handleClick} className="button-overlay">
           Cancel Order
         </button>
       </div>

@@ -552,3 +552,14 @@ body {
   margin-top: -20px;
   text-align: center;
 }
+
+.button-overlay {
+  background-color: #FF3A3A;
+  color: white;
+  width: 95%;
+  border: none;
+  height: 56px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}

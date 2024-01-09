@@ -10,9 +10,22 @@ export const UploadSlip = () => {
 
   const qrCodeUrl = 'https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg'; // Replace with the actual URL
 
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Save button clicked");
+  const handleSave = async () => {
+    try {
+      // Make a request to the server to download the image
+      const response = await fetch(`/download?url=${encodeURIComponent(qrCodeUrl)}`);
+      const blob = await response.blob();
+
+      // Create a virtual link element
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'seller_qr_code.png'; // Set the desired file name
+
+      // Trigger a click on the link to initiate the download
+      link.click();
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
   };
 
   const handleUpload = () => {
@@ -51,7 +64,7 @@ export const UploadSlip = () => {
         </div>
       </div>
       <div className='upload-slip-container'>
-        <img src={qrCodeUrl} alt="Seller QR Code" style={{ width: "100%", padding:'10px', height:'420px' }} />
+        <img id="qrCodeImage" src={qrCodeUrl} alt="Seller QR Code" style={{ width: "100%", padding:'10px', height:'420px' }} />
         <button
           onClick={handleSave}
           style={{
@@ -80,15 +93,9 @@ export const UploadSlip = () => {
       >
         <button
           onClick={handleUpload}
+          className="button-overlay"
           style={{
             background: "#2357A5",
-            color: "white",
-            width: "95%",
-            border: "none",
-            height: "56px",
-            borderRadius: "10px",
-            fontSize: "18px",
-            fontWeight: "bold",
           }}
         >
           Upload Slip
