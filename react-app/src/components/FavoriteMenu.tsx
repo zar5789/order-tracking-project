@@ -148,8 +148,6 @@ export const FavoriteMenus = () => {
                   console.log("Button clicked");
                 }}
               >
-                {/* Your button content goes here */}
-                Click me
               </button>
             ) : (
               <Link to={"/menufea2"} className="store-link">

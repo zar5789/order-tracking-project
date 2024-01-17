@@ -1,18 +1,45 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppBar } from "./AppBar";
 
 export const CreateMenu = () => {
   const navigate = useNavigate();
-  //const [menuImage, setMenuImage] = useState(""); // State for menu image URL
-  const [menuName, setMenuName] = useState(""); // State for menu name
-  const [menuPrice, setMenuPrice] = useState(""); // State for menu price
-  const [menuStatus, setMenuStatus] = useState("Open"); // State for menu status
-  const [menuImage, setMenuImage] = useState("")
 
-  const [successMessage, setSuccessMessage] = useState(""); // State for success message
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [menuImage, setMenuImage] = useState<string>(""); // Specify the type of menuImage
+  const [menuName, setMenuName] = useState<string>(""); // Specify the type of menuName
+  const [menuPrice, setMenuPrice] = useState<string>(""); // Specify the type of menuPrice
+  const [menuStatus, setMenuStatus] = useState<string>("Open"); // Specify the type of menuStatus
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        // Set the image preview and data
+        const imageUrl = reader.result as string;
+        setMenuImage(imageUrl);
+        
+        // Log the URL to the console
+        console.log("Image URL:", imageUrl);
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };
+  
+
+  const handleImageContainerClick = () => {
+    // Trigger click on the hidden file input
+    const fileInput = document.getElementById(
+      "imageUpload"
+    ) as HTMLInputElement | null;
+
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -22,6 +49,7 @@ export const CreateMenu = () => {
       name: menuName,
       price: parseFloat(menuPrice),
       status: menuStatus,
+      img_url: menuImage, // Include the image data in the request
     };
 
     // Send a POST request to create the new menu item
@@ -36,42 +64,49 @@ export const CreateMenu = () => {
         if (!response.ok) {
           throw new Error("Failed to create menu item");
         }
-        setSuccessMessage("Menu item created successfully.");
-        setErrorMessage(""); // Clear any previous error message
         // Clear form fields
         setMenuName("");
         setMenuPrice("");
         setMenuStatus("Open"); // Reset status to "Open"
+        setMenuImage(""); // Clear the image state
         navigate("/menulist");
       })
       .catch((error) => {
         console.error("Error creating menu item:", error);
-        setErrorMessage("Failed to create menu item. Please try again.");
-        setSuccessMessage(""); // Clear any previous success message
       });
   };
+
   return (
     <>
-      <AppBar></AppBar>
-      {/* Display success message */}
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      {/* Display error message */}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <AppBar />
       <div className="store-setting-container">
         <h5>เพิ่มเมนูอาหาร</h5>
         <br />
         <form onSubmit={handleSubmit} className="store-setting-form">
-        <div className="form-group">
+          <div className="form-group">
             <label>รูปภาพอาหาร</label>
-            <div className="image-container">
+            <div
+              className="image-container"
+              style={{ cursor: "pointer" }}
+              onClick={handleImageContainerClick}
+            >
               {menuImage ? (
                 <img
                   src={menuImage}
                   alt="Store Image"
                   className="store-image"
                 />
-              ) : null}
+              ) : (
+                <p></p>
+              )}
             </div>
+            <input
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: "none" }}
+            />
           </div>
           <div className="form-group">
             <label>ชื่ออาหาร</label>

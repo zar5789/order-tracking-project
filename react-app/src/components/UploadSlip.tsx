@@ -12,21 +12,53 @@ export const UploadSlip = () => {
 
   const handleSave = async () => {
     try {
-      // Make a request to the server to download the image
-      const response = await fetch(`/download?url=${encodeURIComponent(qrCodeUrl)}`);
-      const blob = await response.blob();
-
-      // Create a virtual link element
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'seller_qr_code.png'; // Set the desired file name
-
-      // Trigger a click on the link to initiate the download
-      link.click();
+      // Get the image element
+      const img = document.getElementById('qrCodeImage') as HTMLImageElement;
+  
+      if (img) {
+        console.log('Image element found.');
+  
+        // Set the crossOrigin attribute
+        img.crossOrigin = 'anonymous';
+  
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+  
+        if (context) {
+          console.log('2D context obtained successfully.');
+  
+          // Set the canvas dimensions to match the image dimensions
+          canvas.width = img.width;
+          canvas.height = img.height;
+  
+          // Draw the image onto the canvas
+          context.drawImage(img, 0, 0);
+  
+          // Convert the canvas content to a data URL
+          const dataUrl = canvas.toDataURL('image/png');
+  
+          // Create a virtual link element
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'seller_qr_code.png'; // Set the desired file name
+  
+          // Trigger a click on the link to initiate the download
+          link.click();
+          console.log('Download initiated.');
+        } else {
+          console.error('Failed to get 2D context for canvas.');
+        }
+      } else {
+        console.error('Image element not found.');
+      }
     } catch (error) {
-      console.error('Error downloading image:', error);
+      console.error('Error saving image:', error);
     }
   };
+  
+  
+  
 
   const handleUpload = () => {
     navigate('/slip2');
@@ -64,7 +96,7 @@ export const UploadSlip = () => {
         </div>
       </div>
       <div className='upload-slip-container'>
-        <img id="qrCodeImage" src={qrCodeUrl} alt="Seller QR Code" style={{ width: "100%", padding:'10px', height:'420px' }} />
+        <img id="qrCodeImage" src={qrCodeUrl} alt="Seller QR Code" style={{ width: "100%", padding:'10px', maxHeight:'400px' }} />
         <button
           onClick={handleSave}
           style={{

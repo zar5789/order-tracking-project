@@ -4,13 +4,16 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from "react-router-dom";
 import { PopupProvider } from "./components/PopupContext";
+import { UserProvider } from "./components/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <PopupProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </UserProvider>
     </PopupProvider>
   </React.StrictMode>
 );

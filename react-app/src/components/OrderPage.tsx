@@ -39,7 +39,7 @@ const OrderPage: React.FC = () => {
         </div>
       </div>
       <RecentOrder></RecentOrder>
-  
+      <br></br>
       <TabBar></TabBar>
     </div>
   );

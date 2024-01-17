@@ -3,7 +3,7 @@ import Goback from "../assets/goback.png";
 import { useNavigate } from "react-router-dom";
 
 const PaymentMethodSection: React.FC = () => {
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState('payAtStore');
 
   const handleMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedMethod(event.target.value);

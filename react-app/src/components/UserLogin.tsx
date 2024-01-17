@@ -1,11 +1,15 @@
 import Logo from "../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
+import { useUser } from './UserContext';
 export const UserLogin = () => {
-  
+  const { setUserId } = useUser();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  // Assuming you get the userId from a login API response
+  const handleLogin = (userId: string) => {
+    setUserId(userId);
     navigate('/');
+    // Other login logic
   };
   return (
     <div className="login-container">
@@ -15,7 +19,7 @@ export const UserLogin = () => {
         <h5 style={{fontWeight:'bold'}}>Welcome</h5>
         <p>Please Login with Line before start</p>
       </div>
-      <button onClick={handleClick} className="login-button">Login with LINE</button>
+      <button onClick={() => handleLogin('user123')} className="login-button">Login with LINE</button>
     </div>
   );
 };

@@ -1,6 +1,4 @@
 // AnyComponent.tsx
-
-import React from 'react';
 import { usePopup } from './PopupContext';
 import PopupComponent from './PopupComponent';
 

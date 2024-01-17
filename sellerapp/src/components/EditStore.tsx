@@ -6,18 +6,17 @@ export const EditStore = () => {
   const navigate = useNavigate();
 
   const [storeId, setStoreId] = useState("");
-  const [storeImage, setStoreImage] = useState("");
+  const [storeImage, setStoreImage] = useState("https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg");
   const [storeName, setStoreName] = useState("");
   const [storeStatus, setStoreStatus] = useState("");
   const [bankName, setBankName] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch store data from the API when the component mounts
     fetch(
-      "https://order-api-patiparnpa.vercel.app/stores/6502b1429cf6a84012480e55"
+      "https://order-api-patiparnpa.vercel.app/stores/65a39918a8b337e8539f0713"
     )
       .then((response) => {
         if (!response.ok) {
@@ -30,7 +29,9 @@ export const EditStore = () => {
         setStoreId(data._id);
         setStoreName(data.name);
         setStoreStatus(data.status);
-        setLoading(false);
+        setBankName(data.bank_name);
+        setAccountName(data.owner_name);
+        setAccountNumber(data.card_num);
       })
       .catch((error) => {
         console.error("Error fetching store data:", error);
@@ -73,77 +74,68 @@ export const EditStore = () => {
     <>
       <AppBar></AppBar>
       <br></br>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="store-setting-container">
-  <h5 style={{ color: "#002336" }}>ตั้งค่าร้านค้า</h5>
-  <br />
-  <form className="store-setting-form" onSubmit={handleFormSubmit}>
-    <div className="form-group">
-      <label>รูปร้านค้า</label>
-      <div className="image-container">
-        {storeImage ? (
-          <img
-            src={storeImage}
-            alt="Store Image"
-            className="store-image"
-          />
-        ) : null}
+      <div className="store-setting-container">
+        <h5 style={{ color: "#002336" }}>ตั้งค่าร้านค้า</h5>
+        <br />
+        <form className="store-setting-form" onSubmit={handleFormSubmit}>
+          <div className="form-group">
+            <label>รูปร้านค้า</label>
+            <div className="image-container">
+              {storeImage ? (
+                <img src={storeImage} alt="Store Image" className="store-image" />
+              ) : null}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>ชื่อร้านค้า</label>
+            <input
+              type="text"
+              value={storeName}
+              onChange={(e) => setStoreName(e.target.value)}
+              placeholder="ใส่ชื่อร้าน"
+              required
+            />
+          </div>
+          <br />
+          <h5 style={{ color: "#002336" }}>ตั้งค่าการรับเงิน</h5>
+          <br />
+          <div className="form-group">
+            <label>ชื่อธนาคาร</label>
+            <input
+              type="text"
+              value={bankName}
+              onChange={(e) => setBankName(e.target.value)}
+              placeholder="ใส่ชื่อธนาคาร"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>ชื่อในบัญชี</label>
+            <input
+              type="text"
+              value={accountName}
+              onChange={(e) => setAccountName(e.target.value)}
+              placeholder="ใส่ชื่อในบัญชี"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>หมายเลขบัญชี</label>
+            <input
+              type="text"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+              placeholder="ใส่หมายเลขบัญชี"
+              required
+            />
+          </div>
+
+          <button type="submit">บันทึก</button>
+        </form>
       </div>
-    </div>
-
-    <div className="form-group">
-      <label>ชื่อร้านค้า</label>
-      <input
-        type="text"
-        value={storeName}
-        onChange={(e) => setStoreName(e.target.value)}
-        placeholder="ใส่ชื่อร้าน"
-        required
-      />
-    </div>
-    <br />
-    <h5 style={{ color: "#002336" }}>ตั้งค่าการรับเงิน</h5>
-    <br />
-    <div className="form-group">
-      <label>ชื่อธนาคาร</label>
-      <input
-        type="text"
-        value={bankName}
-        onChange={(e) => setBankName(e.target.value)}
-        placeholder="ใส่ชื่อธนาคาร"
-        required
-      />
-    </div>
-
-    <div className="form-group">
-      <label>ชื่อในบัญชี</label>
-      <input
-        type="text"
-        value={accountName}
-        onChange={(e) => setAccountName(e.target.value)}
-        placeholder="ใส่ชื่อในบัญชี"
-        required
-      />
-    </div>
-
-    <div className="form-group">
-      <label>หมายเลขบัญชี</label>
-      <input
-        type="text"
-        value={accountNumber}
-        onChange={(e) => setAccountNumber(e.target.value)}
-        placeholder="ใส่หมายเลขบัญชี"
-        required
-      />
-    </div>
-
-    <button type="submit">บันทึก</button>
-  </form>
-</div>
-
-      )}
     </>
   );
 };

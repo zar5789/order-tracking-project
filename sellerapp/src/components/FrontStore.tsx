@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
 interface Order {
   _id: string;
   productID: string;
@@ -18,9 +17,6 @@ interface Order {
 
 export const FrontStore = () => {
   const [foodOrders, setFoodOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
-  
-  
 
   useEffect(() => {
     // Fetch food orders from the API when the component mounts
@@ -57,11 +53,9 @@ export const FrontStore = () => {
         const foodDetails = await Promise.all(foodDetailsPromises);
 
         setFoodOrders(foodDetails);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching food orders:", error);
-        setLoading(false);
       });
   }, []);
 
@@ -89,58 +83,54 @@ export const FrontStore = () => {
         <div className='right-element'><button style={{backgroundColor: '#FF3A3A', borderRadius: '5px', paddingTop: '7px', paddingRight: '65px', paddingBottom: '7px', paddingLeft: '65px'}}>ปิดร้าน</button></div>
       </div>
       <div className="back-store-page">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <table className="food-order-table">
-            <thead>
-              <tr>
-                <th style={{ width: "70px" }}></th>
-                <th style={{ width: "80px" }}>คิวที่</th>
-                <th style={{ width: "200px",textAlign:'left'}}>ชื่อเมนู</th>
-                <th style={{ width: "80px" }}>จำนวน</th>
-                <th style={{ width: "80px" }}>ราคา(บาท)</th>
-                <th style={{ width: "120px" }}>สถานะ</th>
-                <th style={{ width: "120px" }}>การชำระเงิน</th>
-              </tr>
-            </thead>
-            <tbody style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-              {foodOrders.map((order, index) => (
-                <tr key={index}>
-                  <td style={{ width: "70px"}}>
-                    <input
-                      type="checkbox"
-                      // You can set an id and value for the checkbox if needed
-                      id={`checkbox-${index}`}
-                      value={order._id} // You might want to use a unique identifier as the value
-                      style={{
-                        width: "18px", // Adjust the width as needed
-                        height: "18px", // Adjust the height as needed
-                      }}
-                    />
-                  </td>
-                  <td><b>A51</b></td>
-                  <td style={{ textAlign:'left'}}>{order.foodName}<p className="back-food-details">ไข่ดาวไม่สุก</p></td>
-                  <td>{order.amount} จาน</td>
-                  <td>{order.foodPrice}</td>
-                  <td>อยู่ในครัว</td>
-                  <td>จ่ายหน้าร้าน</td>
-                </tr>
-              ))}
-            </tbody>
+        <table className="food-order-table">
+          <thead>
             <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style={{ textAlign: "right" }}>
-              <button style={{backgroundColor: '#FF3A3A', borderRadius: '7px', paddingTop: '3px', paddingRight: '60px', paddingBottom: '3px', paddingLeft: '60px', marginRight:'5%'}}>ปฎิเสธ</button>
-              </th>
+              <th style={{ width: "70px" }}></th>
+              <th style={{ width: "80px" }}>คิวที่</th>
+              <th style={{ width: "200px", textAlign:'left' }}>ชื่อเมนู</th>
+              <th style={{ width: "80px" }}>จำนวน</th>
+              <th style={{ width: "80px" }}>ราคา(บาท)</th>
+              <th style={{ width: "120px" }}>สถานะ</th>
+              <th style={{ width: "120px" }}>การชำระเงิน</th>
             </tr>
-          </table>
-        )}
+          </thead>
+          <tbody style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+            {foodOrders.map((order, index) => (
+              <tr key={index}>
+                <td style={{ width: "70px"}}>
+                  <input
+                    type="checkbox"
+                    // You can set an id and value for the checkbox if needed
+                    id={`checkbox-${index}`}
+                    value={order._id} // You might want to use a unique identifier as the value
+                    style={{
+                      width: "18px", // Adjust the width as needed
+                      height: "18px", // Adjust the height as needed
+                    }}
+                  />
+                </td>
+                <td><b>A51</b></td>
+                <td style={{ textAlign:'left'}}>{order.foodName}<p className="back-food-details">ไข่ดาวไม่สุก</p></td>
+                <td>{order.amount} จาน</td>
+                <td>{order.foodPrice}</td>
+                <td>อยู่ในครัว</td>
+                <td>จ่ายหน้าร้าน</td>
+              </tr>
+            ))}
+          </tbody>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th style={{ textAlign: "right" }}>
+              <button style={{backgroundColor: '#FF3A3A', borderRadius: '7px', paddingTop: '3px', paddingRight: '60px', paddingBottom: '3px', paddingLeft: '60px', marginRight:'5%'}}>ปฎิเสธ</button>
+            </th>
+          </tr>
+        </table>
       </div>
     </>
   );

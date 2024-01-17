@@ -96,8 +96,6 @@ export const SelectMenuFeature = () => {
           </div>
         </div>
       </div>
-      <br></br>
-      <TabBar></TabBar>
     </>
   );
 };

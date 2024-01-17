@@ -6,8 +6,8 @@ import StatusSwitch from "./StatusSwitch";
 
 export const AdminManageStore = () => {
   const [storeList, setStoreList] = useState([
-    { id: "1", name: "Store 1", status: "Active" },
-    { id: "2", name: "Store 2", status: "Inactive" },
+    { id: "1", name: "Store 1", status: "Open" },
+    { id: "2", name: "Store 2", status: "Closed" },
     // Add more static data as needed
   ]);
 
@@ -39,7 +39,15 @@ export const AdminManageStore = () => {
             <table className="menu-table">
               <thead>
                 <tr>
-                  <th style={{ width: "40%", borderLeft: "none", paddingLeft: "3%"}}>ชื่อร้านค้า</th>
+                  <th
+                    style={{
+                      width: "40%",
+                      borderLeft: "none",
+                      paddingLeft: "3%",
+                    }}
+                  >
+                    ชื่อร้านค้า
+                  </th>
                   <th style={{ width: "30%" }}>สถานะ</th>
                   <th style={{ width: "30%" }}>แอคชั่น</th>
                 </tr>
@@ -47,12 +55,11 @@ export const AdminManageStore = () => {
               <tbody>
                 {storeList.map((store) => (
                   <tr key={store.id}>
-                    <td style={{borderLeft: "none", paddingLeft: "3%"}}>{store.name}</td>
-                    <td>{store.status}</td>
+                    <td style={{ borderLeft: "none", paddingLeft: "3%" }}>
+                      {store.name}
+                    </td>
                     <td>
-                      <Link to={`/`} className="edit-button">
-                        เข้าถึงร้านค้า
-                      </Link>
+                      {store.status}
                       <StatusSwitch
                         initialStatus={store.status}
                         onStatusChange={(newStatus) => {
@@ -68,6 +75,11 @@ export const AdminManageStore = () => {
                           });
                         }}
                       />
+                    </td>
+                    <td>
+                      <Link to={`/`} className="edit-button">
+                        เข้าถึงร้านค้า
+                      </Link>
                     </td>
                   </tr>
                 ))}

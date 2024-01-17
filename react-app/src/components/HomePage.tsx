@@ -123,7 +123,7 @@ export const HomePage = () => {
           ))}
         </div>
       </div>
-
+      <br></br>
       <TabBar />
     </>
   );
