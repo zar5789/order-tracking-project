@@ -13,6 +13,37 @@ export const EditMenu = () => {
   const [menuStatus, setMenuStatus] = useState(""); // State for menu status
   const [menuImage, setMenuImage] = useState("");
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        // Set the image preview and data
+        const imageUrl = reader.result as string;
+        setMenuImage(imageUrl);
+        
+        // Log the URL to the console
+        console.log("Image URL:", imageUrl);
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };
+  
+
+  const handleImageContainerClick = () => {
+    // Trigger click on the hidden file input
+    const fileInput = document.getElementById(
+      "imageUpload"
+    ) as HTMLInputElement | null;
+
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   // Use useEffect to fetch and set the menu details when the component loads
   useEffect(() => {
     fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`)
@@ -22,6 +53,7 @@ export const EditMenu = () => {
         setMenuName(data.name);
         setMenuPrice(data.price);
         setMenuStatus(data.status);
+        setMenuImage(data.product_img_url);
       })
       .catch((error) => {
         console.error("Error fetching menu details:", error);
@@ -38,6 +70,7 @@ export const EditMenu = () => {
       name: menuName,
       price: parseFloat(menuPrice),
       status: menuStatus,
+      product_img_url: menuImage
     };
 
     // Send a PUT request to update the menu item
@@ -67,17 +100,30 @@ export const EditMenu = () => {
         <h5 style={{ color: "#002336" }}>ตั้งค่าเมนูอาหาร</h5>
         <br />
         <form onSubmit={handleSubmit} className="store-setting-form">
-          <div className="form-group">
+        <div className="form-group">
             <label>รูปภาพอาหาร</label>
-            <div className="image-container">
+            <div
+              className="image-container"
+              style={{ cursor: "pointer" }}
+              onClick={handleImageContainerClick}
+            >
               {menuImage ? (
                 <img
                   src={menuImage}
                   alt="Store Image"
                   className="store-image"
                 />
-              ) : null}
+              ) : (
+                <p></p>
+              )}
             </div>
+            <input
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: "none" }}
+            />
           </div>
           <div className="form-group">
             <label>ชื่ออาหาร</label>
