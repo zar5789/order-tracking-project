@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { AppBar } from "./AppBar";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -7,34 +6,37 @@ export const EditMenu = () => {
   const navigate = useNavigate();
   const { _id } = useParams();
 
-  //const [menuImage, setMenuImage] = useState(""); // State for menu image URL
-  const [menuName, setMenuName] = useState(""); // State for menu name
-  const [menuPrice, setMenuPrice] = useState(""); // State for menu price
-  const [menuStatus, setMenuStatus] = useState(""); // State for menu status
+  const [menuName, setMenuName] = useState("");
+  const [menuPrice, setMenuPrice] = useState("");
+  const [menuStatus, setMenuStatus] = useState("");
   const [menuImage, setMenuImage] = useState("");
+  const [error, setError] = useState<string>("");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-  
+
+    const maxSize = 1024 * 1024;
+
     if (file) {
+      if (file.size > maxSize) {
+        setError("Image size is too large. Please choose a smaller image.");
+        return;
+      }
+
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
-        // Set the image preview and data
+        setError("");
         const imageUrl = reader.result as string;
         setMenuImage(imageUrl);
-        
-        // Log the URL to the console
         console.log("Image URL:", imageUrl);
       };
-  
+
       reader.readAsDataURL(file);
     }
   };
-  
 
   const handleImageContainerClick = () => {
-    // Trigger click on the hidden file input
     const fileInput = document.getElementById(
       "imageUpload"
     ) as HTMLInputElement | null;
@@ -44,12 +46,16 @@ export const EditMenu = () => {
     }
   };
 
-  // Use useEffect to fetch and set the menu details when the component loads
   useEffect(() => {
     fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
-        console.log("API Response:", data); // Add this line to log the data
+        console.log("API Response:", data);
         setMenuName(data.name);
         setMenuPrice(data.price);
         setMenuStatus(data.status);
@@ -60,20 +66,32 @@ export const EditMenu = () => {
       });
   }, [_id]);
 
-  // Handle form submission
+  const handleDelete = () => {
+    fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete menu item");
+        }
+        navigate("/menulist");
+      })
+      .catch((error) => {
+        console.error("Error deleting menu item:", error);
+        setError("Failed to delete menu item. Please try again.");
+      });
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Construct the updated menu item object
     const updatedMenuItem = {
-      //menuImage,
       name: menuName,
       price: parseFloat(menuPrice),
       status: menuStatus,
-      product_img_url: menuImage
+      product_img_url: menuImage,
     };
 
-    // Send a PUT request to update the menu item
     fetch(`https://order-api-patiparnpa.vercel.app/products/${_id}`, {
       method: "PUT",
       headers: {
@@ -89,7 +107,7 @@ export const EditMenu = () => {
       })
       .catch((error) => {
         console.error("Error updating menu item:", error);
-        // Handle the error appropriately (e.g., show an error message to the user)
+        setError("Failed to update menu item. Please try again.");
       });
   };
 
@@ -99,8 +117,9 @@ export const EditMenu = () => {
       <div className="store-setting-container">
         <h5 style={{ color: "#002336" }}>ตั้งค่าเมนูอาหาร</h5>
         <br />
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit} className="store-setting-form">
-        <div className="form-group">
+          <div className="form-group">
             <label>รูปภาพอาหาร</label>
             <div
               className="image-container"
@@ -108,11 +127,7 @@ export const EditMenu = () => {
               onClick={handleImageContainerClick}
             >
               {menuImage ? (
-                <img
-                  src={menuImage}
-                  alt="Store Image"
-                  className="store-image"
-                />
+                <img src={menuImage} alt="Menu Image" className="store-image" />
               ) : (
                 <p></p>
               )}
@@ -128,7 +143,7 @@ export const EditMenu = () => {
           <div className="form-group">
             <label>ชื่ออาหาร</label>
             <input
-              type="string"
+              type="text"
               value={menuName}
               onChange={(e) => setMenuName(e.target.value)}
               className="form-control"
@@ -162,7 +177,9 @@ export const EditMenu = () => {
             <button type="submit" className="submit-button">
               บันทึก
             </button>
-            <button className="delete-button">ลบ</button>
+            <button onClick={handleDelete} className="delete-button">
+              ลบ
+            </button>
           </div>
         </form>
       </div>

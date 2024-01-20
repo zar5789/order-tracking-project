@@ -4,37 +4,37 @@ import { AppBar } from "./AppBar";
 
 export const CreateMenu = () => {
   const navigate = useNavigate();
-
-  const [menuImage, setMenuImage] = useState<string>(""); // Specify the type of menuImage
-  const [menuName, setMenuName] = useState<string>(""); // Specify the type of menuName
-  const [menuPrice, setMenuPrice] = useState<string>(""); // Specify the type of menuPrice
-  const [menuStatus, setMenuStatus] = useState<string>("Open"); // Specify the type of menuStatus
+  const storeId = '65a39b4ae668f5c8329fac98';
+  const [menuImage, setMenuImage] = useState<string>("");
+  const [menuName, setMenuName] = useState<string>("");
+  const [menuPrice, setMenuPrice] = useState<string>("");
+  const [menuStatus, setMenuStatus] = useState<string>("Open");
+  const [error, setError] = useState<string>("");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-  
+    const maxSize = 1024 * 1024;
+
     if (file) {
+      if (file.size > maxSize) {
+        setError("Image size is too large. Please choose a smaller image.");
+        return;
+      }
+
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
-        // Set the image preview and data
+        setError("");
         const imageUrl = reader.result as string;
         setMenuImage(imageUrl);
-        
-        // Log the URL to the console
-        console.log("Image URL:", imageUrl);
       };
-  
+
       reader.readAsDataURL(file);
     }
   };
-  
 
   const handleImageContainerClick = () => {
-    // Trigger click on the hidden file input
-    const fileInput = document.getElementById(
-      "imageUpload"
-    ) as HTMLInputElement | null;
+    const fileInput = document.getElementById("imageUpload") as HTMLInputElement | null;
 
     if (fileInput) {
       fileInput.click();
@@ -44,15 +44,15 @@ export const CreateMenu = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Construct the new menu item object
     const newMenuItem = {
       name: menuName,
       price: parseFloat(menuPrice),
       status: menuStatus,
-      img_url: menuImage, // Include the image data in the request
+      product_img_url: menuImage,
+      product_tag: 'normal',
+      store_id: storeId
     };
 
-    // Send a POST request to create the new menu item
     fetch("https://order-api-patiparnpa.vercel.app/products/create", {
       method: "POST",
       headers: {
@@ -64,15 +64,15 @@ export const CreateMenu = () => {
         if (!response.ok) {
           throw new Error("Failed to create menu item");
         }
-        // Clear form fields
         setMenuName("");
         setMenuPrice("");
-        setMenuStatus("Open"); // Reset status to "Open"
-        setMenuImage(""); // Clear the image state
+        setMenuStatus("Open");
+        setMenuImage("");
         navigate("/menulist");
       })
       .catch((error) => {
         console.error("Error creating menu item:", error);
+        setError("Failed to create menu item. Please try again.");
       });
   };
 
@@ -82,6 +82,8 @@ export const CreateMenu = () => {
       <div className="store-setting-container">
         <h5>เพิ่มเมนูอาหาร</h5>
         <br />
+        {/* Display error message */}
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit} className="store-setting-form">
           <div className="form-group">
             <label>รูปภาพอาหาร</label>

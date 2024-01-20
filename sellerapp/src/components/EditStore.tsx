@@ -12,42 +12,54 @@ export const EditStore = () => {
   const [bankName, setBankName] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [accountImage, setAccountImage] = useState('');
+  const [error, setError] = useState<string>("");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-  
+    const maxSize = 1024 * 1024;
+
     if (file) {
+      if (file.size > maxSize) {
+        setError("Image size is too large. Please choose a smaller image.");
+        return;
+      }
+
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
-        // Set the image preview and data
-        const imageUrl = reader.result as string;
-        const imageURL = 'https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg';
-        setStoreImage(imageURL);
-        
-        // Log the URL to the console
-        console.log("Image URL:", imageUrl);
+        setStoreImage(reader.result as string);
+        setError(""); // Clear any previous error message
       };
-  
+
       reader.readAsDataURL(file);
     }
   };
-  
+
+  const handleImageUpload2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setAccountImage(reader.result as string);
+        setError(""); // Clear any previous error message
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleImageContainerClick = () => {
-    // Trigger click on the hidden file input
-    const fileInput = document.getElementById(
-      "imageUpload"
-    ) as HTMLInputElement | null;
+    const fileInput = document.getElementById("imageUpload") as HTMLInputElement | null;
 
     if (fileInput) {
       fileInput.click();
     }
   };
 
-
   useEffect(() => {
-    // Fetch store data from the API when the component mounts
     fetch(
       "https://order-api-patiparnpa.vercel.app/stores/65a39b4ae668f5c8329fac98"
     )
@@ -66,6 +78,7 @@ export const EditStore = () => {
         setAccountName(data.owner_name);
         setAccountNumber(data.card_num);
         setStoreImage(data.store_img_url);
+        setAccountImage(data.qr_img_url);
       })
       .catch((error) => {
         console.error("Error fetching store data:", error);
@@ -74,13 +87,17 @@ export const EditStore = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
+
     const updateStore = {
       name: storeName,
       status: storeStatus,
+      store_img_url: storeImage,
+      bank_name: bankName,
+      owner_name: accountName,
+      card_num: accountNumber,
+      qr_img_url: accountImage
     };
 
-    // Send a PUT request to update the store data
     fetch(
       "https://order-api-patiparnpa.vercel.app/stores/65a39b4ae668f5c8329fac98",
       {
@@ -95,12 +112,12 @@ export const EditStore = () => {
         if (!response.ok) {
           throw new Error("Failed to update store data");
         }
-        // Handle success here, such as showing a success message
         console.log("Store data updated successfully");
         navigate("/");
       })
       .catch((error) => {
         console.error("Error updating store data:", error);
+        setError("Failed to update store data. Please try again.");
       });
   };
 
@@ -111,8 +128,10 @@ export const EditStore = () => {
       <div className="store-setting-container">
         <h5 style={{ color: "#002336" }}>ตั้งค่าร้านค้า</h5>
         <br />
+        {/* Display error message */}
+        {error && <p className="error-message">{error}</p>}
         <form className="store-setting-form" onSubmit={handleFormSubmit}>
-        <div className="form-group">
+          <div className="form-group">
             <label>รูปภาพร้านค้า</label>
             <div
               className="image-container"
@@ -181,6 +200,31 @@ export const EditStore = () => {
               onChange={(e) => setAccountNumber(e.target.value)}
               placeholder="ใส่หมายเลขบัญชี"
               required
+            />
+          </div>
+          <div className="form-group">
+            <label>QR code</label>
+            <div
+              className="image-container"
+              style={{ cursor: "pointer" }}
+              onClick={handleImageContainerClick}
+            >
+              {accountImage ? (
+                <img
+                  src={accountImage}
+                  alt="Url Image"
+                  className="store-image"
+                />
+              ) : (
+                <p></p>
+              )}
+            </div>
+            <input
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              onChange={handleImageUpload2}
+              style={{ display: "none" }}
             />
           </div>
 

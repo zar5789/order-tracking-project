@@ -6,7 +6,10 @@ import StatusSwitch from "./StatusSwitch";
 interface MenuItem {
   _id: string;
   name: string;
+  product_img_url: string;
+  product_tag: string;
   price: number;
+  store_id: string;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -14,12 +17,26 @@ interface MenuItem {
 }
 
 export const Menulist = () => {
+  const storeId = '65a39b4ae668f5c8329fac98';
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   async function updateStatusOnServer(menuId: string, newStatus: string) {
     try {
-      // Your API call code goes here
-      // ...
+      // Send a PUT request to update the status on the server
+      const response = await fetch(
+        `https://order-api-patiparnpa.vercel.app/products/${menuId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update menu item status");
+      }
     } catch (error) {
       console.error("Error updating status on the server:", error);
     }
@@ -29,7 +46,7 @@ export const Menulist = () => {
     const fetchMenuItems = async () => {
       try {
         const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/products"
+          "https://order-api-patiparnpa.vercel.app/products/store/65a39b4ae668f5c8329fac98"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -57,31 +74,26 @@ export const Menulist = () => {
         <table className="menu-table">
           <thead>
             <tr>
-              <th></th>
-              <th>ชื่อเมนู</th>
-              <th>ราคา(บาท)</th>
-              <th>สถานะ</th>
-              <th>แอคชั่น</th>
+              <th style={{width:'15%'}}></th>
+              <th style={{width:'30%'}}>ชื่อเมนู</th>
+              <th style={{width:'15%'}}>ราคา(บาท)</th>
+              <th style={{width:'15%'}}>สถานะ</th>
+              <th style={{width:'15%'}}>แอคชั่น</th>
             </tr>
           </thead>
           <tbody>
             {menuItems.map((menu) => (
               <tr key={menu._id}>
-                <td>
+                <td style={{textAlign:'center'}}>
                   <img
-                    src="https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEKlkIouH7Ikr7Q5kyHCSMNE65otAuk9Wh6Wmo3yxZpIMRDET1g.jpg"
-                    alt={menu.name}
+                    src={menu.product_img_url}
+                    alt='menu img'
                     className="menu-image"
                   />
                 </td>
-                <td>{menu.name}</td>
-                <td>{menu.price}</td>
-                <td>{menu.status}</td>
-                <td>
-                  <Link to={`/editmenu/${menu._id}`} className="edit-button">
-                    แก้ไข
-                  </Link>
-                  <StatusSwitch
+                <td style={{fontWeight:'bold'}}>{menu.name}</td>
+                <td style={{fontWeight:'bold'}}>{menu.price}</td>
+                <td><StatusSwitch
                     initialStatus={menu.status}
                     onStatusChange={(newStatus) => {
                       updateStatusOnServer(menu._id, newStatus);
@@ -96,7 +108,11 @@ export const Menulist = () => {
                         });
                       });
                     }}
-                  />
+                  /></td>
+                <td>
+                  <Link to={`/editmenu/${menu._id}`} className="edit-button">
+                    แก้ไข
+                  </Link>
                 </td>
               </tr>
             ))}
