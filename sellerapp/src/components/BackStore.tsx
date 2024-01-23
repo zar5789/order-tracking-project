@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+interface Product {
+  _id: string;
+  name: string;
+}
+
 interface Order {
   _id: string;
-  productID: string;
+  productIDs: {
+    productId: string;
+    quantity: number;
+    _id: string;
+  }[];
   userID: string;
   storeID: string;
   amount: number;
@@ -11,7 +20,12 @@ interface Order {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  foodName: string;
+  foodDetails?: {
+    productId: string;
+    quantity: number;
+    _id: string;
+    productName: string;
+  }[];
 }
 
 export const BackStore = () => {
@@ -20,7 +34,7 @@ export const BackStore = () => {
 
   useEffect(() => {
     // Fetch food orders from the API when the component mounts
-    fetch("https://order-api-patiparnpa.vercel.app/orders")
+    fetch("https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -33,18 +47,28 @@ export const BackStore = () => {
         // Create an array to store the additional food details
         const foodDetailsPromises = data.map(async (order: Order) => {
           // Fetch the product details for each food item
-          const productResponse = await fetch(
-            `https://order-api-patiparnpa.vercel.app/products/${order.productID}`
-          );
-          if (!productResponse.ok) {
-            throw new Error("Failed to fetch product details");
-          }
-          const productData = await productResponse.json();
+          const productDetailsPromises = order.productIDs.map(async (product) => {
+            const productResponse = await fetch(
+              `https://order-api-patiparnpa.vercel.app/products/${product.productId}`
+            );
+            if (!productResponse.ok) {
+              throw new Error("Failed to fetch product details");
+            }
+            const productData: Product = await productResponse.json();
+
+            return {
+              ...product,
+              productName: productData.name, // Use the product name as the food name
+            };
+          });
+
+          // Wait for all product details requests to complete
+          const productDetails = await Promise.all(productDetailsPromises);
 
           // Combine the order and product data
           return {
             ...order,
-            foodName: productData.name, // Use the product name as the food name
+            foodDetails: productDetails,
           };
         });
 
@@ -106,8 +130,18 @@ export const BackStore = () => {
                     }}
                   />
                 </td>
-                <td style={{ textAlign:'left'}}>{order.foodName}<p className="back-food-details">ไข่ดาวไม่สุก</p></td>
-                <td>{order.amount} จาน</td>
+                <td style={{ textAlign:'left'}}>
+                  {order.foodDetails?.map((food, i) => (
+                    <p key={i}>{food.productName}</p>
+                  ))}
+                </td>
+                <td>
+                  {order.foodDetails?.map((food, i) => (
+                    <div key={i} style={{ marginBottom: "-5px" }}>
+                      <p>{food.quantity} จาน</p>
+                    </div>
+                  ))}
+                </td>
               </tr>
             ))}
           </tbody>

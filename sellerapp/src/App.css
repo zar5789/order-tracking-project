@@ -197,6 +197,26 @@
     padding-bottom: 8%;
   }
 
+  .report-button {
+    background: none;
+    border: none;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .report-button:hover {
+    background-color: inherit;
+  color: inherit;
+  cursor: pointer;
+  }
+
+  .report-button.active {
+    color: #2357A5;
+  }
+
+  
+
   /*Edit Store*/
 
   .store-setting-container {
@@ -366,7 +386,7 @@
 .food-order-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .food-order-table th {
@@ -382,9 +402,11 @@
   border: 1px solid #ddd;
   border-left: none; /* Remove left border for td elements */
   border-right: none;
-  padding: 10px;
+  padding: 6px 8px;
   text-align: center;
+  align-items: center;
   font-size: larger;
+  padding-bottom: 0px;
 }
 
 .food-order-table td:first-child {
@@ -407,7 +429,7 @@
   text-overflow: ellipsis; /* Add an ellipsis (...) if the text overflows */
   color: #9FA5AF;
   font-size: smaller;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .finish-button {

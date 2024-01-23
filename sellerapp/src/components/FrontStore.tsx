@@ -3,17 +3,23 @@ import { Link } from "react-router-dom";
 
 interface Order {
   _id: string;
-  productIDs: string[];
+  productIDs: {
+    productId: string;
+    quantity: number;
+    _id: string;
+  }[];
   userID: string;
   storeID: string;
   amount: number;
   status: string;
+  payment_method_status: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
   foodDetails: {
     foodName: string;
     foodPrice: number;
+    quantity: number;
   }[];
 }
 
@@ -22,32 +28,37 @@ export const FrontStore = () => {
 
   useEffect(() => {
     // Fetch food orders from the API when the component mounts
-    fetch("https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98")
-      .then((response) => {
+    const fetchFoodOrders = async () => {
+      try {
+        const response = await fetch(
+          "https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98"
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then(async (orders) => {
+        const orders = await response.json();
+
         // Create an array to store the additional food details
         const foodDetailsPromises = orders.map(async (order: Order) => {
           // Fetch the product details for each food item
-          const productDetailsPromises = order.productIDs.map(async (productID) => {
-            const productResponse = await fetch(
-              `https://order-api-patiparnpa.vercel.app/products/${productID}`
-            );
-            if (!productResponse.ok) {
-              throw new Error("Failed to fetch product details");
-            }
-            const productData = await productResponse.json();
+          const productDetailsPromises = order.productIDs.map(
+            async (product) => {
+              const productResponse = await fetch(
+                `https://order-api-patiparnpa.vercel.app/products/${product.productId}`
+              );
+              if (!productResponse.ok) {
+                throw new Error("Failed to fetch product details");
+              }
+              const productData = await productResponse.json();
 
-            // Return the food details for each product
-            return {
-              foodName: productData.name,
-              foodPrice: productData.price,
-            };
-          });
+              // Return the food details for each product
+              return {
+                foodName: productData.name,
+                foodPrice: productData.price,
+                quantity: product.quantity,
+              };
+            }
+          );
 
           // Wait for all product details requests to complete
           const foodDetails = await Promise.all(productDetailsPromises);
@@ -62,12 +73,28 @@ export const FrontStore = () => {
         // Wait for all food details requests to complete
         const updatedFoodOrders = await Promise.all(foodDetailsPromises);
 
-        setFoodOrders(updatedFoodOrders);
-      })
-      .catch((error) => {
+        // Reverse the order of the array
+        setFoodOrders(updatedFoodOrders.reverse());
+        console.log("Data reload successful!");
+      } catch (error) {
         console.error("Error fetching food orders:", error);
-      });
-  }, []);
+      }
+    };
+
+    // Fetch data initially
+    fetchFoodOrders();
+
+    // Set up interval to fetch data every 15 seconds
+    const intervalId = setInterval(() => {
+      fetchFoodOrders();
+    }, 15000);
+
+    // Clear interval on component unmount
+    return () => {
+      clearInterval(intervalId);
+      console.log("Interval cleared");
+    };
+  }, []); // Empty dependency array to run effect only once on mount
 
   return (
     <>
@@ -115,24 +142,23 @@ export const FrontStore = () => {
               <th style={{ width: "70px" }}></th>
               <th style={{ width: "80px" }}>คิวที่</th>
               <th style={{ width: "200px", textAlign: "left" }}>ชื่อเมนู</th>
-              <th style={{ width: "80px" }}>จำนวน</th>
-              <th style={{ width: "80px" }}>ราคา(บาท)</th>
-              <th style={{ width: "120px" }}>สถานะ</th>
-              <th style={{ width: "120px" }}>การชำระเงิน</th>
+              <th style={{ width: "85px" }}>จำนวน</th>
+              <th style={{ width: "85px" }}>ราคา(บาท)</th>
+              <th style={{ width: "115px" }}>สถานะ</th>
+              <th style={{ width: "115px" }}>การชำระเงิน</th>
             </tr>
           </thead>
           <tbody style={{ maxHeight: "80vh", overflowY: "auto" }}>
             {foodOrders.map((order, index) => (
               <tr key={index}>
-                <td style={{ width: "70px" }}>
+                <td style={{ width: "60px" }}>
                   <input
                     type="checkbox"
-                    // You can set an id and value for the checkbox if needed
                     id={`checkbox-${index}`}
-                    value={order._id} // You might want to use a unique identifier as the value
+                    value={order._id}
                     style={{
-                      width: "18px", // Adjust the width as needed
-                      height: "18px", // Adjust the height as needed
+                      width: "18px",
+                      height: "18px",
                     }}
                   />
                 </td>
@@ -143,40 +169,54 @@ export const FrontStore = () => {
                   {order.foodDetails.map((food, i) => (
                     <div key={i}>
                       <p>{food.foodName}</p>
-                      <p className="back-food-details">ไข่ดาวไม่สุก</p>
                     </div>
                   ))}
                 </td>
-                <td>{order.amount} จาน</td>
-                <td>{/* You need to calculate the total price based on the foodDetails */}</td>
-                <td>อยู่ในครัว</td>
-                <td>จ่ายหน้าร้าน</td>
+                <td>
+                  {order.foodDetails.map((food, i) => (
+                    <div key={i} style={{ marginBottom: "-5px" }}>
+                      <p>{food.quantity} จาน</p>
+                    </div>
+                  ))}
+                </td>
+
+                <td>
+                  {order.foodDetails.reduce(
+                    (total, food) => total + food.foodPrice * food.quantity,
+                    0
+                  )}{" "}
+                  บาท
+                </td>
+                <td>{order.status}</td>
+                <td>{order.payment_method_status}</td>
               </tr>
             ))}
           </tbody>
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th style={{ textAlign: "right" }}>
-              <button
-                style={{
-                  backgroundColor: "#FF3A3A",
-                  borderRadius: "7px",
-                  paddingTop: "3px",
-                  paddingRight: "60px",
-                  paddingBottom: "3px",
-                  paddingLeft: "60px",
-                  marginRight: "5%",
-                }}
-              >
-                ปฎิเสธ
-              </button>
-            </th>
-          </tr>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th style={{ textAlign: "right" }}>
+                <button
+                  style={{
+                    backgroundColor: "#FF3A3A",
+                    borderRadius: "7px",
+                    paddingTop: "3px",
+                    paddingRight: "60px",
+                    paddingBottom: "3px",
+                    paddingLeft: "60px",
+                    marginRight: "5%",
+                  }}
+                >
+                  ปฎิเสธ
+                </button>
+              </th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>
