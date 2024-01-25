@@ -64,7 +64,6 @@ export const Menulist = () => {
 
   return (
     <>
-      <AppBar></AppBar>
       <br></br>
       <div className="menu-list-container">
         <Link to={"/createmenu"} className="add-button">

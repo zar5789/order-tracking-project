@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppBar } from "./AppBar";
 
+
 export const CreateMenu = () => {
   const navigate = useNavigate();
-  const storeId = '65a39b4ae668f5c8329fac98';
+  const storeId = "65a39b4ae668f5c8329fac98";
   const [menuImage, setMenuImage] = useState<string>("");
   const [menuName, setMenuName] = useState<string>("");
   const [menuPrice, setMenuPrice] = useState<string>("");
@@ -34,7 +35,9 @@ export const CreateMenu = () => {
   };
 
   const handleImageContainerClick = () => {
-    const fileInput = document.getElementById("imageUpload") as HTMLInputElement | null;
+    const fileInput = document.getElementById(
+      "imageUpload"
+    ) as HTMLInputElement | null;
 
     if (fileInput) {
       fileInput.click();
@@ -49,8 +52,8 @@ export const CreateMenu = () => {
       price: parseFloat(menuPrice),
       status: menuStatus,
       product_img_url: menuImage,
-      product_tag: 'normal',
-      store_id: storeId
+      product_tag: "normal",
+      store_id: storeId,
     };
 
     fetch("https://order-api-patiparnpa.vercel.app/products/create", {
@@ -77,77 +80,77 @@ export const CreateMenu = () => {
   };
 
   return (
-    <>
-      <AppBar />
-      <div className="store-setting-container">
-        <h5>เพิ่มเมนูอาหาร</h5>
-        <br />
-        {/* Display error message */}
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit} className="store-setting-form">
-          <div className="form-group">
-            <label>รูปภาพอาหาร</label>
-            <div
-              className="image-container"
-              style={{ cursor: "pointer" }}
-              onClick={handleImageContainerClick}
-            >
-              {menuImage ? (
-                <img
-                  src={menuImage}
-                  alt="Store Image"
-                  className="store-image"
-                />
-              ) : (
-                <p></p>
-              )}
+    
+      <>
+        <div className="store-setting-container">
+          <h5>เพิ่มเมนูอาหาร</h5>
+          <br />
+          {/* Display error message */}
+          {error && <p className="error-message">{error}</p>}
+          <form onSubmit={handleSubmit} className="store-setting-form">
+            <div className="form-group">
+              <label>รูปภาพอาหาร</label>
+              <div
+                className="image-container"
+                style={{ cursor: "pointer" }}
+                onClick={handleImageContainerClick}
+              >
+                {menuImage ? (
+                  <img
+                    src={menuImage}
+                    alt="Store Image"
+                    className="store-image"
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+              />
             </div>
-            <input
-              type="file"
-              id="imageUpload"
-              accept="image/*"
-              onChange={handleImageUpload}
-              style={{ display: "none" }}
-            />
-          </div>
-          <div className="form-group">
-            <label>ชื่ออาหาร</label>
-            <input
-              type="text"
-              value={menuName}
-              onChange={(e) => setMenuName(e.target.value)}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>ราคา</label>
-            <input
-              type="number"
-              value={menuPrice}
-              onChange={(e) => setMenuPrice(e.target.value)}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>สถานะ</label>
-            <select
-              value={menuStatus}
-              onChange={(e) => setMenuStatus(e.target.value)}
-              className="form-control"
-            >
-              <option value="Open">Open</option>
-              <option value="Closed">Closed</option>
-            </select>
-          </div>
-          <br />
-          <br />
-          <button type="submit" className="submit-button">
-            สร้าง
-          </button>
-        </form>
-      </div>
-    </>
+            <div className="form-group">
+              <label>ชื่ออาหาร</label>
+              <input
+                type="text"
+                value={menuName}
+                onChange={(e) => setMenuName(e.target.value)}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>ราคา</label>
+              <input
+                type="number"
+                value={menuPrice}
+                onChange={(e) => setMenuPrice(e.target.value)}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>สถานะ</label>
+              <select
+                value={menuStatus}
+                onChange={(e) => setMenuStatus(e.target.value)}
+                className="form-control"
+              >
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+            <br />
+            <br />
+            <button type="submit" className="submit-button">
+              สร้าง
+            </button>
+          </form>
+        </div>
+      </>
   );
 };

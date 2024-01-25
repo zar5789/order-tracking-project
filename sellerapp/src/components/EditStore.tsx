@@ -12,32 +12,37 @@ export const EditStore = () => {
   const [bankName, setBankName] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [accountImage, setAccountImage] = useState('');
+  const [accountImage, setAccountImage] = useState("");
   const [error, setError] = useState<string>("");
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     const maxSize = 1024 * 1024;
-  
+
     if (file) {
       if (file.size > maxSize) {
         setError("Image size is too large. Please choose a smaller image.");
         return;
       }
-  
+
       const formData = new FormData();
       formData.append("image", file);
-  
+
       try {
-        const response = await fetch("https://order-api-patiparnpa.vercel.app/upload", {
-          method: "POST",
-          body: formData,
-        });
-  
+        const response = await fetch(
+          "https://order-api-patiparnpa.vercel.app/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
-  
+
         const data = await response.json();
         setStoreImage(data.Location);
         setError(""); // Clear any previous error message
@@ -47,24 +52,29 @@ export const EditStore = () => {
       }
     }
   };
-  
-  const handleImageUpload2 = async (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleImageUpload2 = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
-  
+
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       try {
-        const response = await fetch("https://order-api-patiparnpa.vercel.app/upload", {
-          method: "POST",
-          body: formData,
-        });
-  
+        const response = await fetch(
+          "https://order-api-patiparnpa.vercel.app/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
-  
+
         const data = await response.json();
         setAccountImage(data.Location);
         setError(""); // Clear any previous error message
@@ -76,7 +86,9 @@ export const EditStore = () => {
   };
 
   const handleImageContainerClick = () => {
-    const fileInput = document.getElementById("imageUpload") as HTMLInputElement | null;
+    const fileInput = document.getElementById(
+      "imageUpload"
+    ) as HTMLInputElement | null;
 
     if (fileInput) {
       fileInput.click();
@@ -119,7 +131,7 @@ export const EditStore = () => {
       bank_name: bankName,
       owner_name: accountName,
       card_num: accountNumber,
-      qr_img_url: accountImage
+      qr_img_url: accountImage,
     };
 
     fetch(
@@ -146,115 +158,114 @@ export const EditStore = () => {
   };
 
   return (
-    <>
-      <AppBar></AppBar>
-      <br></br>
-      <div className="store-setting-container">
-        <h5 style={{ color: "#002336" }}>ตั้งค่าร้านค้า</h5>
-        <br />
-        {/* Display error message */}
-        {error && <p className="error-message">{error}</p>}
-        <form className="store-setting-form" onSubmit={handleFormSubmit}>
-          <div className="form-group">
-            <label>รูปภาพร้านค้า</label>
-            <div
-              className="image-container"
-              style={{ cursor: "pointer" }}
-              onClick={handleImageContainerClick}
-            >
-              {storeImage ? (
-                <img
-                  src={storeImage}
-                  alt="Store Image"
-                  className="store-image"
-                />
-              ) : (
-                <p></p>
-              )}
-            </div>
-            <input
-              type="file"
-              id="imageUpload"
-              accept="image/*"
-              onChange={handleImageUpload}
-              style={{ display: "none" }}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>ชื่อร้านค้า</label>
-            <input
-              type="text"
-              value={storeName}
-              onChange={(e) => setStoreName(e.target.value)}
-              placeholder="ใส่ชื่อร้าน"
-              required
-            />
-          </div>
+      <>
+        <br></br>
+        <div className="store-setting-container">
+          <h5 style={{ color: "#002336" }}>ตั้งค่าร้านค้า</h5>
           <br />
-          <h5 style={{ color: "#002336" }}>ตั้งค่าการรับเงิน</h5>
-          <br />
-          <div className="form-group">
-            <label>ชื่อธนาคาร</label>
-            <input
-              type="text"
-              value={bankName}
-              onChange={(e) => setBankName(e.target.value)}
-              placeholder="ใส่ชื่อธนาคาร"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>ชื่อในบัญชี</label>
-            <input
-              type="text"
-              value={accountName}
-              onChange={(e) => setAccountName(e.target.value)}
-              placeholder="ใส่ชื่อในบัญชี"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>หมายเลขบัญชี</label>
-            <input
-              type="text"
-              value={accountNumber}
-              onChange={(e) => setAccountNumber(e.target.value)}
-              placeholder="ใส่หมายเลขบัญชี"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>QR code</label>
-            <div
-              className="image-container"
-              style={{ cursor: "pointer" }}
-              onClick={handleImageContainerClick}
-            >
-              {accountImage ? (
-                <img
-                  src={accountImage}
-                  alt="Url Image"
-                  className="store-image"
-                />
-              ) : (
-                <p></p>
-              )}
+          {/* Display error message */}
+          {error && <p className="error-message">{error}</p>}
+          <form className="store-setting-form" onSubmit={handleFormSubmit}>
+            <div className="form-group">
+              <label>รูปภาพร้านค้า</label>
+              <div
+                className="image-container"
+                style={{ cursor: "pointer" }}
+                onClick={handleImageContainerClick}
+              >
+                {storeImage ? (
+                  <img
+                    src={storeImage}
+                    alt="Store Image"
+                    className="store-image"
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+              />
             </div>
-            <input
-              type="file"
-              id="imageUpload"
-              accept="image/*"
-              onChange={handleImageUpload2}
-              style={{ display: "none" }}
-            />
-          </div>
 
-          <button type="submit">บันทึก</button>
-        </form>
-      </div>
-    </>
+            <div className="form-group">
+              <label>ชื่อร้านค้า</label>
+              <input
+                type="text"
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+                placeholder="ใส่ชื่อร้าน"
+                required
+              />
+            </div>
+            <br />
+            <h5 style={{ color: "#002336" }}>ตั้งค่าการรับเงิน</h5>
+            <br />
+            <div className="form-group">
+              <label>ชื่อธนาคาร</label>
+              <input
+                type="text"
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
+                placeholder="ใส่ชื่อธนาคาร"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>ชื่อในบัญชี</label>
+              <input
+                type="text"
+                value={accountName}
+                onChange={(e) => setAccountName(e.target.value)}
+                placeholder="ใส่ชื่อในบัญชี"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>หมายเลขบัญชี</label>
+              <input
+                type="text"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                placeholder="ใส่หมายเลขบัญชี"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>QR code</label>
+              <div
+                className="image-container"
+                style={{ cursor: "pointer" }}
+                onClick={handleImageContainerClick}
+              >
+                {accountImage ? (
+                  <img
+                    src={accountImage}
+                    alt="Url Image"
+                    className="store-image"
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                onChange={handleImageUpload2}
+                style={{ display: "none" }}
+              />
+            </div>
+
+            <button type="submit">บันทึก</button>
+          </form>
+        </div>
+      </>
   );
 };

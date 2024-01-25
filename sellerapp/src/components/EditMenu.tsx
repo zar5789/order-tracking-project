@@ -113,7 +113,6 @@ export const EditMenu = () => {
 
   return (
     <>
-      <AppBar></AppBar>
       <div className="store-setting-container">
         <h5 style={{ color: "#002336" }}>ตั้งค่าเมนูอาหาร</h5>
         <br />

@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 export const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    // Add your login logic here
   };
 
   return (
@@ -46,7 +48,7 @@ export const LoginPage = () => {
           <form onSubmit={handleSubmit} className="store-setting-form">
             <div className="form-group">
               <input
-                type="string"
+                type="text"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="form-control"
@@ -57,7 +59,7 @@ export const LoginPage = () => {
             </div>
             <div className="form-group">
               <input
-                type="string"
+                type={showPassword ? "text" : "password"} // Toggle password visibility
                 value={userPassword}
                 onChange={(e) => setUserPassword(e.target.value)}
                 className="form-control"
@@ -65,6 +67,13 @@ export const LoginPage = () => {
                 placeholder="รหัสผ่าน"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="show-password-button"
+              >
+                {showPassword ? "Hide" : "Show"} 
+              </button>
             </div>
             <br />
             <div className="button-group2">

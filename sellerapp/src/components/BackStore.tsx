@@ -33,34 +33,37 @@ export const BackStore = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch food orders from the API when the component mounts
-    fetch("https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98")
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        // Fetch food orders from the API
+        const response = await fetch(
+          "https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98"
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then(async (data) => {
-        console.log("API Response:", data);
+
+        const data = await response.json();
 
         // Create an array to store the additional food details
         const foodDetailsPromises = data.map(async (order: Order) => {
           // Fetch the product details for each food item
-          const productDetailsPromises = order.productIDs.map(async (product) => {
-            const productResponse = await fetch(
-              `https://order-api-patiparnpa.vercel.app/products/${product.productId}`
-            );
-            if (!productResponse.ok) {
-              throw new Error("Failed to fetch product details");
-            }
-            const productData: Product = await productResponse.json();
+          const productDetailsPromises = order.productIDs.map(
+            async (product) => {
+              const productResponse = await fetch(
+                `https://order-api-patiparnpa.vercel.app/products/${product.productId}`
+              );
+              if (!productResponse.ok) {
+                throw new Error("Failed to fetch product details");
+              }
+              const productData: Product = await productResponse.json();
 
-            return {
-              ...product,
-              productName: productData.name, // Use the product name as the food name
-            };
-          });
+              return {
+                ...product,
+                productName: productData.name, // Use the product name as the food name
+              };
+            }
+          );
 
           // Wait for all product details requests to complete
           const productDetails = await Promise.all(productDetailsPromises);
@@ -77,11 +80,20 @@ export const BackStore = () => {
 
         setFoodOrders(foodDetails);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching food orders:", error);
         setLoading(false);
-      });
+      }
+    };
+
+    // Initial fetch
+    fetchData();
+
+    // Set up interval to fetch data every 15 seconds
+    const intervalId = setInterval(fetchData, 15000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -89,7 +101,10 @@ export const BackStore = () => {
       <div className="app-bar">
         <div className="title">
           <h5 style={{ color: "#FFFFFF" }}>
-            <Link to='/' style={{textDecoration:"none", color: "#FFFFFF"}}>IT Cafeteria</Link> |{" "}
+            <Link to="/" style={{ textDecoration: "none", color: "#FFFFFF" }}>
+              IT Cafeteria
+            </Link>{" "}
+            |{" "}
             <Link
               to="/front"
               style={{ color: "#FFFFFF", textDecoration: "none" }}
@@ -111,26 +126,25 @@ export const BackStore = () => {
           <thead>
             <tr>
               <th style={{ width: "100px" }}></th>
-              <th style={{ textAlign:'left'}}>ชื่อเมนู</th>
+              <th style={{ textAlign: "left" }}>ชื่อเมนู</th>
               <th>จำนวน</th>
             </tr>
           </thead>
-          <tbody style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+          <tbody style={{ maxHeight: "80vh", overflowY: "auto" }}>
             {foodOrders.map((order, index) => (
               <tr key={index}>
-                <td style={{ width: "100px"}}>
+                <td style={{ width: "100px" }}>
                   <input
                     type="checkbox"
-                    // You can set an id and value for the checkbox if needed
                     id={`checkbox-${index}`}
-                    value={order._id} // You might want to use a unique identifier as the value
+                    value={order._id}
                     style={{
-                      width: "18px", // Adjust the width as needed
-                      height: "18px", // Adjust the height as needed
+                      width: "18px",
+                      height: "18px",
                     }}
                   />
                 </td>
-                <td style={{ textAlign:'left'}}>
+                <td style={{ textAlign: "left" }}>
                   {order.foodDetails?.map((food, i) => (
                     <p key={i}>{food.productName}</p>
                   ))}
@@ -145,16 +159,16 @@ export const BackStore = () => {
               </tr>
             ))}
           </tbody>
-          <tr>
-            <th></th>
-            <th></th>
-            <th style={{ textAlign: "right" }}>
-              <button className="back-button">
-                &#x21B6; ย้อนกลับ
-              </button>
-              <button className="finish-button">เสร็จสิ้น</button>
-            </th>
-          </tr>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th></th>
+              <th style={{ textAlign: "right" }}>
+                <button className="back-button">&#x21B6; ย้อนกลับ</button>
+                <button className="finish-button">เสร็จสิ้น</button>
+              </th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>
