@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { AppBar } from './components/AppBar';
 import { HomePage } from './components/HomePage';
 import { EditStore } from './components/EditStore';
@@ -16,12 +15,11 @@ import { AdminManageStore } from './components/AdminManageStore';
 import { AdminOption } from './components/AdminOption';
 import { CreateStore } from './components/CreateStore';
 import { StoreData } from './types';
-import "./App.css";
+import './App.css';
 
 function App() {
   const [storeData, setStoreData] = useState<StoreData | null>(null);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch store data from the API when the component mounts
@@ -36,21 +34,14 @@ function App() {
       });
   }, []);
 
-  const appBarRoutePatterns = ['/', '/editstore', '/editmenu', '/report', '/menulist', '/createmenu'];
+  const appBarRoutes = ['/', '/editstore', '/report', '/menulist', '/editmenu', '/createmenu'];
 
-  useEffect(() => {
-    const shouldShowAppBar = appBarRoutePatterns.some((pattern) => location.pathname.startsWith(pattern));
-    if (shouldShowAppBar) {
-      // If the current route requires AppBar, navigate back to the home page if not already there
-      if (location.pathname !== '/') {
-        navigate('/');
-      }
-    }
-  }, [location.pathname, navigate]);
+  // Check if the current route is in the array
+  const shouldShowAppBar = appBarRoutes.includes(window.location.pathname);
 
   return (
     <div>
-      {appBarRoutePatterns.includes(location.pathname) && <AppBar storeData={storeData} />}
+      {shouldShowAppBar && <AppBar storeData={storeData} />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/editstore" element={<EditStore />} />

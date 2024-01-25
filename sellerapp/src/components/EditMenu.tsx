@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AppBar } from "./AppBar";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const EditMenu = () => {
   const navigate = useNavigate();
@@ -113,6 +114,15 @@ export const EditMenu = () => {
 
   return (
     <>
+      <div className="app-bar">
+        <div className="title">
+          <h5 style={{ color: "#FFFFFF" }}>
+            <Link to="/" style={{ textDecoration: "none", color: "#FFFFFF" }}>
+              IT Cafeteria
+            </Link>
+          </h5>
+        </div>
+      </div>
       <div className="store-setting-container">
         <h5 style={{ color: "#002336" }}>ตั้งค่าเมนูอาหาร</h5>
         <br />
