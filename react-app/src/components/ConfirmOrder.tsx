@@ -3,7 +3,7 @@ import Goback from "../assets/goback.png";
 import { useNavigate } from "react-router-dom";
 
 const PaymentMethodSection: React.FC = () => {
-  const [selectedMethod, setSelectedMethod] = useState('payAtStore');
+  const [selectedMethod, setSelectedMethod] = useState("payAtStore");
 
   const handleMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedMethod(event.target.value);
@@ -64,7 +64,6 @@ export const ConfirmOrder: React.FC = () => {
           quantity: "1",
           price: 50,
         },
-        { menuId: "m1", menuName: "กระเพรา", quantity: "2", price: 50 },
       ],
     },
   ];
@@ -149,20 +148,20 @@ export const ConfirmOrder: React.FC = () => {
         <div style={{ color: "#000000" }}>Total</div>
         <div style={{ color: "#000000" }}>150 Bath</div>
       </div>
-      <div style={{textAlign:'center'}}>
-      <button
-        style={{
-          backgroundColor: "#2357A5",
-          border: "none",
-          width: "95%",
-          color: "#FFFFFF",
-          height: "56px",
-          borderRadius: "10px",
-          fontSize: "18px",
-        }}
-      >
-        Place Order
-      </button>
+      <div style={{ textAlign: "center", position:'fixed', bottom:'0', width:'100%', marginBottom:'5px' }}>
+        <button
+          style={{
+            backgroundColor: "#2357A5",
+            border: "none",
+            width: "95%",
+            color: "#FFFFFF",
+            height: "56px",
+            borderRadius: "10px",
+            fontSize: "18px",
+          }}
+        >
+          Place Order
+        </button>
       </div>
     </>
   );
