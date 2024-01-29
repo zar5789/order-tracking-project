@@ -53,7 +53,6 @@ export const SelectMenuFeature = () => {
         <h5 style={{ marginTop: "2%", marginLeft: "3%" }}></h5>
         <div className="right-elements">
           <div className="elements-container">
-            <HeartButton></HeartButton>
           </div>
         </div>
       </div>
@@ -81,7 +80,6 @@ export const SelectMenuFeature = () => {
               className="menu-input"
             />
             <p style={{ fontSize: "14px" }}>*Enter your note to store here(optional)</p>
-            <br></br>
             <br></br>
             <div className='menu-amount-option'>
               <button onClick={handleDecrement}>-</button>

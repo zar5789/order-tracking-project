@@ -147,7 +147,7 @@ export const ConfirmOrder: React.FC = () => {
         }}
       >
         <div style={{ color: "#000000" }}>Total</div>
-        <div style={{ color: "#000000" }}>100 Bath</div>
+        <div style={{ color: "#000000" }}>150 Bath</div>
       </div>
       <div style={{textAlign:'center'}}>
       <button

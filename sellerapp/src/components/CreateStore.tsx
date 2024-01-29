@@ -13,7 +13,6 @@ export const CreateStore = () => {
       };
     return (
         <>
-        <AppBar></AppBar>
         <div className="store-setting-container">
             <h5>เพื่มร้านค้าใหม่</h5>
             <br />

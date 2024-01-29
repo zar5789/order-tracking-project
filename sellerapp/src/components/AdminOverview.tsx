@@ -6,7 +6,6 @@ export const AdminOverview = () => {
     <div style={{ display: "flex", height: "90vh" }}>
       <Sidebar />
       <div style={{ flex: 1, paddingLeft: "200px", paddingRight: "20px" }}>
-        <AppBar />
         <div className="report-content-row">
           <div className="report-content">
             <h4>จำนวนร้านค้า</h4>

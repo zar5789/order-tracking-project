@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Goback from "../assets/goback.png";
-import { useNavigate } from "react-router-dom";
 import Redbin from "../assets/redbin.png";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
@@ -47,18 +46,18 @@ export const FavoriteMenus = () => {
     },
     {
       id: 2,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง'",
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       price: 70,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 1,
+      id: 3,
       name: "กระเพราหมูกรอบไข่ดาว 20 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 1,
+      id: 4,
       name: "กระเพราหมูกรอบไข่ดาวยาราไนก้า",
       price: 100,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
@@ -103,32 +102,7 @@ export const FavoriteMenus = () => {
         </div>
       </div>
       <div className="store-container">
-        <div
-          className="menus-card"
-          style={{ marginLeft: "5px", marginRight: "5px" }}
-        >
-          <Link to={"/menufea1"} className="store-link">
-          <img src={Logo} alt="custom menu"></img>
-          <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p>Custom price</p>
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                marginLeft: "5px",
-              }}
-            >
-              <img
-                src={Cart}
-                alt="Cart"
-                style={{ width: "30px", height: "30px" }}
-              />
-            </button>
-          </div>
-          </Link>
-        </div>
+        
         {FavMenus.map((menu) => (
           <div
             key={menu.id}
@@ -147,11 +121,13 @@ export const FavoriteMenus = () => {
                   // Handle button click logic here
                   console.log("Button clicked");
                 }}
-              >
-              </button>
+              ></button>
             ) : (
-              <Link to={"/menufea2"} className="store-link">
-                {/* Your existing Link content goes here */}
+              <div
+                onClick={() => navigate("/menufea2")}
+                className="store-link"
+                style={{ cursor: "pointer" }}
+              >
                 <img src={menu.image} alt={menu.name}/>
                 <p>{menu.name}</p>
                 <div
@@ -165,6 +141,10 @@ export const FavoriteMenus = () => {
                       cursor: "pointer",
                       marginLeft: "5px",
                     }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Button clicked!");
+                    }}
                   >
                     <img
                       src={Cart}
@@ -173,7 +153,7 @@ export const FavoriteMenus = () => {
                     />
                   </button>
                 </div>
-              </Link>
+              </div>
             )}
             {isManageMode && (
               <div
@@ -203,3 +183,4 @@ export const FavoriteMenus = () => {
     </>
   );
 };
+

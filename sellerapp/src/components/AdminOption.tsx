@@ -16,7 +16,6 @@ export const AdminOption = () => {
       <div style={{ display: "flex", height: "90vh" }}>
         <Sidebar />
         <div style={{ flex: 1, paddingLeft: "200px", paddingRight: "20px" }}>
-          <AppBar />
           <div className="store-setting-container">
             <h5>ตั้งค่าแอดมิน</h5>
             <br />

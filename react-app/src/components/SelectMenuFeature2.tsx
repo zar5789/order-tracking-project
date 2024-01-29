@@ -78,7 +78,6 @@ export const SelectMenuFeature2 = () => {
             />
             <p style={{ fontSize: "14px" }}>*Enter your note to store here(optional)</p>
             <br></br>
-            <br></br>
             <div className='menu-amount-option'>
               <button onClick={handleDecrement}>-</button>
               <p>{quantity}</p>

@@ -46,7 +46,6 @@ export const TestOrder = () => {
 
   return (
     <>
-      <AppBar></AppBar>
       <div className="store-setting-container">
         <h1>Test Create Order</h1>
         <form className="store-setting-form" onSubmit={handleSubmit}>

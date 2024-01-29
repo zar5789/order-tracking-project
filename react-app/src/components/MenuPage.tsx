@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
-import Arrow from "../assets/arrow.jpg";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Goback from "../assets/goback.png";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
-import Goback from "../assets/goback.png";
-import { useNavigate } from "react-router-dom";
 
 export const MenuPage = () => {
   const navigate = useNavigate();
@@ -11,6 +10,7 @@ export const MenuPage = () => {
   const handleGoBack = () => {
     navigate(-1); // Navigate back
   };
+
   const Menus = [
     {
       id: 1,
@@ -37,26 +37,26 @@ export const MenuPage = () => {
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 4,
+      id: 5,
       name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 4,
+      id: 6,
       name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 4,
+      id: 7,
       name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอว",
+      id: 8,
+      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       price: 50,
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
@@ -100,7 +100,11 @@ export const MenuPage = () => {
           className="menus-card"
           style={{ marginLeft: "5px", marginRight: "5px" }}
         >
-          <Link to={"/menufea1"} className="store-link">
+          <div
+            onClick={() => navigate("/menufea1")}
+            className="store-link"
+            style={{ cursor: "pointer" }}
+          >
             <img src={Logo} alt="custom menu"></img>
             <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -112,6 +116,10 @@ export const MenuPage = () => {
                   cursor: "pointer",
                   marginLeft: "5px",
                 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log("Button clicked!");
+                }}
               >
                 <img
                   src={Cart}
@@ -120,7 +128,7 @@ export const MenuPage = () => {
                 />
               </button>
             </div>
-          </Link>
+          </div>
         </div>
         {Menus.map((menu) => (
           <div
@@ -128,7 +136,11 @@ export const MenuPage = () => {
             className="menus-card"
             style={{ marginLeft: "5px", marginRight: "5px" }}
           >
-            <Link to={"/menufea1"} className="store-link">
+            <div
+              onClick={() => navigate("/menufea2")}
+              className="store-link"
+              style={{ cursor: "pointer" }}
+            >
               <img src={menu.image} alt={menu.name} />
               <p>{menu.name}</p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -140,6 +152,10 @@ export const MenuPage = () => {
                     cursor: "pointer",
                     marginLeft: "5px",
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("Button clicked!");
+                  }}
                 >
                   <img
                     src={Cart}
@@ -148,7 +164,7 @@ export const MenuPage = () => {
                   />
                 </button>
               </div>
-            </Link>
+            </div>
           </div>
         ))}
       </div>

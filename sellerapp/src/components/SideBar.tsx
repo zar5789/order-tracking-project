@@ -19,6 +19,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
+    <>
     <div className="sidebar">
       <img
         src={cafeIcon}
@@ -55,6 +56,7 @@ const Sidebar = () => {
         ตั้งต่า
       </Link>
     </div>
+    </>
   );
 };
 

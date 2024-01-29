@@ -1,9 +1,12 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import MyAppBar from "./AppBar";
 import TabBar from "./Tabbar";
 import Cart from "../assets/cart.jpg";
-import { Link } from "react-router-dom";
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+
   const favoriteFoods = [
     {
       id: 1,
@@ -18,13 +21,13 @@ export const HomePage = () => {
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 2,
+      id: 3,
       name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       store: "ร้านพี่ช้าง",
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 2,
+      id: 4,
       name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
       store: "ร้านพี่ช้าง",
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
@@ -49,17 +52,18 @@ export const HomePage = () => {
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 3,
+      id: 4,
       name: "ร้านพี่ช้าง",
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     {
-      id: 3,
+      id: 5,
       name: "ร้านพี่ช้าง",
       image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
     },
     // Add more stores as needed
   ];
+
   return (
     <>
       <MyAppBar />
@@ -72,42 +76,49 @@ export const HomePage = () => {
         }}
       >
         <p style={{ fontWeight: "bold", fontSize: "20px" }}>Favorite Food</p>
-        <Link
-          to="/favmenu"
-          style={{ textDecoration: "none", color: "#2357A5", fontSize: "18px" }}
+        <p
+          onClick={() => navigate("/favmenu")}
+          style={{
+            textDecoration: "none",
+            color: "#2357A5",
+            fontSize: "18px",
+            cursor: "pointer",
+          }}
         >
-          <p>See all</p>
-        </Link>
+          See all
+        </p>
       </div>
       <div className="scroll-container">
         {favoriteFoods.map((food) => (
-          <Link
-            to={"/menufea2"}
+          <div
             key={food.id}
-            style={{ textDecoration: "none", color: "black" }}
+            className="food-card"
+            onClick={() => navigate("/menufea2")}
           >
-            <div key={food.id} className="food-card">
-              <img src={food.image} alt={food.name} />
-              <p>{food.name}</p>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p>{food.store}</p>
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    marginLeft: "5px",
-                  }}
-                >
-                  <img
-                    src={Cart}
-                    alt="Cart"
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                </button>
-              </div>
+            <img src={food.image} alt={food.name} />
+            <p>{food.name}</p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <p>{food.store}</p>
+              <button
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  marginLeft: "5px",
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log("Button clicked!");
+                }}
+              >
+                <img
+                  src={Cart}
+                  alt="Cart"
+                  style={{ width: "30px", height: "30px" }}
+                />
+              </button>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
       <div style={{ margin: "4% 5%" }}>
@@ -115,15 +126,24 @@ export const HomePage = () => {
         <div className="store-container">
           {stores.map((store) => (
             <div className="store-card">
-              <Link to={`/menupage`} key={store.id} className="store-link">
+              <p
+                onClick={() => navigate("/menupage")}
+                key={store.id}
+                className="store-link"
+                style={{
+                  textDecoration: "none",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                }}
+              >
                 <img src={store.image} alt={store.name} />
                 <p>{store.name}</p>
-              </Link>
+              </p>
             </div>
           ))}
         </div>
       </div>
-      <br></br>
+      <br />
       <TabBar />
     </>
   );

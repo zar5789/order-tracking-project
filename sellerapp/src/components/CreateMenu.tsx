@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppBar } from "./AppBar";
+import { Link } from "react-router-dom";
 
 
 export const CreateMenu = () => {
@@ -82,6 +83,15 @@ export const CreateMenu = () => {
   return (
     
       <>
+        <div className="app-bar">
+        <div className="title">
+          <h5 style={{ color: "#FFFFFF" }}>
+            <Link to="/" style={{ textDecoration: "none", color: "#FFFFFF" }}>
+              IT Cafeteria
+            </Link>
+          </h5>
+        </div>
+      </div>
         <div className="store-setting-container">
           <h5>เพิ่มเมนูอาหาร</h5>
           <br />

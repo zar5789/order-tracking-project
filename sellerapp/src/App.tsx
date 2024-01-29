@@ -16,6 +16,9 @@ import { AdminOption } from './components/AdminOption';
 import { CreateStore } from './components/CreateStore';
 import { StoreData } from './types';
 import './App.css';
+import GlobalStyles from './components/GlobalStyle';
+import { AccessStorePage } from './components/AccessStorePage';
+import { AdminAppBar } from './components/AdminAppBar';
 
 function App() {
   const [storeData, setStoreData] = useState<StoreData | null>(null);
@@ -35,13 +38,16 @@ function App() {
   }, []);
 
   const appBarRoutes = ['/', '/editstore', '/report', '/menulist', '/editmenu', '/createmenu'];
-
+  const adminBarRoutes = ['/admin', '/adminstore', '/adminoption', '/accessstore'];
   // Check if the current route is in the array
   const shouldShowAppBar = appBarRoutes.includes(window.location.pathname);
+  const shouldShowAdminBar = adminBarRoutes.includes(window.location.pathname);
 
   return (
     <div>
+      <GlobalStyles></GlobalStyles>
       {shouldShowAppBar && <AppBar storeData={storeData} />}
+      {shouldShowAdminBar && <AdminAppBar storeData={storeData}></AdminAppBar>}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/editstore" element={<EditStore />} />
@@ -56,6 +62,7 @@ function App() {
         <Route path="/adminstore" element={<AdminManageStore />} />
         <Route path="/adminoption" element={<AdminOption />} />
         <Route path="/createstore" element={<CreateStore />} />
+        <Route path='/accessstore' element={<AccessStorePage></AccessStorePage>}></Route>
       </Routes>
     </div>
   );

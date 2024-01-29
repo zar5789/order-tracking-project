@@ -150,6 +150,7 @@ export const EditStore = () => {
         }
         console.log("Store data updated successfully");
         navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating store data:", error);

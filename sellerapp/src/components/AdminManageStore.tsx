@@ -30,7 +30,6 @@ export const AdminManageStore = () => {
       <div style={{ display: "flex", height: "90vh" }}>
         <Sidebar />
         <div style={{ flex: 1, paddingLeft: "200px", paddingRight: "20px" }}>
-          <AppBar />
           <br />
           <div className="menu-list-container">
             <Link to={"/createstore"} className="add-button">
@@ -77,7 +76,7 @@ export const AdminManageStore = () => {
                       />
                     </td>
                     <td>
-                      <Link to={`/`} className="edit-button">
+                      <Link to={'/accessstore'} className="edit-button">
                         เข้าถึงร้านค้า
                       </Link>
                     </td>
