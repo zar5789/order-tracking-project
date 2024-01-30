@@ -95,11 +95,11 @@
 .store-card {
   box-sizing: border-box;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   border-radius: 8px;
   padding: -30px;
   text-align: center;
-  height: 200px;
+  height: 210px;
   width: calc(50% - 10px);
 }
 

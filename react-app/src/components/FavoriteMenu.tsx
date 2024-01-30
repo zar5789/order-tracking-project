@@ -102,83 +102,88 @@ export const FavoriteMenus = () => {
         </div>
       </div>
       <div className="store-container">
-        
-        {FavMenus.map((menu) => (
-          <div
-            key={menu.id}
-            className="menus-card"
-            style={{
-              marginLeft: "5px",
-              marginRight: "5px",
-              position: "relative",
-            }}
-          >
-            {isManageMode ? (
-              <button
-                className="store-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // Handle button click logic here
-                  console.log("Button clicked");
-                }}
-              ></button>
-            ) : (
-              <div
-                onClick={() => navigate("/menufea2")}
-                className="store-link"
-                style={{ cursor: "pointer" }}
-              >
-                <img src={menu.image} alt={menu.name}/>
-                <p>{menu.name}</p>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <p>{menu.price} บาท</p>
-                  <button
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      marginLeft: "5px",
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log("Button clicked!");
-                    }}
-                  >
-                    <img
-                      src={Cart}
-                      alt="Cart"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  </button>
-                </div>
-              </div>
-            )}
-            {isManageMode && (
-              <div
-                style={overlayStyles}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log("Overlay clicked");
-                }}
-              >
-                <img
-                  src={Redbin}
-                  alt="Redbin"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "73px",
-                    height: "95px",
+        {FavMenus.length === 0 ? (
+          <p style={{ textAlign: "center", marginTop: "20px" }}>
+            User does not have favorite menu.
+          </p>
+        ) : (
+          FavMenus.map((menu) => (
+            <div
+              key={menu.id}
+              className="menus-card"
+              style={{
+                marginLeft: "5px",
+                marginRight: "5px",
+                position: "relative",
+              }}
+            >
+              {isManageMode ? (
+                <button
+                  className="store-link"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Handle button click logic here
+                    console.log("Button clicked");
                   }}
-                />
-              </div>
-            )}
-          </div>
-        ))}
+                ></button>
+              ) : (
+                <div
+                  onClick={() => navigate("/menufea2")}
+                  className="store-link"
+                  style={{ cursor: "pointer" }}
+                >
+                  <img src={menu.image} alt={menu.name}/>
+                  <p>{menu.name}</p>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <p>{menu.price} บาท</p>
+                    <button
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        marginLeft: "5px",
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log("Button clicked!");
+                      }}
+                    >
+                      <img
+                        src={Cart}
+                        alt="Cart"
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                    </button>
+                  </div>
+                </div>
+              )}
+              {isManageMode && (
+                <div
+                  style={overlayStyles}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("Overlay clicked");
+                  }}
+                >
+                  <img
+                    src={Redbin}
+                    alt="Redbin"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: "73px",
+                      height: "95px",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </>
   );

@@ -28,7 +28,7 @@ function App() {
         <Route path="/menufea1" element={<SelectMenuFeature />} />
         <Route path="/menufea2" element={<SelectMenuFeature2 />} />
         <Route path="/userlogin" element={<UserLogin></UserLogin>}></Route>
-        <Route path="/menupage" element={<MenuPage></MenuPage>}></Route>
+        <Route path="/menupage/:storeId" element={<MenuPage></MenuPage>}></Route>
         <Route
           path="/favmenu"
           element={<FavoriteMenus></FavoriteMenus>}

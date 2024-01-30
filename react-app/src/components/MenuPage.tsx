@@ -1,67 +1,55 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Goback from "../assets/goback.png";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
+import { useParams } from "react-router-dom";
+
+interface Menu {
+  _id: string;
+  name: string;
+  product_img_url: string;
+  product_tag: string;
+  price: number;
+  store_id: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 export const MenuPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [menuData, setMenuData] = useState<Menu[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  
+  const { storeId } = useParams();
+
+  // Access store name from location state
+  const storeName = location.state?.storeName || 'Default Store Name';
+
+  useEffect(() => {
+    // Fetch menu data for the specific store using storeId
+    fetch(`https://order-api-patiparnpa.vercel.app/products/store/${storeId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMenuData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching menu data:", error);
+        setError("Failed to fetch menu data. Please try again.");
+      });
+  }, [storeId]); // Include storeId in the dependency array
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
   };
-
-  const Menus = [
-    {
-      id: 1,
-      name: "กระเพราหมูกรอบไข่ดาว",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 2,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 3,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 5,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 6,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 7,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 8,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    // Add more items as needed
-  ];
 
   return (
     <>
@@ -88,7 +76,7 @@ export const MenuPage = () => {
             style={{ marginRight: "8px", width: "28px", height: "28px" }}
           />
         </button>
-        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
+        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>{storeName}</h5>
         <div className="right-elements">
           <div className="elements-container">
             {/* Add other elements as needed */}
@@ -97,14 +85,11 @@ export const MenuPage = () => {
       </div>
       <div className="store-container">
         <div
+          onClick={() => navigate("/menufea1")}
           className="menus-card"
           style={{ marginLeft: "5px", marginRight: "5px" }}
         >
-          <div
-            onClick={() => navigate("/menufea1")}
-            className="store-link"
-            style={{ cursor: "pointer" }}
-          >
+          <div className="store-link" style={{ cursor: "pointer" }}>
             <img src={Logo} alt="custom menu"></img>
             <p>เมนูตามสั่ง(พิมพ์ด้วยตัวเอง)</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -130,18 +115,15 @@ export const MenuPage = () => {
             </div>
           </div>
         </div>
-        {Menus.map((menu) => (
+        {menuData.map((menu) => (
           <div
-            key={menu.id}
+            key={menu._id}
+            onClick={() => navigate("/menufea2")}
             className="menus-card"
             style={{ marginLeft: "5px", marginRight: "5px" }}
           >
-            <div
-              onClick={() => navigate("/menufea2")}
-              className="store-link"
-              style={{ cursor: "pointer" }}
-            >
-              <img src={menu.image} alt={menu.name} />
+            <div className="store-link" style={{ cursor: "pointer" }}>
+              <img src={menu.product_img_url} alt={menu.name} />
               <p>{menu.name}</p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <p>{menu.price} บาท</p>

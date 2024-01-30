@@ -15,9 +15,7 @@ export const EditStore = () => {
   const [accountImage, setAccountImage] = useState("");
   const [error, setError] = useState<string>("");
 
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     const maxSize = 1024 * 1024;
 
@@ -27,61 +25,35 @@ export const EditStore = () => {
         return;
       }
 
-      const formData = new FormData();
-      formData.append("image", file);
+      const reader = new FileReader();
 
-      try {
-        const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const data = await response.json();
-        setStoreImage(data.Location);
+      reader.onloadend = () => {
+        setStoreImage(reader.result as string);
         setError(""); // Clear any previous error message
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        setError("Failed to upload image. Please try again.");
-      }
+      };
+
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleImageUpload2 = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageUpload2 = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    const maxSize = 1024 * 1024;
 
     if (file) {
-      const formData = new FormData();
-      formData.append("image", file);
-
-      try {
-        const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const data = await response.json();
-        setAccountImage(data.Location);
-        setError(""); // Clear any previous error message
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        setError("Failed to upload image. Please try again.");
+      if (file.size > maxSize) {
+        setError("Image size is too large. Please choose a smaller image.");
+        return;
       }
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setAccountImage(reader.result as string);
+        setError(""); // Clear any previous error message
+      };
+
+      reader.readAsDataURL(file);
     }
   };
 
