@@ -1,12 +1,25 @@
-import TabBar from "./Tabbar";
-import { Link } from "react-router-dom";
-import Goback from "../assets/goback.png";
-import { useState } from "react";
-import { HeartButton } from "./Heartbutton";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Goback from "../assets/goback.png";
+import { HeartButton } from "./Heartbutton";
+import { useParams } from "react-router-dom";
 
 export const SelectMenuFeature2 = () => {
   const navigate = useNavigate();
+  const { menuId } = useParams();
+  
+  const [menuData, setMenuData] = useState({
+    _id: "",
+    name: "",
+    product_img_url: "",
+    product_tag: "",
+    price: 0,
+    store_id: "",
+    status: "",
+    createdAt: "",
+    updatedAt: "",
+    __v: 0,
+  });
   const [quantity, setQuantity] = useState(1);
 
   const handleGoBack = () => {
@@ -22,6 +35,27 @@ export const SelectMenuFeature2 = () => {
       setQuantity(quantity - 1);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://order-api-patiparnpa.vercel.app/products/${menuId}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setMenuData(data);
+      } catch (error) {
+        console.error("Error fetching menu data:", error);
+        // Handle the error as needed, e.g., redirect to an error page
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div
@@ -47,7 +81,6 @@ export const SelectMenuFeature2 = () => {
             style={{ marginRight: "8px", width: "28px", height: "28px" }}
           />
         </button>
-        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}></h5>
         <div className="right-elements">
           <div className="elements-container">
             <HeartButton></HeartButton>
@@ -57,22 +90,23 @@ export const SelectMenuFeature2 = () => {
       <div className="menu-container">
         <div className="menu-image-container">
           <img
-            src="https://s359.kapook.com/pagebuilder/2cc482f6-9e80-488f-9e0a-87103f16b40d.jpg"
+            src={menuData.product_img_url}
             className="menu-img"
-            alt="Menu 1"
+            alt="Menu Image"
           />
         </div>
         <div className="menu-container-details">
           <div className="menu-details-content">
             <div className="menu-text">
-              <p style={{fontSize:'22px'}}><b>กระเพราหมูกรอบไข่ดาว 2 ฟอง</b></p>
-              <p style={{fontSize:'18px'}}><b>90 Bath</b></p>
+              <p style={{ fontSize: '22px' }}><b>{menuData.name}</b></p>
+              <p style={{ fontSize: '18px' }}><b>{menuData.price} Bath</b></p>
             </div>
           </div>
           <div className="menu-form-detail">
-            <p style={{ fontWeight:'bold', fontSize:'18px'}}>Note to store</p>
+            <p style={{ fontWeight: 'bold', fontSize: '18px' }}>Note to store</p>
             <input
               type="text"
+              id="noteToStore"  // Add an id attribute
               placeholder="Message"
               className="menu-input"
             />

@@ -118,7 +118,7 @@ export const MenuPage = () => {
         {menuData.map((menu) => (
           <div
             key={menu._id}
-            onClick={() => navigate("/menufea2")}
+            onClick={() => navigate(`/menufea2/${menu._id}`)}
             className="menus-card"
             style={{ marginLeft: "5px", marginRight: "5px" }}
           >

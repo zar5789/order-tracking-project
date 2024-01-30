@@ -26,7 +26,7 @@ function App() {
         <Route path="/order" element={<OrderPage />} />
         <Route path="/profile" element={<UserProfilePage></UserProfilePage>} />
         <Route path="/menufea1" element={<SelectMenuFeature />} />
-        <Route path="/menufea2" element={<SelectMenuFeature2 />} />
+        <Route path="/menufea2/:menuId" element={<SelectMenuFeature2 />} />
         <Route path="/userlogin" element={<UserLogin></UserLogin>}></Route>
         <Route path="/menupage/:storeId" element={<MenuPage></MenuPage>}></Route>
         <Route

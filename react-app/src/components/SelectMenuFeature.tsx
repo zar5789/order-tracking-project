@@ -50,7 +50,7 @@ export const SelectMenuFeature = () => {
             style={{ marginRight: "8px", width: "28px", height: "28px" }}
           />
         </button>
-        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}></h5>
+        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
         <div className="right-elements">
           <div className="elements-container">
           </div>
