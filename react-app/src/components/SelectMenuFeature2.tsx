@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Goback from "../assets/goback.png";
 import { HeartButton } from "./Heartbutton";
-import { useParams } from "react-router-dom";
 
 export const SelectMenuFeature2 = () => {
   const navigate = useNavigate();
   const { menuId } = useParams();
-  
   const [menuData, setMenuData] = useState({
     _id: "",
     name: "",
@@ -54,7 +52,7 @@ export const SelectMenuFeature2 = () => {
     };
 
     fetchData();
-  }, []);
+  }, [menuId]);
 
   return (
     <>
@@ -83,7 +81,7 @@ export const SelectMenuFeature2 = () => {
         </button>
         <div className="right-elements">
           <div className="elements-container">
-            <HeartButton></HeartButton>
+            <HeartButton menuId={menuId} userId="650bd1a00638ec52b189cb6e" />
           </div>
         </div>
       </div>
@@ -106,7 +104,7 @@ export const SelectMenuFeature2 = () => {
             <p style={{ fontWeight: 'bold', fontSize: '18px' }}>Note to store</p>
             <input
               type="text"
-              id="noteToStore"  // Add an id attribute
+              id="noteToStore"
               placeholder="Message"
               className="menu-input"
             />

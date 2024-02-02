@@ -120,7 +120,7 @@ export const HomePage = () => {
         <div className="store-container">
           {stores.map((store) => (
             <div className="store-card" key={store._id}>
-              <p
+              <div
                 onClick={() => navigate(`/menupage/${store._id}`, { state: { storeName: store.name } })}
                 className="store-link"
                 style={{
@@ -131,7 +131,7 @@ export const HomePage = () => {
               >
                 <img src={store.store_img_url} alt={store.name} />
                 <p>{store.name}</p>
-              </p>
+              </div>
             </div>
           ))}
         </div>
