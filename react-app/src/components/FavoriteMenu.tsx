@@ -158,7 +158,7 @@ export const FavoriteMenus: React.FC = () => {
                 ></button>
               ) : (
                 <div
-                  onClick={() => navigate("/menufea2")}
+                  onClick={() => navigate(`/menufea2/${food.id}`)}
                   className="store-link"
                   style={{ cursor: "pointer" }}
                 >
