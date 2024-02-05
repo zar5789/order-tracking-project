@@ -16,8 +16,59 @@ import { OrderDetail } from "./components/OrderDetail";
 import { ConfirmOrder } from "./components/ConfirmOrder";
 import { UploadSlip } from "./components/UploadSlip";
 import { UploadSlip2 } from "./components/UploadSlip2";
+import React, { useState, useEffect } from "react";
 
 function App() {
+  const userId = "650bd1a00638ec52b189cb6e";
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkBasket = async () => {
+      try {
+        const response = await fetch(`https://order-api-patiparnpa.vercel.app/baskets/user/${userId}`);
+        
+        if (isMounted) {
+          if (response.ok) {
+            // User already has a basket
+            console.log("User has a basket");
+          } else if (response.status === 404) {
+            // Basket not found, create a new one
+            const createBasketResponse = await fetch("https://order-api-patiparnpa.vercel.app/baskets/create", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userID: userId,
+                productIDs: [],
+              }),
+            });
+
+            if (createBasketResponse.ok) {
+              console.log("Basket created successfully");
+            } else {
+              console.error("Error creating basket:", createBasketResponse.statusText);
+            }
+          } else {
+            console.error("Error checking basket:", response.statusText);
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error checking basket:", error);
+        }
+      }
+    };
+
+    // Call checkBasket
+    checkBasket();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [userId]); // Dependency array with userId
   return (
     <div>
       <GlobalStyles></GlobalStyles>

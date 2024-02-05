@@ -29,6 +29,8 @@
   white-space: nowrap;
   padding: 10px; /* Adjust as needed */
   margin-top: -4%;
+  max-width: 100%; /* Set a maximum width */
+  height: 100%;
 }
 
 

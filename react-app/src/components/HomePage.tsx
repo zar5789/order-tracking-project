@@ -35,7 +35,9 @@ export const HomePage = () => {
     // Fetch store data from the API
     const fetchStores = async () => {
       try {
-        const response = await fetch("https://order-api-patiparnpa.vercel.app/stores/");
+        const response = await fetch(
+          "https://order-api-patiparnpa.vercel.app/stores/"
+        );
         const data = await response.json();
         setStores(data);
       } catch (error) {
@@ -45,6 +47,63 @@ export const HomePage = () => {
 
     fetchStores();
   }, []);
+
+  useEffect(() => {
+    const fetchFavoriteFoods = async () => {
+      try {
+        const userId = "650bd1a00638ec52b189cb6e";
+        const response = await fetch(
+          `https://order-api-patiparnpa.vercel.app/favorite_products/user/${userId}`
+        );
+        if (response.ok) {
+          const favoriteProducts = await response.json();
+
+          const productIDs = favoriteProducts[0]?.productIDs || [];
+
+          const productDetailsPromises = productIDs.map(
+            async (productId: string) => {
+              const productResponse = await fetch(
+                `https://order-api-patiparnpa.vercel.app/products/${productId}`
+              );
+              if (productResponse.ok) {
+                const productData = await productResponse.json();
+
+                // Find the corresponding store details
+                const storeDetails = stores.find(
+                  (store) => store._id === productData.store_id
+                );
+
+                return {
+                  id: productData._id,
+                  name: productData.name,
+                  store: storeDetails?.name || "Unknown Store", // Use store name, or 'Unknown Store' if not found
+                  image: productData.product_img_url,
+                  tag: productData.product_tag,
+                  price: productData.price,
+                };
+              }
+              return null; // Handle error case
+            }
+          );
+
+          const productDetails = await Promise.all(productDetailsPromises);
+
+          const filteredProductDetails = productDetails.filter(Boolean);
+
+          setFavoriteFoods(filteredProductDetails);
+        } else {
+          console.error(
+            "Error fetching favorite products:",
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching favorite products:", error);
+      }
+    };
+
+    fetchFavoriteFoods();
+  }, [stores]);
 
   return (
     <>
@@ -86,7 +145,8 @@ export const HomePage = () => {
             <div
               key={food.id}
               className="food-card"
-              onClick={() => navigate("/menufea2")}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(`/menufea2/${food.id}`)}
             >
               <img src={food.image} alt={food.name} />
               <p>{food.name}</p>
@@ -121,7 +181,11 @@ export const HomePage = () => {
           {stores.map((store) => (
             <div className="store-card" key={store._id}>
               <div
-                onClick={() => navigate(`/menupage/${store._id}`, { state: { storeName: store.name } })}
+                onClick={() =>
+                  navigate(`/menupage/${store._id}`, {
+                    state: { storeName: store.name },
+                  })
+                }
                 className="store-link"
                 style={{
                   textDecoration: "none",

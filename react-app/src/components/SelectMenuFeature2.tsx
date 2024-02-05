@@ -8,7 +8,7 @@ export const SelectMenuFeature2 = () => {
   const { menuId } = useParams();
   const [menuData, setMenuData] = useState({
     _id: "",
-    name: "",
+    name: "เมนู",
     product_img_url: "",
     product_tag: "",
     price: 0,

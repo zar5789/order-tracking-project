@@ -1,13 +1,22 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Goback from "../assets/goback.png";
 import Redbin from "../assets/redbin.png";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
 
-export const FavoriteMenus = () => {
+interface FavoriteFood {
+  id: string;
+  name: string;
+  image: string;
+  tag: string;
+  price: number;
+}
+
+export const FavoriteMenus: React.FC = () => {
   const navigate = useNavigate();
   const [isManageMode, setIsManageMode] = useState(false);
+  const [favoriteFoods, setFavoriteFoods] = useState<FavoriteFood[]>([]);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -26,7 +35,7 @@ export const FavoriteMenus = () => {
     color: isManageMode ? "white" : "#FF3A3A",
   };
 
-  const overlayStyles: React.CSSProperties = {
+  const overlayStyles:React.CSSProperties = {
     backgroundColor: "#505050",
     opacity: 0.8,
     position: "absolute",
@@ -37,40 +46,63 @@ export const FavoriteMenus = () => {
     zIndex: 999,
   };
 
-  const FavMenus = [
-    {
-      id: 1,
-      name: "กระเพราหมูกรอบไข่ดาว",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 2,
-      name: "กระเพราหมูกรอบไข่ดาว 2 ฟอง",
-      price: 70,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 3,
-      name: "กระเพราหมูกรอบไข่ดาว 20 ฟอง",
-      price: 50,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    {
-      id: 4,
-      name: "กระเพราหมูกรอบไข่ดาวยาราไนก้า",
-      price: 100,
-      image: "https://i.ytimg.com/vi/fBb5l2jmQhQ/maxresdefault.jpg",
-    },
-    // ... your menu data
-  ];
+  useEffect(() => {
+    const fetchFavoriteFoods = async () => {
+      try {
+        const userId = "650bd1a00638ec52b189cb6e";
+        const response = await fetch(
+          `https://order-api-patiparnpa.vercel.app/favorite_products/user/${userId}`
+        );
+
+        if (response.ok) {
+          const favoriteProducts = await response.json();
+
+          const productIDs = favoriteProducts[0]?.productIDs || [];
+
+          const productDetailsPromises = productIDs.map(async (productId:string) => {
+            try {
+              const productResponse = await fetch(
+                `https://order-api-patiparnpa.vercel.app/products/${productId}`
+              );
+
+              if (productResponse.ok) {
+                const productData = await productResponse.json();
+
+                return {
+                  id: productData._id,
+                  name: productData.name,
+                  image: productData.product_img_url,
+                  tag: productData.product_tag,
+                  price: productData.price,
+                };
+              } else {
+                console.error("Error fetching product details:", productResponse.statusText);
+                return null;
+              }
+            } catch (error) {
+              console.error("Error fetching product details:", error);
+              return null;
+            }
+          });
+
+          const productDetails = await Promise.all(productDetailsPromises);
+          const filteredProductDetails = productDetails.filter(Boolean) as FavoriteFood[];
+
+          setFavoriteFoods(filteredProductDetails);
+        } else {
+          console.error("Error fetching favorite products:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching favorite products:", error);
+      }
+    };
+
+    fetchFavoriteFoods();
+  }, []);
 
   return (
     <>
-      <div
-        className="app-bar"
-        style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}
-      >
+      <div className="app-bar" style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}>
         <button
           onClick={handleGoBack}
           style={{
@@ -102,14 +134,12 @@ export const FavoriteMenus = () => {
         </div>
       </div>
       <div className="store-container">
-        {FavMenus.length === 0 ? (
-          <p style={{ textAlign: "center", marginTop: "20px" }}>
-            User does not have favorite menu.
-          </p>
+        {favoriteFoods.length === 0 ? (
+          <p style={{ textAlign: "center", marginTop: "20px" }}>User does not have favorite menu.</p>
         ) : (
-          FavMenus.map((menu) => (
+          favoriteFoods.map((food) => (
             <div
-              key={menu.id}
+              key={food.id}
               className="menus-card"
               style={{
                 marginLeft: "5px",
@@ -132,12 +162,10 @@ export const FavoriteMenus = () => {
                   className="store-link"
                   style={{ cursor: "pointer" }}
                 >
-                  <img src={menu.image} alt={menu.name}/>
-                  <p>{menu.name}</p>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <p>{menu.price} บาท</p>
+                  <img src={food.image} alt={food.name} />
+                  <p>{food.name}</p>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <p>{food.price} บาท</p>
                     <button
                       style={{
                         background: "none",
@@ -188,4 +216,3 @@ export const FavoriteMenus = () => {
     </>
   );
 };
-
