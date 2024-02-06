@@ -5,6 +5,11 @@ import Redbin from "../assets/redbin.png";
 import Cart from "../assets/cart.jpg";
 import Logo from "../assets/logo.jpg";
 
+interface BasketItem {
+  productID: string;
+  quantity: number;
+}
+
 interface FavoriteFood {
   id: string;
   name: string;
@@ -13,10 +18,19 @@ interface FavoriteFood {
   price: number;
 }
 
+interface MenuItem {
+  id: string;
+  name: string;
+  image: string;
+  tag: string;
+  price: number;
+  store_id: string;
+}
+
 export const FavoriteMenus: React.FC = () => {
   const navigate = useNavigate();
   const [isManageMode, setIsManageMode] = useState(false);
-  const [favoriteFoods, setFavoriteFoods] = useState<FavoriteFood[]>([]);
+  const [favoriteFoods, setFavoriteFoods] = useState<MenuItem[]>([]);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -35,7 +49,7 @@ export const FavoriteMenus: React.FC = () => {
     color: isManageMode ? "white" : "#FF3A3A",
   };
 
-  const overlayStyles:React.CSSProperties = {
+  const overlayStyles: React.CSSProperties = {
     backgroundColor: "#505050",
     opacity: 0.8,
     position: "absolute",
@@ -44,6 +58,76 @@ export const FavoriteMenus: React.FC = () => {
     width: "100%",
     height: "100%",
     zIndex: 999,
+  };
+
+  const addToCart = async (menuItem: MenuItem) => {
+    try {
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+
+      // Fetch existing basket data
+      const response = await fetch(basketUrl);
+      if (!response.ok) {
+        throw new Error("Error fetching basket data");
+      }
+      const basketData = await response.json();
+      const items = basketData?.items || {};
+
+      // Extract existing items for the specified store_id or initialize an empty array
+      const existingItemsForStore = items[menuItem.store_id] || [];
+
+      // Check if the product already exists in the basket
+      const existingProductIndex = existingItemsForStore.findIndex(
+        (item: BasketItem) => item.productID === menuItem.id
+      );
+
+      let updatedItems;
+
+      if (existingProductIndex !== -1) {
+        // If the product already exists, update its quantity
+        updatedItems = {
+          ...items,
+          [menuItem.store_id]: [
+            ...existingItemsForStore.slice(0, existingProductIndex),
+            {
+              ...existingItemsForStore[existingProductIndex],
+              quantity: existingItemsForStore[existingProductIndex].quantity + 1,
+            },
+            ...existingItemsForStore.slice(existingProductIndex + 1),
+          ],
+        };
+      } else {
+        // If the product doesn't exist, add it as a new item
+        updatedItems = {
+          ...items,
+          [menuItem.store_id]: [
+            ...existingItemsForStore,
+            {
+              productID: menuItem.id,
+              quantity: 1,
+            },
+          ],
+        };
+      }
+
+      // Update the basket with the new item
+      const putResponse = await fetch(basketUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: updatedItems,
+        }),
+      });
+
+      if (!putResponse.ok) {
+        throw new Error("Error updating basket data");
+      }
+
+      console.log("Item added to cart successfully!");
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
   };
 
   useEffect(() => {
@@ -59,38 +143,49 @@ export const FavoriteMenus: React.FC = () => {
 
           const productIDs = favoriteProducts[0]?.productIDs || [];
 
-          const productDetailsPromises = productIDs.map(async (productId:string) => {
-            try {
-              const productResponse = await fetch(
-                `https://order-api-patiparnpa.vercel.app/products/${productId}`
-              );
+          const productDetailsPromises = productIDs.map(
+            async (productId: string) => {
+              try {
+                const productResponse = await fetch(
+                  `https://order-api-patiparnpa.vercel.app/products/${productId}`
+                );
 
-              if (productResponse.ok) {
-                const productData = await productResponse.json();
+                if (productResponse.ok) {
+                  const productData = await productResponse.json();
 
-                return {
-                  id: productData._id,
-                  name: productData.name,
-                  image: productData.product_img_url,
-                  tag: productData.product_tag,
-                  price: productData.price,
-                };
-              } else {
-                console.error("Error fetching product details:", productResponse.statusText);
+                  return {
+                    id: productData._id,
+                    name: productData.name,
+                    image: productData.product_img_url,
+                    tag: productData.product_tag,
+                    price: productData.price,
+                    store_id: productData.store_id
+                  };
+                } else {
+                  console.error(
+                    "Error fetching product details:",
+                    productResponse.statusText
+                  );
+                  return null;
+                }
+              } catch (error) {
+                console.error("Error fetching product details:", error);
                 return null;
               }
-            } catch (error) {
-              console.error("Error fetching product details:", error);
-              return null;
             }
-          });
+          );
 
           const productDetails = await Promise.all(productDetailsPromises);
-          const filteredProductDetails = productDetails.filter(Boolean) as FavoriteFood[];
+          const filteredProductDetails = productDetails.filter(
+            Boolean
+          ) as MenuItem[];
 
           setFavoriteFoods(filteredProductDetails);
         } else {
-          console.error("Error fetching favorite products:", response.statusText);
+          console.error(
+            "Error fetching favorite products:",
+            response.statusText
+          );
         }
       } catch (error) {
         console.error("Error fetching favorite products:", error);
@@ -102,7 +197,10 @@ export const FavoriteMenus: React.FC = () => {
 
   return (
     <>
-      <div className="app-bar" style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}>
+      <div
+        className="app-bar"
+        style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000 }}
+      >
         <button
           onClick={handleGoBack}
           style={{
@@ -135,7 +233,9 @@ export const FavoriteMenus: React.FC = () => {
       </div>
       <div className="store-container">
         {favoriteFoods.length === 0 ? (
-          <p style={{ textAlign: "center", marginTop: "20px" }}>User does not have favorite menu.</p>
+          <p style={{ textAlign: "center", marginTop: "20px" }}>
+            User does not have favorite menu.
+          </p>
         ) : (
           favoriteFoods.map((food) => (
             <div
@@ -164,7 +264,9 @@ export const FavoriteMenus: React.FC = () => {
                 >
                   <img src={food.image} alt={food.name} />
                   <p>{food.name}</p>
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
                     <p>{food.price} บาท</p>
                     <button
                       style={{
@@ -175,7 +277,7 @@ export const FavoriteMenus: React.FC = () => {
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
-                        console.log("Button clicked!");
+                        addToCart(food);
                       }}
                     >
                       <img
@@ -192,7 +294,6 @@ export const FavoriteMenus: React.FC = () => {
                   style={overlayStyles}
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log("Overlay clicked");
                   }}
                 >
                   <img

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export const CreateMenu = () => {
   const navigate = useNavigate();
-  const storeId = "65a39b4ae668f5c8329fac98";
+  const storeId = "65aab02ab576441c70c2e7a8";
   const [menuImage, setMenuImage] = useState<string>("");
   const [menuName, setMenuName] = useState<string>("");
   const [menuPrice, setMenuPrice] = useState<string>("");

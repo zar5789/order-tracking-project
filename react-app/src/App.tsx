@@ -41,7 +41,7 @@ function App() {
               },
               body: JSON.stringify({
                 userID: userId,
-                productIDs: [],
+                items: {},
               }),
             });
 

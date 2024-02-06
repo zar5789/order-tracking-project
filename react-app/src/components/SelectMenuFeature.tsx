@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
 import Goback from "../assets/goback.png";
 import { useState } from "react";
-import Heart from "../assets/heart-removebg-preview.png";
-import { HeartButton } from "./Heartbutton";
 import { useNavigate } from "react-router-dom";
 
 

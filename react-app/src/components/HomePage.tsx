@@ -25,11 +25,101 @@ type FavoriteFood = {
   image: string;
 };
 
+type MenuItem = {
+  id: string;
+  name: string;
+  image: string;
+  store: string;
+  store_id: string; // Add store_id property
+};
+
+type BasketItem = {
+  productID: string;
+  quantity: number;
+};
+
 export const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [stores, setStores] = useState<Store[]>([]);
-  const [favoriteFoods, setFavoriteFoods] = useState<FavoriteFood[]>([]);
+  const [favoriteFoods, setFavoriteFoods] = useState<MenuItem[]>([]);
+
+  // Function to add a menu item to the cart
+const addToCart = async (menuItem: MenuItem) => {
+  try {
+    const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+
+    // Fetch existing items in the basket
+    const response = await fetch(basketUrl);
+    if (!response.ok) {
+      throw new Error("Error fetching basket data");
+    }
+    const basketData = await response.json();
+    console.log("Basket Data before update:", basketData);
+
+    // Extract existing items or initialize an empty object
+    const items = basketData?.items || {};
+
+    // Extract existing items for the specified store_id or initialize an empty array
+    const existingItemsForStore = items[menuItem.store_id] || [];
+
+    // Check if the product already exists in the basket
+    const existingProductIndex = existingItemsForStore.findIndex(
+      (item: BasketItem) => item.productID === menuItem.id
+    );
+
+    let updatedItems; // Declare updatedItems variable
+
+    if (existingProductIndex !== -1) {
+      // If the product already exists, update its quantity
+      updatedItems = {
+        ...items,
+        [menuItem.store_id]: [
+          ...existingItemsForStore.slice(0, existingProductIndex),
+          {
+            ...existingItemsForStore[existingProductIndex],
+            quantity: existingItemsForStore[existingProductIndex].quantity + 1,
+          },
+          ...existingItemsForStore.slice(existingProductIndex + 1),
+        ],
+      };
+    } else {
+      // If the product doesn't exist, add it as a new item
+      updatedItems = {
+        ...items,
+        [menuItem.store_id]: [
+          ...existingItemsForStore,
+          {
+            productID: menuItem.id,
+            quantity: 1,
+          },
+        ],
+      };
+    }
+
+    console.log("Updated items:", updatedItems);
+
+    // Update the basket with the new item
+    const putResponse = await fetch(basketUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: updatedItems,
+      }),
+    });
+
+    if (!putResponse.ok) {
+      throw new Error("Error updating basket data");
+    }
+
+    // Item successfully added to the basket
+    console.log("Item added to cart successfully!");
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+  }
+};
 
   useEffect(() => {
     // Fetch store data from the API
@@ -76,6 +166,7 @@ export const HomePage = () => {
                 return {
                   id: productData._id,
                   name: productData.name,
+                  store_id: storeDetails?._id || "Unknown Store id",
                   store: storeDetails?.name || "Unknown Store", // Use store name, or 'Unknown Store' if not found
                   image: productData.product_img_url,
                   tag: productData.product_tag,
@@ -161,7 +252,7 @@ export const HomePage = () => {
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log("Button clicked!");
+                    addToCart(food);
                   }}
                 >
                   <img

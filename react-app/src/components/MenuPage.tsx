@@ -18,6 +18,11 @@ interface Menu {
   __v: number;
 }
 
+interface BasketItem {
+  productID: string;
+  quantity: number;
+}
+
 export const MenuPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +32,7 @@ export const MenuPage = () => {
   const { storeId } = useParams();
 
   // Access store name from location state
-  const storeName = location.state?.storeName || 'Default Store Name';
+  const storeName = location.state?.storeName || 'ร้านค้า';
 
   useEffect(() => {
     // Fetch menu data for the specific store using storeId
@@ -50,6 +55,76 @@ export const MenuPage = () => {
   const handleGoBack = () => {
     navigate(-1); // Navigate back
   };
+
+  const addToCart = async (menu: Menu) => {
+    try {
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+  
+      // Fetch existing items in the basket
+      const response = await fetch(basketUrl);
+      if (!response.ok) {
+        throw new Error("Error fetching basket data");
+      }
+      const basketData = await response.json();
+  
+      // Initialize items object if it doesn't exist in basketData
+      const items = basketData?.items || {};
+  
+      // Extract existing items for the specified store_id or initialize an empty array
+      const existingItemsForStore = items[menu.store_id] || [];
+  
+      // Check if the product already exists in the basket
+      const existingProductIndex = existingItemsForStore.findIndex(
+        (item: BasketItem) => item.productID === menu._id
+      );
+  
+      let updatedItems;
+  
+      if (existingProductIndex !== -1) {
+        // If the product already exists, update its quantity
+        updatedItems = {
+          ...items,
+          [menu.store_id]: [
+            ...existingItemsForStore.slice(0, existingProductIndex),
+            {
+              ...existingItemsForStore[existingProductIndex],
+              quantity: existingItemsForStore[existingProductIndex].quantity + 1,
+            },
+            ...existingItemsForStore.slice(existingProductIndex + 1),
+          ],
+        };
+      } else {
+        // If the product doesn't exist, add it as a new item with quantity 1
+        updatedItems = {
+          ...items,
+          [menu.store_id]: [
+            ...existingItemsForStore,
+            { productID: menu._id, quantity: 1 }
+          ],
+        };
+      }
+  
+      // Update the basket with the new item
+      const putResponse = await fetch(basketUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: updatedItems,
+        }),
+      });
+  
+      if (!putResponse.ok) {
+        throw new Error("Error updating basket data");
+      }
+  
+      console.log("Item added to cart successfully!");
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -136,7 +211,7 @@ export const MenuPage = () => {
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log("Button clicked!");
+                    addToCart(menu);
                   }}
                 >
                   <img
