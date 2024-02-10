@@ -31,6 +31,7 @@ export const FavoriteMenus: React.FC = () => {
   const navigate = useNavigate();
   const [isManageMode, setIsManageMode] = useState(false);
   const [favoriteFoods, setFavoriteFoods] = useState<MenuItem[]>([]);
+  const userId = '650bd1a00638ec52b189cb6e'
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back

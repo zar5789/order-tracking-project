@@ -28,6 +28,7 @@ export const MenuPage = () => {
   const location = useLocation();
   const [menuData, setMenuData] = useState<Menu[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const userId = '650bd1a00638ec52b189cb6e'
   
   const { storeId } = useParams();
 

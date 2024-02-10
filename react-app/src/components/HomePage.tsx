@@ -43,6 +43,7 @@ export const HomePage = () => {
   const location = useLocation();
   const [stores, setStores] = useState<Store[]>([]);
   const [favoriteFoods, setFavoriteFoods] = useState<MenuItem[]>([]);
+  const userId = '650bd1a00638ec52b189cb6e'
 
   // Function to add a menu item to the cart
 const addToCart = async (menuItem: MenuItem) => {
