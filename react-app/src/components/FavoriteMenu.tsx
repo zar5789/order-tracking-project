@@ -198,19 +198,37 @@ export const FavoriteMenus: React.FC = () => {
 
   const removeFromFavorites = async (favoriteProductId: string) => {
     try {
-      // Send a DELETE request to the server to remove the menu from favorites
+      // Fetch the favorite products data
       const response = await fetch(
-        `https://order-api-patiparnpa.vercel.app/favorite_products/${favoriteProductId}`,
+        `https://order-api-patiparnpa.vercel.app/favorite_products/65bca8ca326487d502199ce3`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch favorite products data");
+      }
+      const favoriteProductsData = await response.json();
+  
+      // Remove the specified productId from the productIDs array
+      const updatedProductIDs = favoriteProductsData.productIDs.filter(
+        (productId: string) => productId !== favoriteProductId
+      );
+  
+      // Update the favorite products data on the server
+      const putResponse = await fetch(
+        `https://order-api-patiparnpa.vercel.app/favorite_products/65bca8ca326487d502199ce3`,
         {
-          method: "DELETE",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            ...favoriteProductsData,
+            productIDs: updatedProductIDs,
+          }),
         }
       );
   
-      if (!response.ok) {
-        throw new Error("Failed to remove menu from favorites");
+      if (!putResponse.ok) {
+        throw new Error("Failed to update favorite products data on the server");
       }
   
       // Update the UI after successful removal
@@ -223,6 +241,7 @@ export const FavoriteMenus: React.FC = () => {
       console.error("Error removing menu from favorites:", error);
     }
   };
+  
   
 
   return (
