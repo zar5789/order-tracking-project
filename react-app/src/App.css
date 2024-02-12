@@ -211,7 +211,8 @@ body {
 .menu-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* Distribute items evenly */
+  justify-content: space-between;
+   /* Distribute items evenly */
 }
 
 .menu-card {

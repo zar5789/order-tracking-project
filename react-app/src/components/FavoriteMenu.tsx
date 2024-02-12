@@ -196,6 +196,35 @@ export const FavoriteMenus: React.FC = () => {
     fetchFavoriteFoods();
   }, []);
 
+  const removeFromFavorites = async (favoriteProductId: string) => {
+    try {
+      // Send a DELETE request to the server to remove the menu from favorites
+      const response = await fetch(
+        `https://order-api-patiparnpa.vercel.app/favorite_products/${favoriteProductId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to remove menu from favorites");
+      }
+  
+      // Update the UI after successful removal
+      setFavoriteFoods((prevFavoriteFoods) =>
+        prevFavoriteFoods.filter((food) => food.id !== favoriteProductId)
+      );
+  
+      console.log("Menu removed from favorites successfully!");
+    } catch (error) {
+      console.error("Error removing menu from favorites:", error);
+    }
+  };
+  
+
   return (
     <>
       <div
@@ -295,6 +324,7 @@ export const FavoriteMenus: React.FC = () => {
                   style={overlayStyles}
                   onClick={(e) => {
                     e.stopPropagation();
+                    removeFromFavorites(food.id);
                   }}
                 >
                   <img

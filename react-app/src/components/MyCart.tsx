@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, LinkProps } from "react-router-dom";
 import Goback from "../assets/goback.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -30,7 +30,9 @@ export const MyCart = () => {
   const [isManageMode, setIsManageMode] = useState(false);
   const [basketData, setBasketData] = useState<BasketData | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
-  const [totalPrices, setTotalPrices] = useState<{ [storeId: string]: number }>({});
+  const [totalPrices, setTotalPrices] = useState<{ [storeId: string]: number }>(
+    {}
+  );
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
   const handleGoBack = () => {
@@ -66,7 +68,8 @@ export const MyCart = () => {
         delete updatedBasketData[storeId];
       });
 
-      const basketUrl = "https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9";
+      const basketUrl =
+        "https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9";
       const response = await fetch(basketUrl, {
         method: "PUT",
         headers: {
@@ -97,7 +100,6 @@ export const MyCart = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log("Basket data:", data.items);
           setBasketData(data.items); // Set order data from API response
         } else {
           console.error("Failed to fetch order data:", response.statusText);
@@ -254,15 +256,22 @@ export const MyCart = () => {
                     marginRight: "5px",
                   }}
                 >
-                   {totalPrices[store._id]} Baht
+                  {totalPrices[store._id]} Baht
                 </div>
-                <Link to="/confirmorder" className="link">
+                <div
+                  className="link"
+                  onClick={() =>
+                    navigate(`/confirmorder/${store._id}`, {
+                      state: { storeName: store.name },
+                    })
+                  }
+                >
                   <img
                     src={GoNext}
                     alt="link"
                     style={{ width: "30px", height: "30px" }}
                   />
-                </Link>
+                </div>
               </div>
             </div>
           ))}

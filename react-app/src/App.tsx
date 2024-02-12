@@ -31,7 +31,6 @@ function App() {
         if (isMounted) {
           if (response.ok) {
             // User already has a basket
-            console.log("User has a basket");
           } else if (response.status === 404) {
             // Basket not found, create a new one
             const createBasketResponse = await fetch("https://order-api-patiparnpa.vercel.app/baskets/create", {
@@ -91,7 +90,7 @@ function App() {
           path="/orderdetail"
           element={<OrderDetail></OrderDetail>}
         ></Route>
-        <Route path='/confirmorder' element={<ConfirmOrder></ConfirmOrder>}></Route>
+        <Route path='/confirmorder/:storeId' element={<ConfirmOrder></ConfirmOrder>}></Route>
         <Route path='/slip' element={<UploadSlip></UploadSlip>}></Route>
         <Route path='/slip2' element={<UploadSlip2></UploadSlip2>}></Route>
       </Routes>
