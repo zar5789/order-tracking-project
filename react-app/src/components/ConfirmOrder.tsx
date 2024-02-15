@@ -9,57 +9,21 @@ interface Item {
   _id: string;
   // Add other properties if needed
 }
-const PaymentMethodSection: React.FC = () => {
+
+export const ConfirmOrder: React.FC = () => {
+  const navigate = useNavigate();
+  const { storeId } = useParams<{ storeId: string }>();
+  const location = useLocation();
+  const userId = "650bd1a00638ec52b189cb6e";
+  const basketId = '65c1e62e550ce4ecba49c6c9';
   const [selectedMethod, setSelectedMethod] = useState("payAtStore");
 
   const handleMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedMethod(event.target.value);
   };
 
-  return (
-    <>
-      <div
-        className="my-order-detail-box"
-        style={{ fontSize: "18px", fontWeight: "bold" }}
-      >
-        <label>
-          <input
-            id="payAtStore"
-            type="radio"
-            value="payAtStore"
-            checked={selectedMethod === "payAtStore"}
-            onChange={handleMethodChange}
-            style={{ width: "20px", height: "20px", marginRight: "10px" }}
-          />
-          Pay at the Store
-        </label>
-      </div>
-      <div
-        className="my-order-detail-box"
-        style={{ fontSize: "18px", fontWeight: "bold" }}
-      >
-        <label>
-          <input
-            id="scanQRCode"
-            type="radio"
-            value="scanQRCode"
-            checked={selectedMethod === "scanQRCode"}
-            onChange={handleMethodChange}
-            style={{ width: "20px", height: "20px", marginRight: "10px" }}
-          />
-          Scan QR Code
-        </label>
-      </div>
-    </>
-  );
-};
+  const storeName = location.state?.storeName || "ร้านค้า";
 
-export const ConfirmOrder: React.FC = () => {
-  const navigate = useNavigate();
-  const { storeId } = useParams<{ storeId: string }>();
-  const location = useLocation();
-
-  const storeName = location.state?.storeName || 'ร้านค้า';
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -74,7 +38,7 @@ export const ConfirmOrder: React.FC = () => {
     const fetchBasketData = async () => {
       try {
         const response = await fetch(
-          `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`
+          `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -129,6 +93,96 @@ export const ConfirmOrder: React.FC = () => {
     fetchBasketData();
   }, []); // Remove storeId from the dependency array
 
+  const totalPrice =
+    basketData && basketData.items && storeId && basketData.items[storeId]
+      ? basketData.items[storeId].reduce(
+          (total: number, item: any) =>
+            total + item.productPrice * item.quantity,
+          0
+        )
+      : 0;
+
+      const handlePlaceOrder = async () => {
+        try {
+          if (!storeId) {
+            console.error("Store ID is undefined");
+            return;
+          }
+      
+          // Fetch the latest basket data from the server
+          const basketResponse = await fetch(`https://order-api-patiparnpa.vercel.app/baskets/${basketId}`);
+          if (!basketResponse.ok) {
+            throw new Error("Failed to fetch basket data");
+          }
+          const basketServer = await basketResponse.json();
+      
+          const orderData = {
+            productIDs: basketServer?.items?.[storeId]?.map((item: any) => ({
+              productId: item.productID,
+              quantity: item.quantity,
+            })),
+            userID: userId,
+            storeID: storeId,
+            amount: totalPrice,
+            status: "open",
+            payment_method_status: selectedMethod === "payAtStore" ? "cash" : "scan",
+          };
+      
+          const response = await fetch(
+            "https://order-api-patiparnpa.vercel.app/orders/create",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(orderData),
+            }
+          );
+      
+          if (response.ok) {
+            console.log("Order placed successfully!");
+
+            // Extract the _id of the newly created order from the response
+            const { _id } = await response.json();
+      
+            // Update the basket by removing items corresponding to the ordered store
+            const updatedItems = { ...basketServer.items };
+            delete updatedItems[storeId];
+      
+            const updatedBasket = {
+              ...basketServer,
+              items: updatedItems,
+            };
+      
+            const updateResponse = await fetch(
+              `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedBasket),
+              }
+            );
+      
+            if (updateResponse.ok) {
+              console.log("Basket updated successfully!");
+              // Redirect the user to a success page or perform other actions
+              navigate(`/orderdetail/${_id}`,  { state: { storeName: storeName } });
+            } else {
+              console.error("Failed to update basket");
+            }
+          } else {
+            console.error("Failed to place order");
+          }
+        } catch (error) {
+          console.error("Error placing order:", error);
+        }
+      };
+      
+      
+      
+
   return (
     <>
       <div
@@ -181,7 +235,9 @@ export const ConfirmOrder: React.FC = () => {
                 </div>
                 <div className="center-content">
                   <div className="my-order-shop">{item.productName}</div>
-                  <div className="my-order-date">Delete</div>
+                  <div className="my-order-date" style={{ color: "red" }}>
+                    Delete
+                  </div>
                 </div>
                 <div
                   className="right-content"
@@ -191,7 +247,7 @@ export const ConfirmOrder: React.FC = () => {
                     className="my-order-price"
                     style={{ fontSize: "18px", fontWeight: "bold" }}
                   >
-                    {item.productPrice} Bath
+                    {item.productPrice * item.quantity} Bath
                   </div>
                 </div>
               </div>
@@ -201,7 +257,38 @@ export const ConfirmOrder: React.FC = () => {
       <div className="custom-heading" style={{ paddingTop: "15px" }}>
         วิธีการชำระเงิน
       </div>
-      <PaymentMethodSection />
+      <div
+        className="my-order-detail-box"
+        style={{ fontSize: "18px", fontWeight: "bold" }}
+      >
+        <label>
+          <input
+            id="payAtStore"
+            type="radio"
+            value="payAtStore"
+            checked={selectedMethod === "payAtStore"}
+            onChange={handleMethodChange}
+            style={{ width: "20px", height: "20px", marginRight: "10px" }}
+          />
+          Pay at the Store
+        </label>
+      </div>
+      <div
+        className="my-order-detail-box"
+        style={{ fontSize: "18px", fontWeight: "bold" }}
+      >
+        <label>
+          <input
+            id="scanQRCode"
+            type="radio"
+            value="scanQRCode"
+            checked={selectedMethod === "scanQRCode"}
+            onChange={handleMethodChange}
+            style={{ width: "20px", height: "20px", marginRight: "10px" }}
+          />
+          Scan QR Code
+        </label>
+      </div>
       <br></br>
       <div
         style={{
@@ -214,7 +301,7 @@ export const ConfirmOrder: React.FC = () => {
         }}
       >
         <div style={{ color: "#000000" }}>Total</div>
-        <div style={{ color: "#000000" }}>150 Bath</div>
+        <div style={{ color: "#000000" }}>{totalPrice} Bath</div>
       </div>
       <div
         style={{
@@ -226,6 +313,7 @@ export const ConfirmOrder: React.FC = () => {
         }}
       >
         <button
+          onClick={handlePlaceOrder}
           style={{
             backgroundColor: "#2357A5",
             border: "none",

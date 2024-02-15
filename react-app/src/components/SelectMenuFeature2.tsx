@@ -65,7 +65,7 @@ export const SelectMenuFeature2 = () => {
 
   const handleAddToBasket = async () => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1de9bf9f7e4446d91dc8e`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
   
       const response = await fetch(basketUrl);
       if (!response.ok) {
@@ -209,6 +209,7 @@ export const SelectMenuFeature2 = () => {
               id="noteToStore"
               placeholder="Message"
               className="menu-input"
+              disabled
             />
             <p style={{ fontSize: "14px" }}>
               *Enter your note to store here(optional)

@@ -87,7 +87,7 @@ function App() {
         <Route path="/mycart" element={<MyCart></MyCart>}></Route>
         <Route path="/yee" element={<AnyComponent></AnyComponent>}></Route>
         <Route
-          path="/orderdetail"
+          path="/orderdetail/:orderId"
           element={<OrderDetail></OrderDetail>}
         ></Route>
         <Route path='/confirmorder/:storeId' element={<ConfirmOrder></ConfirmOrder>}></Route>

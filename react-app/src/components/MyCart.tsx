@@ -216,66 +216,76 @@ export const MyCart = () => {
 
       {/* Display order items */}
       <div className="order-container">
-        {basketData &&
-          stores.map((store) => (
-            <div className="order-item" key={store._id}>
-              {isManageMode && (
-                <div>
-                  {/* Render checkboxes here */}
-                  <input
-                    type="checkbox"
-                    style={{
-                      marginRight: "20px",
-                      width: "20px",
-                      height: "20px",
-                      alignItems: "center",
-                    }}
-                    checked={selectedOrders.includes(store._id)}
-                    onChange={() => handleCheckboxChange(store._id)}
-                  />
-                </div>
-              )}
-              <div className="left-content">
-                <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  {store.name}
-                </div>
-                <div style={{ fontSize: "18px" }}>
-                  Select{" "}
-                  {basketData[store._id]?.reduce(
-                    (acc, curr) => acc + curr.quantity,
-                    0
-                  )}{" "}
-                  items
-                </div>
-              </div>
-              <div className="right-content">
-                <div
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    marginRight: "5px",
-                  }}
-                >
-                  {totalPrices[store._id]} Baht
-                </div>
-                <div
-                  className="link"
-                  onClick={() =>
-                    navigate(`/confirmorder/${store._id}`, {
-                      state: { storeName: store.name },
-                    })
-                  }
-                >
-                  <img
-                    src={GoNext}
-                    alt="link"
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                </div>
-              </div>
+  {basketData ? (
+    Object.keys(basketData).length !== 0 ? (
+      stores.map((store) => (
+        <div className="order-item" key={store._id}>
+          {isManageMode && (
+            <div>
+              {/* Render checkboxes here */}
+              <input
+                type="checkbox"
+                style={{
+                  marginRight: "20px",
+                  width: "20px",
+                  height: "20px",
+                  alignItems: "center",
+                }}
+                checked={selectedOrders.includes(store._id)}
+                onChange={() => handleCheckboxChange(store._id)}
+              />
             </div>
-          ))}
-      </div>
+          )}
+          <div className="left-content">
+            <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+              {store.name}
+            </div>
+            <div style={{ fontSize: "18px" }}>
+              Select{" "}
+              {basketData[store._id]?.reduce(
+                (acc, curr) => acc + curr.quantity,
+                0
+              )}{" "}
+              items
+            </div>
+          </div>
+          <div className="right-content">
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                marginRight: "5px",
+              }}
+            >
+              {totalPrices[store._id]} Baht
+            </div>
+            <div
+              className="link"
+              onClick={() =>
+                navigate(`/confirmorder/${store._id}`, {
+                  state: { storeName: store.name },
+                })
+              }
+            >
+              <img
+                src={GoNext}
+                alt="link"
+                style={{ width: "30px", height: "30px" }}
+              />
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p style={{ textAlign: "center", marginTop: "20px" }}>
+        User has no menu in the basket
+      </p>
+    )
+  ) : (
+    <p style={{ textAlign: "center", marginTop: "20px" }}>Loading...</p>
+  )}
+</div>
+
       <br></br>
       <br></br>
 

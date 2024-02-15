@@ -1,34 +1,133 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Goback from "../assets/goback.png";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+interface MenuItem {
+  productId: string;
+  quantity: number;
+}
+
+interface ProductDetail {
+  _id: string;
+  name: string;
+  price: number;
+}
+interface QueueDetail {
+  queueNumber: string;
+}
+
+interface OrderDetail {
+  _id: string;
+  productIDs: MenuItem[];
+  userID: string;
+  storeID: string;
+  amount: number;
+  status: string;
+  payment_method_status: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export const OrderDetail = () => {
+  const { orderId } = useParams<{ orderId: string }>();
+  const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
+  const [menuDetails, setMenuDetails] = useState<ProductDetail[]>([]);
+  const [queueNumber, setQueueNumber] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const storeName = location.state?.storeName || "ร้านค้า";
+
+  useEffect(() => {
+    const fetchOrderDetail = async () => {
+      try {
+        const response = await fetch(
+          `https://order-api-patiparnpa.vercel.app/orders/${orderId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setOrderDetail(data);
+          // Fetch menu details for each product ID
+          const menuPromises = data.productIDs.map((item: MenuItem) =>
+            fetchMenuDetails(item.productId)
+          );
+          const menuDetails = await Promise.all(menuPromises);
+          setMenuDetails(menuDetails);
+        } else {
+          console.error("Failed to fetch order detail");
+        }
+      } catch (error) {
+        console.error("Error fetching order detail:", error);
+      }
+    };
+
+    fetchOrderDetail();
+  }, [orderId]);
+
+  useEffect(() => {
+    const fetchQueueNumber = async () => {
+      try {
+        const response = await fetch(
+          `https://order-api-patiparnpa.vercel.app/queues/order/${orderId}`
+        );
+        if (response.ok) {
+          const data: QueueDetail[] = await response.json();
+          if (data.length > 0) {
+            setQueueNumber(data[0].queueNumber);
+          }
+        } else {
+          console.error("Failed to fetch queue number");
+        }
+      } catch (error) {
+        console.error("Error fetching queue number:", error);
+      }
+    };
+
+    fetchQueueNumber();
+  }, [orderId]);
+
+  const fetchMenuDetails = async (productId: string) => {
+    try {
+      const response = await fetch(
+        `https://order-api-patiparnpa.vercel.app/products/${productId}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error("Failed to fetch menu details");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching menu details:", error);
+      return null;
+    }
+  };
 
   const handleGoBack = () => {
-    navigate(-1); // Navigate back
+    navigate("/order"); // Navigate back
   };
 
   const handleClick = () => {
     navigate("/slip");
   };
 
-  const OrderDataDetail = [
-    {
-      orderQueue: "A24",
-      orderStatus: "Wait for cooking",
-      menus: [
-        { menuId: "m1", menuName: "กระเพรา", quantity: "2", price: 50 },
-        {
-          menuId: "m2",
-          menuName: "ผัดกะเพราหมูกรอบพิเศษ ใส่ไข่ลวก",
-          quantity: "1",
-          price: 50,
-        },
-        { menuId: "m1", menuName: "กระเพรา", quantity: "2", price: 50 },
-      ],
-    },
-  ];
+  const getStatusMessage = (status: string) => {
+    switch (status) {
+      case "open":
+        return "Wait for cooking";
+      case "ready":
+        return "The order is ready";
+      case "close":
+        return "DONE";
+      case "cancel":
+        return "The order is cancel";
+      default:
+        return "";
+    }
+  };
 
   return (
     <>
@@ -62,66 +161,41 @@ export const OrderDetail = () => {
           </div>
         </div>
       </div>
-      <div className="custom-heading">
-        Status: {OrderDataDetail[0].orderStatus}
-      </div>
-      <div className="order-summary-queue">
-        <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-          Your queue is
-        </div>
-        <div style={{ fontSize: "51px", fontWeight: "bold" }}>
-          {OrderDataDetail[0].orderQueue}
-        </div>
-        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}>
-          4 queue left
-        </div>
-      </div>
-      <div className="custom-heading">Order Summary</div>
-      {OrderDataDetail[0].menus.map((menu, index) => (
-        <div className="my-order-detail-box" key={index}>
-          <div
-            className="left-content"
-            style={{
-              fontSize: "18px",
-              fontWeight: "bold",
-              marginRight: "-55%",
-            }}
-          >
-            {menu.quantity}x
-          </div>
-          <div className="center-content">
-            <div className="my-order-shop">{menu.menuName}</div>
-            <div className="my-order-date">Edit</div>
-          </div>
-          <div
-            className="right-content"
-            style={{ overflow: "hidden", whiteSpace: "nowrap" }}
-          >
-            <div
-              className="my-order-price"
-              style={{ fontSize: "18px", fontWeight: "bold" }}
-            >
-              {menu.price} Bath
+      {orderDetail && (
+        <>
+          <div className="custom-heading">Status: {getStatusMessage(orderDetail.status)}</div>
+          <div className="order-summary-queue">
+            <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+              Your queue is
+            </div>
+            <div style={{ fontSize: "51px", fontWeight: "bold" }}>{queueNumber}</div>
+            <div style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}>
+              please wait for a little bit...
             </div>
           </div>
-        </div>
-      ))}
-      <br></br>
-      <br></br>
-      <br></br>
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          width: "100%",
-          textAlign: "center",
-          padding: "10px",
-        }}
-      >
-        <button onClick={handleClick} className="button-overlay">
-          Cancel Order
-        </button>
-      </div>
+          <div className="custom-heading">Order Summary</div>
+          {menuDetails.map((item: ProductDetail, index: number) => (
+            <div className="my-order-detail-box" key={index}>
+              <div className="left-content" style={{ fontSize: "18px", fontWeight: "bold", marginRight: "-55%" }}>{orderDetail.productIDs[index].quantity}x</div>
+              <div className="center-content">
+                <div className="my-order-shop">{item.name}</div>
+                <div className="my-order-date">Edit</div>
+              </div>
+              <div className="right-content" style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+                <div className="my-order-price" style={{ fontSize: "18px", fontWeight: "bold" }}>{item.price} Bath</div>
+              </div>
+            </div>
+          ))}
+          <br></br>
+          <br></br>
+          <br></br>
+          <div style={{ position: "fixed", bottom: 0, width: "100%", textAlign: "center", padding: "10px" }}>
+            <button onClick={handleClick} className="button-overlay">
+              Cancel Order
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 };

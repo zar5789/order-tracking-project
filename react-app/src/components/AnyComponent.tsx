@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 const AnyComponent: React.FC = () => {
   const { isPopupOpen, openPopup, closePopup } = usePopup();
   const basketId = "65c1de9bf9f7e4446d91dc8e";
+  const orderId = "65cb0c1e12d8ac28fc2eb453";
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
@@ -17,14 +18,14 @@ const AnyComponent: React.FC = () => {
   const handleDeleteBasket = async () => {
     try {
       const response = await fetch(
-        `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`,
+        `https://order-api-patiparnpa.vercel.app/orders/${orderId}`,
         {
           method: "DELETE",
         }
       );
 
       if (response.ok) {
-        console.log(`Basket with ID ${basketId} deleted successfully`);
+        console.log(`Basket with ID ${orderId} deleted successfully`);
         // You can perform additional actions after successful deletion
       } else {
         console.error(`Error deleting basket: ${response.statusText}`);
@@ -79,7 +80,7 @@ const AnyComponent: React.FC = () => {
     <div>
       <button onClick={() => openPopup()}>Open Popup</button>
       {isPopupOpen && <PopupComponent onClose={closePopup} />}
-      <button onClick={handleDeleteBasket}>Delete Basket</button>
+      <button onClick={handleDeleteBasket}>Delete Order</button>
       <button onClick={handleUpload}>Upload</button>
       <input type="file" onChange={handleFileChange} />
       <p>Uploaded URL: {url}</p>
