@@ -16,6 +16,7 @@ interface ProductDetail {
 }
 interface QueueDetail {
   queueNumber: string;
+  queueLeft: number;
 }
 
 interface OrderDetail {
@@ -35,6 +36,7 @@ export const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
   const [menuDetails, setMenuDetails] = useState<ProductDetail[]>([]);
   const [queueNumber, setQueueNumber] = useState<string>("");
+  const [queueLeft, setQueueLeft] = useState(0)
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -76,6 +78,7 @@ export const OrderDetail = () => {
           const data: QueueDetail[] = await response.json();
           if (data.length > 0) {
             setQueueNumber(data[0].queueNumber);
+            setQueueLeft(data[0].queueLeft);
           }
         } else {
           console.error("Failed to fetch queue number");
@@ -154,7 +157,7 @@ export const OrderDetail = () => {
             style={{ marginRight: "8px", width: "28px", height: "28px" }}
           />
         </button>
-        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>ร้านพี่ช้าง</h5>
+        <h5 style={{ marginTop: "2%", marginLeft: "3%" }}>{storeName}</h5>
         <div className="right-elements">
           <div className="elements-container">
             {/* Add other elements as needed */}
@@ -170,7 +173,7 @@ export const OrderDetail = () => {
             </div>
             <div style={{ fontSize: "51px", fontWeight: "bold" }}>{queueNumber}</div>
             <div style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}>
-              please wait for a little bit...
+              There is {queueLeft} queue left
             </div>
           </div>
           <div className="custom-heading">Order Summary</div>
@@ -179,7 +182,7 @@ export const OrderDetail = () => {
               <div className="left-content" style={{ fontSize: "18px", fontWeight: "bold", marginRight: "-55%" }}>{orderDetail.productIDs[index].quantity}x</div>
               <div className="center-content">
                 <div className="my-order-shop">{item.name}</div>
-                <div className="my-order-date">Edit</div>
+                <div className="my-order-date">Delete</div>
               </div>
               <div className="right-content" style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
                 <div className="my-order-price" style={{ fontSize: "18px", fontWeight: "bold" }}>{item.price} Bath</div>

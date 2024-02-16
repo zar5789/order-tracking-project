@@ -124,7 +124,7 @@ export const ConfirmOrder: React.FC = () => {
             userID: userId,
             storeID: storeId,
             amount: totalPrice,
-            status: "open",
+            status: "close",
             payment_method_status: selectedMethod === "payAtStore" ? "cash" : "scan",
           };
       

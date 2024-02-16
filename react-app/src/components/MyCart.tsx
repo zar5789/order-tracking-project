@@ -34,6 +34,7 @@ export const MyCart = () => {
     {}
   );
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+  const basketId = '65c1e62e550ce4ecba49c6c9';
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
