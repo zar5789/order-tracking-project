@@ -7,6 +7,7 @@ interface BasketItem {
   productID: string;
   quantity: number;
   _id: string;
+  orderDetail: string;
 }
 
 export const SelectMenuFeature2 = () => {
@@ -27,6 +28,11 @@ export const SelectMenuFeature2 = () => {
   });
   const [quantity, setQuantity] = useState(1);
   const [basketItems, setBasketItems] = useState({});
+  const [note, setNote] = useState('')
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNote(e.target.value);
+  };
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -65,7 +71,7 @@ export const SelectMenuFeature2 = () => {
 
   const handleAddToBasket = async () => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
   
       const response = await fetch(basketUrl);
       if (!response.ok) {
@@ -97,6 +103,7 @@ export const SelectMenuFeature2 = () => {
             {
               ...existingItemsForStore[existingProductIndex],
               quantity: existingItemsForStore[existingProductIndex].quantity + quantity,
+              orderDetail: note,
             },
             ...existingItemsForStore.slice(existingProductIndex + 1),
           ],
@@ -110,6 +117,7 @@ export const SelectMenuFeature2 = () => {
             {
               productID: menuData._id,
               quantity: quantity,
+              orderDetail: note, 
             },
           ],
         };
@@ -209,7 +217,8 @@ export const SelectMenuFeature2 = () => {
               id="noteToStore"
               placeholder="Message"
               className="menu-input"
-              disabled
+              value={note}
+              onChange={handleInputChange}
             />
             <p style={{ fontSize: "14px" }}>
               *Enter your note to store here(optional)

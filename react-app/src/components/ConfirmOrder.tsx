@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 interface Item {
+  orderDetail: string;
   productID: string;
   quantity: number;
   _id: string;
@@ -15,7 +16,7 @@ export const ConfirmOrder: React.FC = () => {
   const { storeId } = useParams<{ storeId: string }>();
   const location = useLocation();
   const userId = "650bd1a00638ec52b189cb6e";
-  const basketId = '65c1e62e550ce4ecba49c6c9';
+  const basketId = "65d41851de12ac5fdff1066c";
   const [selectedMethod, setSelectedMethod] = useState("payAtStore");
 
   const handleMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +24,6 @@ export const ConfirmOrder: React.FC = () => {
   };
 
   const storeName = location.state?.storeName || "ร้านค้า";
-
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -102,86 +102,88 @@ export const ConfirmOrder: React.FC = () => {
         )
       : 0;
 
-      const handlePlaceOrder = async () => {
-        try {
-          if (!storeId) {
-            console.error("Store ID is undefined");
-            return;
-          }
-      
-          // Fetch the latest basket data from the server
-          const basketResponse = await fetch(`https://order-api-patiparnpa.vercel.app/baskets/${basketId}`);
-          if (!basketResponse.ok) {
-            throw new Error("Failed to fetch basket data");
-          }
-          const basketServer = await basketResponse.json();
-      
-          const orderData = {
-            productIDs: basketServer?.items?.[storeId]?.map((item: any) => ({
-              productId: item.productID,
-              quantity: item.quantity,
-            })),
-            userID: userId,
-            storeID: storeId,
-            amount: totalPrice,
-            status: "close",
-            payment_method_status: selectedMethod === "payAtStore" ? "cash" : "scan",
-          };
-      
-          const response = await fetch(
-            "https://order-api-patiparnpa.vercel.app/orders/create",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(orderData),
-            }
-          );
-      
-          if (response.ok) {
-            console.log("Order placed successfully!");
+  const handlePlaceOrder = async () => {
+    try {
+      if (!storeId) {
+        console.error("Store ID is undefined");
+        return;
+      }
 
-            // Extract the _id of the newly created order from the response
-            const { _id } = await response.json();
-      
-            // Update the basket by removing items corresponding to the ordered store
-            const updatedItems = { ...basketServer.items };
-            delete updatedItems[storeId];
-      
-            const updatedBasket = {
-              ...basketServer,
-              items: updatedItems,
-            };
-      
-            const updateResponse = await fetch(
-              `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`,
-              {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedBasket),
-              }
-            );
-      
-            if (updateResponse.ok) {
-              console.log("Basket updated successfully!");
-              // Redirect the user to a success page or perform other actions
-              navigate(`/orderdetail/${_id}`,  { state: { storeName: storeName } });
-            } else {
-              console.error("Failed to update basket");
-            }
-          } else {
-            console.error("Failed to place order");
-          }
-        } catch (error) {
-          console.error("Error placing order:", error);
-        }
+      // Fetch the latest basket data from the server
+      const basketResponse = await fetch(
+        `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`
+      );
+      if (!basketResponse.ok) {
+        throw new Error("Failed to fetch basket data");
+      }
+      const basketServer = await basketResponse.json();
+
+      const orderData = {
+        productIDs: basketServer?.items?.[storeId]?.map((item: any) => ({
+          productId: item.productID,
+          quantity: item.quantity,
+          orderDetail: item.orderDetail,
+        })),
+        userID: userId,
+        storeID: storeId,
+        amount: totalPrice,
+        status: "open",
+        payment_method_status:
+          selectedMethod === "payAtStore" ? "cash" : "scan",
+        payStatus: "waitingForPayment",
       };
-      
-      
-      
+
+      const response = await fetch(
+        "https://order-api-patiparnpa.vercel.app/orders/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Order placed successfully!");
+
+        // Extract the _id of the newly created order from the response
+        const { _id } = await response.json();
+
+        // Update the basket by removing items corresponding to the ordered store
+        const updatedItems = { ...basketServer.items };
+        delete updatedItems[storeId];
+
+        const updatedBasket = {
+          ...basketServer,
+          items: updatedItems,
+        };
+
+        const updateResponse = await fetch(
+          `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedBasket),
+          }
+        );
+
+        if (updateResponse.ok) {
+          console.log("Basket updated successfully!");
+          // Redirect the user to a success page or perform other actions
+          navigate(`/orderdetail/${_id}`, { state: { storeName: storeName } });
+        } else {
+          console.error("Failed to update basket");
+        }
+      } else {
+        console.error("Failed to place order");
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
 
   return (
     <>
@@ -245,9 +247,15 @@ export const ConfirmOrder: React.FC = () => {
                 >
                   <div
                     className="my-order-price"
-                    style={{ fontSize: "18px", fontWeight: "bold" }}
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      color: item.productPrice === null ? "red" : "inherit",
+                    }}
                   >
-                    {item.productPrice * item.quantity} Bath
+                    {item.productPrice !== null
+                      ? `${item.productPrice * item.quantity} Bath`
+                      : "0 Bath"}
                   </div>
                 </div>
               </div>

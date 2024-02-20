@@ -34,7 +34,7 @@ export const MyCart = () => {
     {}
   );
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-  const basketId = '65c1e62e550ce4ecba49c6c9';
+  const basketId = '65d41851de12ac5fdff1066c';
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -70,7 +70,7 @@ export const MyCart = () => {
       });
 
       const basketUrl =
-        "https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9";
+        "https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c";
       const response = await fetch(basketUrl, {
         method: "PUT",
         headers: {
@@ -97,7 +97,7 @@ export const MyCart = () => {
     const fetchBasketData = async () => {
       try {
         const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9"
+          "https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c"
         );
         if (response.ok) {
           const data = await response.json();

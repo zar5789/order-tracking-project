@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 interface MenuItem {
   productId: string;
   quantity: number;
+  orderDetail: string;
 }
 
 interface ProductDetail {
@@ -36,7 +37,7 @@ export const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
   const [menuDetails, setMenuDetails] = useState<ProductDetail[]>([]);
   const [queueNumber, setQueueNumber] = useState<string>("");
-  const [queueLeft, setQueueLeft] = useState(0)
+  const [queueLeft, setQueueLeft] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -113,8 +114,16 @@ export const OrderDetail = () => {
     navigate("/order"); // Navigate back
   };
 
+  const handleReceivedOrder = () => {
+    console.log("received order");
+  };
+
   const handleClick = () => {
     navigate("/slip");
+  };
+
+  const handleCancelOrder = () => {
+    console.log("cancel order");
   };
 
   const getStatusMessage = (status: string) => {
@@ -166,36 +175,90 @@ export const OrderDetail = () => {
       </div>
       {orderDetail && (
         <>
-          <div className="custom-heading">Status: {getStatusMessage(orderDetail.status)}</div>
+          <div className="custom-heading">
+            Status: {getStatusMessage(orderDetail.status)}
+          </div>
           <div className="order-summary-queue">
             <div style={{ fontSize: "18px", fontWeight: "bold" }}>
               Your queue is
             </div>
-            <div style={{ fontSize: "51px", fontWeight: "bold" }}>{queueNumber}</div>
-            <div style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}>
+            <div style={{ fontSize: "51px", fontWeight: "bold" }}>
+              {queueNumber}
+            </div>
+            <div
+              style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}
+            >
               There is {queueLeft} queue left
             </div>
           </div>
           <div className="custom-heading">Order Summary</div>
           {menuDetails.map((item: ProductDetail, index: number) => (
             <div className="my-order-detail-box" key={index}>
-              <div className="left-content" style={{ fontSize: "18px", fontWeight: "bold", marginRight: "-55%" }}>{orderDetail.productIDs[index].quantity}x</div>
+              <div
+                className="left-content"
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  marginRight: "-55%",
+                }}
+              >
+                {orderDetail.productIDs[index].quantity}x
+              </div>
               <div className="center-content">
                 <div className="my-order-shop">{item.name}</div>
-                <div className="my-order-date">Delete</div>
+                <div className="my-order-date">
+                  {orderDetail.productIDs[index].orderDetail !== ""
+                    ? orderDetail.productIDs[index].orderDetail
+                    : "ไม่มี"}
+                </div>
               </div>
-              <div className="right-content" style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
-                <div className="my-order-price" style={{ fontSize: "18px", fontWeight: "bold" }}>{item.price} Bath</div>
+              <div
+                className="right-content"
+                style={{ overflow: "hidden", whiteSpace: "nowrap" }}
+              >
+                <div
+                  className="my-order-price"
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                    color: item.price === null ? "red" : "inherit",
+                  }}
+                >
+                  {item.price !== null ? (
+                    `${item.price} Bath`
+                  ) : (
+                    <span style={{ color: "red" }}>0 Bath</span>
+                  )}
+                </div>
               </div>
             </div>
           ))}
           <br></br>
           <br></br>
           <br></br>
-          <div style={{ position: "fixed", bottom: 0, width: "100%", textAlign: "center", padding: "10px" }}>
-            <button onClick={handleClick} className="button-overlay">
-              Cancel Order
-            </button>
+          <div
+            style={{
+              position: "fixed",
+              bottom: 0,
+              width: "100%",
+              textAlign: "center",
+              padding: "10px",
+            }}
+          >
+            {orderDetail.status === "open" && (
+              <button onClick={handleCancelOrder} className="button-overlay">
+                Cancel Order
+              </button>
+            )}
+            {orderDetail.status === "ready" && (
+              <button
+                onClick={handleReceivedOrder}
+                className="button-overlay"
+                style={{ backgroundColor: "#2357A5" }}
+              >
+                Received Order
+              </button>
+            )}
           </div>
         </>
       )}

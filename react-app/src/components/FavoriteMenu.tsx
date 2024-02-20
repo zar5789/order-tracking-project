@@ -8,6 +8,7 @@ import Logo from "../assets/logo.jpg";
 interface BasketItem {
   productID: string;
   quantity: number;
+  orderDetail: string;
 }
 
 interface FavoriteFood {
@@ -63,7 +64,7 @@ export const FavoriteMenus: React.FC = () => {
 
   const addToCart = async (menuItem: MenuItem) => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
 
       // Fetch existing basket data
       const response = await fetch(basketUrl);
@@ -105,6 +106,7 @@ export const FavoriteMenus: React.FC = () => {
             {
               productID: menuItem.id,
               quantity: 1,
+              orderDetail: '',
             },
           ],
         };

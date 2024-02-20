@@ -6,16 +6,11 @@ import React, { useEffect } from "react";
 
 const AnyComponent: React.FC = () => {
   const { isPopupOpen, openPopup, closePopup } = usePopup();
-  const basketId = "65c1de9bf9f7e4446d91dc8e";
-  const orderId = "65cb0c1e12d8ac28fc2eb453";
-  const [url, setUrl] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const productId = "65c0c98c986e8fc8b8cf1426";
+  const basketId = "65d4121ae396273d0d187330";
+  const orderId = "65d312076aea7dd9f09f9534";
 
-  useEffect(() => {
-    console.log("check", file);
-  }, [file]);
-
-  const handleDeleteBasket = async () => {
+  const deleteProduct = async () => {
     try {
       const response = await fetch(
         `https://order-api-patiparnpa.vercel.app/orders/${orderId}`,
@@ -25,65 +20,22 @@ const AnyComponent: React.FC = () => {
       );
 
       if (response.ok) {
-        console.log(`Basket with ID ${orderId} deleted successfully`);
-        // You can perform additional actions after successful deletion
+        // Optionally display a success message or perform other actions
+        console.log("Product deleted successfully");
       } else {
-        console.error(`Error deleting basket: ${response.statusText}`);
+        // Handle error response
+        console.error("Failed to delete product:", response.statusText);
       }
     } catch (error) {
-      console.error("Error deleting basket:", error);
+      console.error("Error deleting product:", error);
     }
   };
-
-  const handleUpload = async () => {
-    try {
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const response = await fetch(
-          `https://order-api-patiparnpa.vercel.app/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (response.ok) {
-          const responseData = await response.json();
-          setUrl(responseData.Location);
-          console.log("File uploaded successfully. Response:", responseData);
-        } else {
-          console.error("Error uploading file:", response.statusText);
-        }
-      } else {
-        console.error("No file selected for upload.");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
-    }
-  };
-  const customContent = (
-    <div>
-      <p>This is a custom content for this specific popup.</p>
-      <p>Feel free to adjust it based on your needs.</p>
-    </div>
-  );
 
   return (
     <div>
       <button onClick={() => openPopup()}>Open Popup</button>
       {isPopupOpen && <PopupComponent onClose={closePopup} />}
-      <button onClick={handleDeleteBasket}>Delete Order</button>
-      <button onClick={handleUpload}>Upload</button>
-      <input type="file" onChange={handleFileChange} />
-      <p>Uploaded URL: {url}</p>
+      <button onClick={deleteProduct}>Delete product</button>
     </div>
   );
 };

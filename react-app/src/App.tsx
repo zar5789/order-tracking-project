@@ -75,7 +75,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="/profile" element={<UserProfilePage></UserProfilePage>} />
-        <Route path="/menufea1" element={<SelectMenuFeature />} />
+        <Route path="/menufea1/:storeId" element={<SelectMenuFeature />} />
         <Route path="/menufea2/:menuId" element={<SelectMenuFeature2 />} />
         <Route path="/userlogin" element={<UserLogin></UserLogin>}></Route>
         <Route path="/menupage/:storeId" element={<MenuPage></MenuPage>}></Route>

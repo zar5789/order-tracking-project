@@ -52,6 +52,7 @@ export const FrontStore = () => {
               const productData = await productResponse.json();
 
               // Return the food details for each product
+              console.log('product data', productData)
               return {
                 foodName: productData.name,
                 foodPrice: productData.price,
@@ -87,7 +88,7 @@ export const FrontStore = () => {
     // Set up interval to fetch data every 15 seconds
     const intervalId = setInterval(() => {
       fetchFoodOrders();
-    }, 15000);
+    }, 300000000000000000);
 
     // Clear interval on component unmount
     return () => {
@@ -181,10 +182,7 @@ export const FrontStore = () => {
                 </td>
 
                 <td>
-                  {order.foodDetails.reduce(
-                    (total, food) => total + food.foodPrice * food.quantity,
-                    0
-                  )}{" "}
+                  {order.amount}
                   บาท
                 </td>
                 <td>{order.status}</td>

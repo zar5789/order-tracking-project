@@ -36,6 +36,7 @@ type MenuItem = {
 type BasketItem = {
   productID: string;
   quantity: number;
+  orderDetail: string;
 };
 
 export const HomePage = () => {
@@ -48,7 +49,7 @@ export const HomePage = () => {
   // Function to add a menu item to the cart
 const addToCart = async (menuItem: MenuItem) => {
   try {
-    const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65c1e62e550ce4ecba49c6c9`;
+    const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
 
     // Fetch existing items in the basket
     const response = await fetch(basketUrl);
@@ -93,6 +94,7 @@ const addToCart = async (menuItem: MenuItem) => {
           {
             productID: menuItem.id,
             quantity: 1,
+            orderDetail: '',
           },
         ],
       };
