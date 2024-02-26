@@ -8,6 +8,7 @@ interface Item {
   productID: string;
   quantity: number;
   _id: string;
+  productType: string;
   // Add other properties if needed
 }
 
@@ -21,6 +22,14 @@ export const ConfirmOrder: React.FC = () => {
 
   const handleMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedMethod(event.target.value);
+  };
+
+  const hasCustomProduct = () => {
+    if (basketData && basketData.items && storeId) {
+      const itemsForStore = basketData.items[storeId];
+      return itemsForStore.some((item: Item) => item.productType === "custom");
+    }
+    return false;
   };
 
   const storeName = location.state?.storeName || "ร้านค้า";
@@ -60,6 +69,7 @@ export const ConfirmOrder: React.FC = () => {
                 ...item,
                 productName: productData.name,
                 productPrice: productData.price,
+                productType: productData.product_type,
               };
             } else {
               console.error(
@@ -278,7 +288,7 @@ export const ConfirmOrder: React.FC = () => {
             onChange={handleMethodChange}
             style={{ width: "20px", height: "20px", marginRight: "10px" }}
           />
-          Pay at the Store
+          Pay at the Store (cash)
         </label>
       </div>
       <div
@@ -293,6 +303,7 @@ export const ConfirmOrder: React.FC = () => {
             checked={selectedMethod === "scanQRCode"}
             onChange={handleMethodChange}
             style={{ width: "20px", height: "20px", marginRight: "10px" }}
+            disabled={hasCustomProduct()}
           />
           Scan QR Code
         </label>

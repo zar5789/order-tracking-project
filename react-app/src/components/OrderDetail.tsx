@@ -114,16 +114,53 @@ export const OrderDetail = () => {
     navigate("/order"); // Navigate back
   };
 
-  const handleReceivedOrder = () => {
-    console.log("received order");
+  const handleReceivedOrder = async () => {
+    try {
+      const response = await fetch(`https://order-api-patiparnpa.vercel.app/orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'close' }) // Update the order status to "close"
+      });
+  
+      if (response.ok) {
+        // Reload the page upon successfully updating the order status
+        window.location.reload();
+      } else {
+        console.error('Failed to mark order as received');
+      }
+    } catch (error) {
+      console.error('Error marking order as received:', error);
+    }
   };
+  
 
   const handleClick = () => {
-    navigate("/slip");
+    if (orderDetail) {
+      navigate(`/slip/${orderDetail.storeID}`);
+    }
   };
 
-  const handleCancelOrder = () => {
-    console.log("cancel order");
+  const handleCancelOrder = async () => {
+    try {
+      const response = await fetch(`https://order-api-patiparnpa.vercel.app/orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'cancel' }) // Update the order status to "cancel"
+      });
+  
+      if (response.ok) {
+        // Reload the page upon successful cancellation
+        window.location.reload();
+      } else {
+        console.error('Failed to cancel order');
+      }
+    } catch (error) {
+      console.error('Error canceling order:', error);
+    }
   };
 
   const getStatusMessage = (status: string) => {
@@ -225,7 +262,9 @@ export const OrderDetail = () => {
                   }}
                 >
                   {item.price !== null ? (
-                    `${item.price} Bath`
+                    `${
+                      item.price * orderDetail.productIDs[index].quantity
+                    } Bath`
                   ) : (
                     <span style={{ color: "red" }}>0 Bath</span>
                   )}
@@ -259,6 +298,16 @@ export const OrderDetail = () => {
                 Received Order
               </button>
             )}
+            {orderDetail.status === "close" &&
+              orderDetail.payment_method_status === "scan" && (
+                <button
+                  onClick={handleClick}
+                  className="button-overlay"
+                  style={{ backgroundColor: "#2357A5" }}
+                >
+                  Scan QR for pay
+                </button>
+              )}
           </div>
         </>
       )}

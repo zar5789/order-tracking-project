@@ -31,9 +31,13 @@ const AnyComponent: React.FC = () => {
     }
   };
 
+  const customContent: JSX.Element = (
+    <div>yee</div>
+  );
+
   return (
     <div>
-      <button onClick={() => openPopup()}>Open Popup</button>
+      <button onClick={() => openPopup(customContent)}>Open Popup</button>
       {isPopupOpen && <PopupComponent onClose={closePopup} />}
       <button onClick={deleteProduct}>Delete product</button>
     </div>
