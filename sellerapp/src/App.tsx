@@ -38,10 +38,10 @@ function App() {
   }, []);
 
   const appBarRoutes = ['/', '/editstore', '/report', '/menulist', '/editmenu', '/createmenu'];
-  const adminBarRoutes = ['/admin', '/adminstore', '/adminoption', '/accessstore'];
+  const adminBarRoutes = ['/admin', '/adminstore', '/adminoption', '/createstore', '/accessstore'];
   // Check if the current route is in the array
   const shouldShowAppBar = appBarRoutes.includes(window.location.pathname);
-  const shouldShowAdminBar = adminBarRoutes.includes(window.location.pathname);
+  const shouldShowAdminBar = adminBarRoutes.some(route => location.pathname.includes(route));
 
   return (
     <div>
@@ -62,7 +62,7 @@ function App() {
         <Route path="/adminstore" element={<AdminManageStore />} />
         <Route path="/adminoption" element={<AdminOption />} />
         <Route path="/createstore" element={<CreateStore />} />
-        <Route path='/accessstore' element={<AccessStorePage></AccessStorePage>}></Route>
+        <Route path='/accessstore/:accessStoreId' element={<AccessStorePage></AccessStorePage>}></Route>
       </Routes>
     </div>
   );

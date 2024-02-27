@@ -111,6 +111,7 @@ export const CreateMenu = () => {
               accept="image/*"
               onChange={handleImageUpload}
               style={{ display: "none" }}
+              required
             />
           </div>
           <div className="form-group">
