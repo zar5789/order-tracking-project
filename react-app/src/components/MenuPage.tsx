@@ -30,6 +30,7 @@ export const MenuPage = () => {
   const [menuData, setMenuData] = useState<Menu[]>([]);
   const [error, setError] = useState<string | null>(null);
   const userId = "650bd1a00638ec52b189cb6e";
+  const basketId = '65d41851de12ac5fdff1066c'
 
   const { storeId } = useParams();
 
@@ -60,7 +61,7 @@ export const MenuPage = () => {
 
   const addToCart = async (menu: Menu) => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`;
 
       // Fetch existing items in the basket
       const response = await fetch(basketUrl);

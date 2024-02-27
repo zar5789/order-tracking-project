@@ -14,6 +14,7 @@ export const SelectMenuFeature2 = () => {
   const navigate = useNavigate();
   const { menuId } = useParams();
   const userId = "650bd1a00638ec52b189cb6e";
+  const basketId = '65d41851de12ac5fdff1066c'
   const [menuData, setMenuData] = useState({
     _id: "",
     name: "เมนู",
@@ -71,7 +72,7 @@ export const SelectMenuFeature2 = () => {
 
   const handleAddToBasket = async () => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`;
   
       const response = await fetch(basketUrl);
       if (!response.ok) {
@@ -185,7 +186,7 @@ export const SelectMenuFeature2 = () => {
         </button>
         <div className="right-elements">
           <div className="elements-container">
-            <HeartButton menuId={menuId} userId="650bd1a00638ec52b189cb6e" />
+            <HeartButton menuId={menuId} userId={userId} />
           </div>
         </div>
       </div>

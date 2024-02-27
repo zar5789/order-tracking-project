@@ -35,7 +35,7 @@ interface Order {
 function App() {
   const userId = "650bd1a00638ec52b189cb6e";
   const { isPopupOpen, openPopup, closePopup } = usePopup();
-  const [orders, setOrders] = useState<Order[]>([]);
+
   const navigate = useNavigate();
 
   const handleGoToOrderPage = (orderId: string, storeName: string) => {
@@ -91,7 +91,7 @@ function App() {
               console.error("StoreId is undefined");
             }
             console.log("data", data);
-            setOrders([data[0]]);
+            
             openPopup(
               <div>
                 <img src={Pot} style={{ width: "170px" }}></img>
@@ -140,7 +140,7 @@ function App() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [userId, openPopup, setOrders]);
+  }, [userId, openPopup]);
 
   
  

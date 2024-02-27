@@ -33,6 +33,8 @@ export const FavoriteMenus: React.FC = () => {
   const [isManageMode, setIsManageMode] = useState(false);
   const [favoriteFoods, setFavoriteFoods] = useState<MenuItem[]>([]);
   const userId = '650bd1a00638ec52b189cb6e'
+  const basketId = '65d41851de12ac5fdff1066c'
+  const favoriteId = '65bca8ca326487d502199ce3'
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back
@@ -64,7 +66,7 @@ export const FavoriteMenus: React.FC = () => {
 
   const addToCart = async (menuItem: MenuItem) => {
     try {
-      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/65d41851de12ac5fdff1066c`;
+      const basketUrl = `https://order-api-patiparnpa.vercel.app/baskets/${basketId}`;
 
       // Fetch existing basket data
       const response = await fetch(basketUrl);
@@ -202,7 +204,7 @@ export const FavoriteMenus: React.FC = () => {
     try {
       // Fetch the favorite products data
       const response = await fetch(
-        `https://order-api-patiparnpa.vercel.app/favorite_products/65bca8ca326487d502199ce3`
+        `https://order-api-patiparnpa.vercel.app/favorite_products/${favoriteId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch favorite products data");
@@ -216,7 +218,7 @@ export const FavoriteMenus: React.FC = () => {
   
       // Update the favorite products data on the server
       const putResponse = await fetch(
-        `https://order-api-patiparnpa.vercel.app/favorite_products/65bca8ca326487d502199ce3`,
+        `https://order-api-patiparnpa.vercel.app/favorite_products/${favoriteId}`,
         {
           method: "PUT",
           headers: {
