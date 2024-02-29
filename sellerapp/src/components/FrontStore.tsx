@@ -6,6 +6,7 @@ interface Order {
   productIDs: {
     productId: string;
     quantity: number;
+    orderDetail?: string;
     _id: string;
   }[];
   userID: string;
@@ -18,16 +19,15 @@ interface Order {
   __v: number;
   foodDetails: {
     foodName: string;
-    foodPrice: number;
     quantity: number;
   }[];
+  queueNumber?: string;
 }
 
 export const FrontStore = () => {
   const [foodOrders, setFoodOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    // Fetch food orders from the API when the component mounts
     const fetchFoodOrders = async () => {
       try {
         const response = await fetch(
@@ -38,8 +38,30 @@ export const FrontStore = () => {
         }
         const orders = await response.json();
 
+        // Fetch queue number for each order
+        const updatedOrders = await Promise.all(
+          orders.map(async (order: Order) => {
+            const queueResponse = await fetch(
+              `https://order-api-patiparnpa.vercel.app/queues/order/${order._id}`
+            );
+            if (!queueResponse.ok) {
+              throw new Error("Failed to fetch queue number");
+            }
+            const queueData = await queueResponse.json();
+            const queueNumber = queueData[0]?.queueNumber || "N/A";
+
+            return {
+              ...order,
+              queueNumber: queueNumber,
+            };
+          })
+        );
+
+        // Now updatedOrders contains the queue number for each order
+        // Continue with your existing logic to fetch product details and update state
+
         // Create an array to store the additional food details
-        const foodDetailsPromises = orders.map(async (order: Order) => {
+        const foodDetailsPromises = updatedOrders.map(async (order: Order) => {
           // Fetch the product details for each food item
           const productDetailsPromises = order.productIDs.map(
             async (product) => {
@@ -52,10 +74,8 @@ export const FrontStore = () => {
               const productData = await productResponse.json();
 
               // Return the food details for each product
-              console.log('product data', productData)
               return {
                 foodName: productData.name,
-                foodPrice: productData.price,
                 quantity: product.quantity,
               };
             }
@@ -81,7 +101,6 @@ export const FrontStore = () => {
         console.error("Error fetching food orders:", error);
       }
     };
-
     // Fetch data initially
     fetchFoodOrders();
 
@@ -164,26 +183,26 @@ export const FrontStore = () => {
                   />
                 </td>
                 <td>
-                  <b>A51</b>
+                  <b>{order.queueNumber}</b>
                 </td>
                 <td style={{ textAlign: "left" }}>
                   {order.foodDetails.map((food, i) => (
                     <div key={i}>
-                      <p>{food.foodName}</p>
+                      <p style={{paddingBottom:'-5px'}}>{food.foodName}</p>
+                      <p className="back-food-details">{order.productIDs[i]?.orderDetail || "ไม่มี"}</p>
                     </div>
                   ))}
                 </td>
                 <td>
                   {order.foodDetails.map((food, i) => (
                     <div key={i} style={{ marginBottom: "-5px" }}>
-                      <p>{food.quantity} จาน</p>
+                      <p style={{padding:'15px'}}>{food.quantity} จาน</p>
                     </div>
                   ))}
                 </td>
 
                 <td>
-                  {order.amount}
-                  บาท
+                  {order.amount} บาท
                 </td>
                 <td>{order.status}</td>
                 <td>{order.payment_method_status}</td>

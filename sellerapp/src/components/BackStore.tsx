@@ -11,6 +11,7 @@ interface Order {
   productIDs: {
     productId: string;
     quantity: number;
+    orderDetail?: string; // Make orderDetail optional
     _id: string;
   }[];
   userID: string;
@@ -90,7 +91,7 @@ export const BackStore = () => {
     fetchData();
 
     // Set up interval to fetch data every 15 seconds
-    const intervalId = setInterval(fetchData, 15000);
+    const intervalId = setInterval(fetchData, 30000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
@@ -146,13 +147,18 @@ export const BackStore = () => {
                 </td>
                 <td style={{ textAlign: "left" }}>
                   {order.foodDetails?.map((food, i) => (
-                    <p key={i}>{food.productName}</p>
+                    <div key={i}>
+                      <p>{food.productName}</p>
+                      <p className="back-food-details">
+                        {order.productIDs[i]?.orderDetail || "ไม่มี"}
+                      </p>
+                    </div>
                   ))}
                 </td>
                 <td>
                   {order.foodDetails?.map((food, i) => (
                     <div key={i} style={{ marginBottom: "-5px" }}>
-                      <p>{food.quantity} จาน</p>
+                      <p style={{ padding: "15px" }}>{food.quantity} จาน</p>
                     </div>
                   ))}
                 </td>
@@ -163,8 +169,7 @@ export const BackStore = () => {
             <tr>
               <th></th>
               <th></th>
-              <th style={{ textAlign: "right" }}>
-                <button className="back-button">&#x21B6; ย้อนกลับ</button>
+              <th style={{ textAlign: "right", paddingRight: "20px" }}>
                 <button className="finish-button">เสร็จสิ้น</button>
               </th>
             </tr>

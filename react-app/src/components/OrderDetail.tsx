@@ -178,6 +178,21 @@ export const OrderDetail = () => {
     }
   };
 
+  const getStatusMessage2 = (status: string) => {
+    switch (status) {
+      case "open":
+        return "Please wait for a moment...";
+      case "ready":
+        return "Your order is ready.";
+      case "close":
+        return "Your already received the order.";
+      case "cancel":
+        return "Your order was cancelled.";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <div
@@ -225,7 +240,7 @@ export const OrderDetail = () => {
             <div
               style={{ fontSize: "18px", fontWeight: "bold", color: "#9FA5AF" }}
             >
-              There is {queueLeft} queue left
+              {orderDetail && getStatusMessage2(orderDetail.status)}
             </div>
           </div>
           <div className="custom-heading">Order Summary</div>
