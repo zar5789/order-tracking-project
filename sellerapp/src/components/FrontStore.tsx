@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface Order {
   _id: string;
@@ -26,6 +27,60 @@ interface Order {
 
 export const FrontStore = () => {
   const [foodOrders, setFoodOrders] = useState<Order[]>([]);
+  const [checkedOrders, setCheckedOrders] = useState<string[]>([]);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
+  const handleCheckboxChange = (orderId: string) => {
+    const isChecked = checkedOrders.includes(orderId);
+    if (isChecked) {
+      setCheckedOrders(checkedOrders.filter((id) => id !== orderId));
+    } else {
+      setCheckedOrders([...checkedOrders, orderId]);
+    }
+  };
+
+  const handleCancelOrders = async () => {
+    try {
+      await Promise.all(
+        checkedOrders.map(async (orderId) => {
+          const response = await fetch(
+            `https://order-api-patiparnpa.vercel.app/orders/${orderId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ status: "cancel" }),
+            }
+          );
+          if (!response.ok) {
+            throw new Error(`Failed to cancel order ${orderId}`);
+          }
+        })
+      );
+
+      // Update UI to reflect the cancelled orders
+      const updatedOrders = foodOrders.map((order) => {
+        if (checkedOrders.includes(order._id)) {
+          return {
+            ...order,
+            status: "cancel",
+          };
+        }
+        return order;
+      });
+      setFoodOrders(updatedOrders);
+      setCheckedOrders([]);
+      console.log("Orders cancelled successfully!");
+    } catch (error) {
+      console.error("Error cancelling orders:", error);
+    }
+  };
+
 
   useEffect(() => {
     const fetchFoodOrders = async () => {
@@ -116,6 +171,8 @@ export const FrontStore = () => {
     };
   }, []); // Empty dependency array to run effect only once on mount
 
+  
+
   return (
     <>
       <div className="app-bar">
@@ -142,6 +199,7 @@ export const FrontStore = () => {
         </div>
         <div className="right-element">
           <button
+            onClick={handleClick}
             style={{
               backgroundColor: "#FF3A3A",
               borderRadius: "5px",
@@ -175,7 +233,8 @@ export const FrontStore = () => {
                   <input
                     type="checkbox"
                     id={`checkbox-${index}`}
-                    value={order._id}
+                    checked={checkedOrders.includes(order._id)}
+                    onChange={() => handleCheckboxChange(order._id)}
                     style={{
                       width: "18px",
                       height: "18px",
@@ -188,20 +247,30 @@ export const FrontStore = () => {
                 <td style={{ textAlign: "left" }}>
                   {order.foodDetails.map((food, i) => (
                     <div key={i}>
-                      <p style={{paddingBottom:'-5px'}}>{food.foodName}</p>
-                      <p className="back-food-details">{order.productIDs[i]?.orderDetail || "ไม่มี"}</p>
+                      <p style={{ paddingBottom: "-5px" }}>{food.foodName}</p>
+                      <p className="back-food-details">
+                        {order.productIDs[i]?.orderDetail || "ไม่มี"}
+                      </p>
                     </div>
                   ))}
                 </td>
                 <td>
                   {order.foodDetails.map((food, i) => (
                     <div key={i} style={{ marginBottom: "-5px" }}>
-                      <p style={{padding:'15px'}}>{food.quantity} จาน</p>
+                      <p style={{ padding: "15px" }}>{food.quantity} จาน</p>
                     </div>
                   ))}
                 </td>
 
-                <td>
+                <td
+                  className={
+                    order.foodDetails.some(
+                      (food) => food.foodName === "เมนูตามสั่ง"
+                    )
+                      ? "red-price"
+                      : ""
+                  }
+                >
                   {order.amount} บาท
                 </td>
                 <td>{order.status}</td>
@@ -219,6 +288,7 @@ export const FrontStore = () => {
               <th></th>
               <th style={{ textAlign: "right" }}>
                 <button
+                  onClick={handleCancelOrders}
                   style={{
                     backgroundColor: "#FF3A3A",
                     borderRadius: "7px",

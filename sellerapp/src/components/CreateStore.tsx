@@ -6,7 +6,7 @@ export const CreateStore = () => {
   const navigate = useNavigate();
   const [storeImage, setStoreImage] = useState("");
   const [storeName, setStoreName] = useState("");
-  const [storeStatus, setStoreStatus] = useState<string>("Open");
+  const [storeStatus, setStoreStatus] = useState<string>("open");
   const [error, setError] = useState<string>("");
   
 
@@ -122,8 +122,8 @@ export const CreateStore = () => {
           <div className="form-group">
             <label>สถานะ</label>
             <select value={storeStatus} onChange={(e) => setStoreStatus(e.target.value)} className="form-control">
-              <option value="Open">Open</option>
-              <option value="Closed">Closed</option>
+              <option value="open">Open</option>
+              <option value="close">Closed</option>
             </select>
           </div>
           <br />

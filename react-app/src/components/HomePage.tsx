@@ -130,7 +130,7 @@ const addToCart = async (menuItem: MenuItem) => {
     const fetchStores = async () => {
       try {
         const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/stores/"
+          "https://order-api-patiparnpa.vercel.app/stores/Open"
         );
         const data = await response.json();
         setStores(data);

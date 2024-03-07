@@ -135,7 +135,7 @@ function App() {
 
     
 
-    let intervalId = setInterval(fetchOrders, 15000);
+    let intervalId = setInterval(fetchOrders, 1500000);
 
     return () => {
       clearInterval(intervalId);

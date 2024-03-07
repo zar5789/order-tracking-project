@@ -32,13 +32,56 @@ interface Order {
 export const BackStore = () => {
   const [foodOrders, setFoodOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [checkedOrders, setCheckedOrders] = useState<string[]>([]);
+
+  const handleCheckboxChange = (orderId: string) => {
+    const isChecked = checkedOrders.includes(orderId);
+    if (isChecked) {
+      setCheckedOrders(checkedOrders.filter((id) => id !== orderId));
+    } else {
+      setCheckedOrders([...checkedOrders, orderId]);
+    }
+  };
+
+  const handleFinishButtonClick = async () => {
+    try {
+      // Update status of checked orders to "ready"
+      const updatedOrders = await Promise.all(
+        foodOrders.map(async (order) => {
+          if (checkedOrders.includes(order._id)) {
+            const response = await fetch(
+              `https://order-api-patiparnpa.vercel.app/orders/${order._id}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status: "ready" }),
+              }
+            );
+            if (!response.ok) {
+              throw new Error(`Failed to update order ${order._id}`);
+            }
+            return { ...order, status: "ready" };
+          }
+          return order;
+        })
+      );
+
+      // Remove checked orders from the list
+      setFoodOrders(updatedOrders.filter((order) => !checkedOrders.includes(order._id)));
+      setCheckedOrders([]);
+    } catch (error) {
+      console.error("Error updating orders:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch food orders from the API
         const response = await fetch(
-          "https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98"
+          "https://order-api-patiparnpa.vercel.app/orders/store/65a39b4ae668f5c8329fac98/open"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -138,7 +181,8 @@ export const BackStore = () => {
                   <input
                     type="checkbox"
                     id={`checkbox-${index}`}
-                    value={order._id}
+                    checked={checkedOrders.includes(order._id)}
+                    onChange={() => handleCheckboxChange(order._id)}
                     style={{
                       width: "18px",
                       height: "18px",
@@ -170,7 +214,7 @@ export const BackStore = () => {
               <th></th>
               <th></th>
               <th style={{ textAlign: "right", paddingRight: "20px" }}>
-                <button className="finish-button">เสร็จสิ้น</button>
+                <button className="finish-button" onClick={handleFinishButtonClick}>เสร็จสิ้น</button>
               </th>
             </tr>
           </tfoot>
