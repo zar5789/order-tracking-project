@@ -14,11 +14,24 @@ import { AdminOverview } from './components/AdminOverview';
 import { AdminManageStore } from './components/AdminManageStore';
 import { AdminOption } from './components/AdminOption';
 import { CreateStore } from './components/CreateStore';
-import { StoreData } from './types';
 import './App.css';
 import GlobalStyles from './components/GlobalStyle';
 import { AccessStorePage } from './components/AccessStorePage';
 import { AdminAppBar } from './components/AdminAppBar';
+
+interface StoreData {
+  _id: string;
+  name: string;
+  store_img_url: string;
+  bank_name: string;
+  owner_name: string;
+  card_num: number;
+  qr_img_url: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 function App() {
   const [storeData, setStoreData] = useState<StoreData | null>(null);
